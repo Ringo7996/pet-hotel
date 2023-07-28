@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/blog/layout/layout :: main-fragment(~{:: #css}, ~{:: .wrapper}, ~{:: #javascript})}">
+
+<head>
+    <!-- Ionicons -->
+    <th:block id="css">
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+    </th:block>
+
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                Tất cả danh mục
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row py-2">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-primary" id="btnCreate">
+                            <i class="fas fa-plus"></i> Tạo danh mục
+                        </button>
+                        <button type="button" class="btn btn-info">
+                            <i class="fas fa-redo"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Danh mục</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <th:block th:with="categoryList = ${page.getContent()}">
+                                        <tr th:each="category: ${categoryList}">
+                                            <td th:text="${category.id}">
+                                                <a>STT</a>
+                                            </td>
+                                            <td th:text="${category.name}">
+                                                <a>Tên danh mục</a>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    <button type="button"
+                                                            class="btn btn-warning px-4 btnEdit"> Sửa  </button>
+                                                    <button type="button"
+                                                            class="btn btn-danger btnDelete"> Xóa  </button>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </th:block>
+                                    </tbody>
+                                </table>
+
+
+                                <div class="d-flex justify-content-center mt-3" id="pagination">
+                                    <ul class="pagination mb-0">
+
+                                        <li class="paginate_button page-item previous"
+                                            th:classappend="${currentPage == 1 ? 'disabled' : ''}"
+                                            id="example2_previous">
+                                            <a th:href="@{/admin/categories/index?page={pageNumber} (pageNumber= ${currentPage - 1})}"
+                                               aria-controls="example2" data-dt-idx="0" tabindex="0"
+                                               class="page-link">Previous</a>
+                                        </li>
+
+
+                                        <th:block
+                                                th:with="numbers = ${T(com.example.Blog.utils.Utils).createList(page.getTotalPages())}">
+                                            <li th:each="number: ${numbers}" class="paginate_button page-item"
+                                                th:classappend="${number == currentPage ? 'active' : ''}">
+                                                <a th:href="@{/admin/categories/index?page={pageNumber} (pageNumber=${number}) }"
+                                                   aria-controls="example2" data-dt-idx="1" tabindex="0"
+                                                   class="page-link" th:text="${number}"> </a>
+                                            </li>
+                                        </th:block>
+
+
+                                        <li class="paginate_button page-item next" id="example2_next"
+                                            th:classappend="${currentPage == page.getTotalPages() ? 'disabled' : ''}">
+                                            <a th:href="@{/admin/categories/index?page={pageNumber} (pageNumber= ${currentPage + 1})}"
+                                               aria-controls="example2" data-dt-idx="7" tabindex="0"
+                                               class="page-link">Next</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+<th:block id="javascript">
+    <script>
+        // Edit button
+        const btnEdit = document.getElementsByClassName("btnEdit")
+        for (let i = 0; i < btnEdit.length; i++) {
+            btnEdit[i].addEventListener("click", async (event) => {
+                let categoryName = event.target.parentElement.parentElement.parentElement.children[1].textContent;
+                const categoryId = event.target.parentElement.parentElement.parentElement.children[0].textContent;
+                console.log(categoryId, " ", categoryName)
+                let newCategoryName = window.prompt("Edit category name", categoryName)
+
+                if (newCategoryName !== null && newCategoryName !== "") {
+                    const request = {
+                        name: newCategoryName
+                    }
+                    try {
+                        const dataJson = await fetch("/api/v1/admin/categories/" + categoryId, {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(request)
+                        })
+                        const data = await dataJson.json();
+                        console.log("data", data);
+
+                        event.target.parentElement.parentElement.parentElement.children[1].textContent = newCategoryName;
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }
+            })
+        }
+
+
+        // Delete button
+        const btnDelete = document.getElementsByClassName("btnDelete")
+        for (let i = 0; i < btnDelete.length; i++) {
+            btnDelete[i].addEventListener("click", async (event) => {
+                let confirm = window.confirm("Do you want to delete this category?")
+
+                if (confirm) {
+                    const categoryId = event.target.parentElement.parentElement.parentElement.children[0].textContent;
+                    console.log(categoryId)
+                    try {
+                        //get category để check used.
+                        const category = await fetch("/api/v1/admin/categories/" + categoryId, {
+                            method: "GET"
+                        })
+                        const data = await category.json();
+
+                        if (data.used !== 0) {
+                            window.alert("Không thể xoá category đang được sử dụng")
+                            return;
+                        } else {
+
+                            // xoa category
+                            await fetch("/api/v1/admin/categories/" + categoryId, {
+                                method: "DELETE"
+                            })
+                            let deleteElement = event.target.parentElement.parentElement.parentElement
+                            deleteElement.parentElement.removeChild(deleteElement);
+                        }
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }
+            })
+        }
+
+
+        // Create button
+        const btnCreate = document.getElementById("btnCreate");
+        btnCreate.addEventListener("click", async () => {
+            let newCategory = window.prompt("Input a new category")
+
+
+            if (newCategory !== null && newCategory !== "") {
+                try {
+                    const request = {
+                        name: newCategory
+                    }
+
+                    const dataJson = await fetch("/api/v1/admin/categories", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(request)
+                    })
+
+                    window.alert("Create a category successfully")
+                } catch (e) {
+                    console.log(e);
+                }
+
+            }
+
+        })
+
+
+    </script>
+
+</th:block>
+</body>
+
+</html>
