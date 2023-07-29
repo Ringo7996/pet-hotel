@@ -38,7 +38,6 @@ public class ImageServiceImp implements ImageService {
         if(image2find.getId().equals(userId)){
             throw new RuntimeException("cant delete other user's file");
         }
-
         imageRepository.delete(image2find);
     }
 

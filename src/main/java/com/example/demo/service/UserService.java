@@ -9,6 +9,8 @@ public interface UserService {
 
     void sendResetPwEmail(String email);
 
+    void createUser(User user);
+
     void resetPw(String email, String encodedPassword);
 
     User findByEmail(String name);
