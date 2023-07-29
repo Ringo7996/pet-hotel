@@ -48,7 +48,7 @@ public class WebController {
             return "redirect:/";
         }
         model.addAttribute("page","sing-up");
-        return "comom";
+        return "common";
     }
 
 }

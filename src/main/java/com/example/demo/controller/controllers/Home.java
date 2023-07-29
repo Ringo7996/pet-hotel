@@ -13,7 +13,7 @@ public class Home {
     @GetMapping("")
     public String index(Model model){
         model.addAttribute("page","index");
-        return "comom";
+        return "common";
     }
 
 }
