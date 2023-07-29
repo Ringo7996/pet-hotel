@@ -3,16 +3,21 @@ package com.example.demo.service;
 
 import com.example.demo.exception.ExitsUserException;
 import com.example.demo.exception.NotFoundException;
+import com.example.demo.model.entity.Role;
 import com.example.demo.model.entity.TokenConfirm;
 import com.example.demo.model.entity.User;
+import com.example.demo.model.request.CreateUserRequest;
+import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.TokenConfirmRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,10 +26,16 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
     private TokenConfirmRepository tokenConfirmRepository;
 
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private PasswordEncoder encoder;
 
 
     @Override
@@ -54,10 +65,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(User user) {
-        User userSystem = findByEmail(user.getEmail());
-        if(userSystem == null) new ExitsUserException("User already exists");
-        userRepository.save(user);
+    public User createUser(CreateUserRequest request) {
+        Role userRole = roleRepository.findByName("USER").orElse(null);
+
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new NotFoundException("User already exists");
+        }
+        User newUser = User.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(encoder.encode(request.getPassword()))
+                .phone(request.getPhone())
+                .roles(List.of(userRole))
+                .build();
+
+        userRepository.save(newUser);
+
+        return newUser;
     }
 
     @Override
@@ -69,7 +93,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String name) {
-        return userRepository.findByEmail(name).orElseThrow(()-> new NotFoundException("User "+ name + " is not found"));
+        return userRepository.findByEmail(name).orElseThrow(() -> new NotFoundException("User " + name + " is not found"));
     }
 
     @Override

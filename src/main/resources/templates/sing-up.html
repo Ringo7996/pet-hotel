@@ -44,48 +44,52 @@
                                 <div class="custom-form custom-form-fields">
                                     <h3>Registration</h3>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    <form>
-                                            
+                                    <form id="sing_up">
+                                        <span style="color: darkred; padding: 12px 0; display: inline-block" id="mess"></span>
                                         <div class="form-group">
-                                             <input type="text" class="form-control" placeholder="Username"  required/>
+                                             <input id="name" type="text" class="form-control" placeholder="Username"  name="name" />
                                              <span><i class="fa fa-user"></i></span>
                                         </div>
-        
+
                                         <div class="form-group">
-                                             <input type="email" class="form-control" placeholder="Email"  required/>
+                                             <input id="email" type="email" class="form-control" placeholder="Email"  name="email"/>
                                              <span><i class="fa fa-envelope"></i></span>
                                         </div>
-                                        
                                         <div class="form-group">
-                                             <input type="password" class="form-control" placeholder="Password"  required/>
+                                            <input id="phone" type="phone" class="form-control" placeholder="Phone"  name="phone"/>
+                                            <span><i class="fa fa-envelope"></i></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                             <input id="password" type="password" class="form-control" placeholder="Password" name="password"  />
                                              <span><i class="fa fa-lock"></i></span>
                                         </div>
-        
+
                                         <div class="form-group">
-                                             <input type="password" class="form-control" placeholder="Confirm Password"  required/>
+                                             <input id="confirmPassword" type="password" class="form-control" placeholder="Confirm Password" name="confirmPassword"  />
                                              <span><i class="fa fa-lock"></i></span>
                                         </div>
-                                        
+
                                         <button class="btn btn-orange btn-block">Register</button>
                                     </form>
-                                    
+
                                     <div class="other-links">
                                     	<p class="link-line">Already Have An Account ? <a href="#">Login Here</a></p>
                                     </div><!-- end other-links -->
                                 </div><!-- end custom-form -->
-                                
+
                                 <div class="flex-content-img custom-form-img">
                                     <img src="images/registration.jpg" class="img-responsive" alt="registration-img" />
                                 </div><!-- end custom-form-img -->
                             </div><!-- end form-content -->
-                            
+
                         </div><!-- end columns -->
                     </div><!-- end row -->
-                </div><!-- end container -->         
+                </div><!-- end container -->
             </div><!-- end registration -->
         </section><!-- end innerpage-wrapper -->
-        
-        
+
+
         <!--======================= BEST FEATURES =====================-->
         <section id="best-features" class="banner-padding black-features">
         	<div class="container">
@@ -97,7 +101,7 @@
                             <p>Lorem ipsum dolor sit amet, ad duo fugit aeque fabulas, in lucilius prodesset pri. Veniam delectus ei vis.</p>
                         </div><!-- end b-feature-block -->
                    </div><!-- end columns -->
-                   
+
                    <div class="col-sm-6 col-md-3">
                     	<div class="b-feature-block">
                     		<span><i class="fa fa-lock"></i></span>
@@ -105,7 +109,7 @@
                             <p>Lorem ipsum dolor sit amet, ad duo fugit aeque fabulas, in lucilius prodesset pri. Veniam delectus ei vis.</p>
                         </div><!-- end b-feature-block -->
                    </div><!-- end columns -->
-                   
+
                    <div class="col-sm-6 col-md-3">
                     	<div class="b-feature-block">
                     		<span><i class="fa fa-thumbs-up"></i></span>
@@ -113,7 +117,7 @@
                             <p>Lorem ipsum dolor sit amet, ad duo fugit aeque fabulas, in lucilius prodesset pri. Veniam delectus ei vis.</p>
                         </div><!-- end b-feature-block -->
                    </div><!-- end columns -->
-                   
+
                    <div class="col-sm-6 col-md-3">
                     	<div class="b-feature-block">
                     		<span><i class="fa fa-bars"></i></span>
@@ -124,15 +128,15 @@
                 </div><!-- end row -->
         	</div><!-- end container -->
         </section><!-- end best-features -->
-        
-        
+
+
         <!--========================= NEWSLETTER-1 ==========================-->
-        <section id="newsletter-1" class="section-padding back-size newsletter"> 
+        <section id="newsletter-1" class="section-padding back-size newsletter">
             <div class="container">
                 <div class="row">
                 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
                         <h2>Subscribe Our Newsletter</h2>
-                        <p>Subscibe to receive our interesting updates</p>	
+                        <p>Subscibe to receive our interesting updates</p>
                         <form>
                             <div class="form-group">
                                 <div class="input-group">
@@ -150,6 +154,7 @@
         <script src="/js/jquery.min.js"></script>
         <script src="/js/bootstrap.min.js"></script>
         <script src="/js/custom-navigation.js"></script>
+        <script src="/js/singUp.js"></script>
         <!-- Page Scripts Ends -->
     </body>
 </html>

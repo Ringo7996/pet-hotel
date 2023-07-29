@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 
 import com.example.demo.model.entity.User;
+import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.request.LoginRequest;
 import com.example.demo.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -78,11 +79,11 @@ public class AuthController {
     }
 
     @PostMapping("create-user")
-    public ResponseEntity<?> createUser(@RequestBody User user){
-        System.out.println(user.toString());
+    public ResponseEntity<?> createUser(@RequestBody CreateUserRequest request) {
         try {
-            userService.createUser(user);
-        } catch ( Exception e){
+            System.out.println(request);
+            userService.createUser(request);
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(e);
         }
         return ResponseEntity.ok("Create Success");
