@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.controllers;
 
 import com.example.demo.service.TokenConfirmService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.controllers;
 
 
 import com.example.demo.model.entity.Image;
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,23 +22,22 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
-//    @Autowired
-//    private AuthenticationFacade authenticationFacade;
+    @Autowired
+    private AuthenticationFacade authenticationFacade;
 
     @Autowired
     private UserService userService;
 
 
-//    public User getUser() {
-//        Authentication authentication = authenticationFacade.getAuthentication();
-//        return userService.findByEmail((String) authentication.getPrincipal());
-//    }
+    public User getUser() {
+        Authentication authentication = authenticationFacade.getAuthentication();
+        return userService.findByEmail((String) authentication.getPrincipal());
+    }
 
     // upload ảnh
     @PostMapping("/files")
     public Image uploadImage(@ModelAttribute("file") MultipartFile file) {
-        // upload len user id 1;
-        return imageService.uploadImageByUserId(1, file);
+        return imageService.uploadImageByUserId(getUser().getId(), file);
     }
 
 
@@ -62,8 +62,7 @@ public class ImageController {
     // 3. xoá ảnh
     @DeleteMapping("/files/{id}")
     public ResponseEntity<?> deleteFile(@PathVariable(name = "id") Integer Fileid) {
-        // đang đăng nhập user id 1;
-        imageService.deleteImageById(Fileid, 1);
+        imageService.deleteImageById(Fileid, getUser().getId());
         return ResponseEntity.noContent().build();
     }
 
