@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 
+import com.example.demo.exception.ExitsUserException;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.model.entity.TokenConfirm;
 import com.example.demo.model.entity.User;
@@ -50,6 +51,13 @@ public class UserServiceImpl implements UserService {
                 "Reset Password",
                 "Click this link to reset password " + resetPwURL
         );
+    }
+
+    @Override
+    public void createUser(User user) {
+        User userSystem = findByEmail(user.getEmail());
+        if(userSystem == null) new ExitsUserException("User already exists");
+        userRepository.save(user);
     }
 
     @Override

@@ -52,16 +52,17 @@ public class SecurityConfig {
                 "/",
                 "/api/v1/auth/**",
                 "/login",
+                "/sing-up",
                 "/forgot-password",
                 "/api/send-email",
                 "/swagger-ui/**",
                 "/reset-password/{token}",
                 "/dist/**",
                 "/css/**",
-                "/img/**",
+                "/images/**",
                 "/js/**",
+                "/admin/**",
                 "/plugins/**",
-
                 "api/v1/users/principal"
 
         };
@@ -70,6 +71,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers(PUBLIC_ROUTE).permitAll()
                         .anyRequest().authenticated()
+                )
+                .formLogin(formLogin ->
+                        formLogin
+                                .loginPage("/login")
+                                .defaultSuccessUrl("/")
+                                .permitAll()
                 )
                 .logout((logout) -> logout
                         .logoutSuccessUrl("/")

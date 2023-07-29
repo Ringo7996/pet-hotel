@@ -1,6 +1,7 @@
-package com.example.ngothaolinh.controller;
+package com.example.demo.controller;
 
 
+import com.example.demo.model.entity.User;
 import com.example.demo.model.request.LoginRequest;
 import com.example.demo.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -74,6 +75,17 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Cannot update password");
         }
         return ResponseEntity.ok("Update password success");
+    }
+
+    @PostMapping("create-user")
+    public ResponseEntity<?> createUser(@RequestBody User user){
+        System.out.println(user.toString());
+        try {
+            userService.createUser(user);
+        } catch ( Exception e){
+            return ResponseEntity.badRequest().body(e);
+        }
+        return ResponseEntity.ok("Create Success");
     }
 
 }

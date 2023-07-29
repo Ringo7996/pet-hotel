@@ -42,4 +42,13 @@ public class WebController {
         return "update-password";
     }
 
+    @GetMapping("/sing-up")
+    public String getSingUp(Authentication authentication, Model model) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            return "redirect:/";
+        }
+        model.addAttribute("page","sing-up");
+        return "comom";
+    }
+
 }
