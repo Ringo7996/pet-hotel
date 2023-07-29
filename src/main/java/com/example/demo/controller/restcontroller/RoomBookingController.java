@@ -37,7 +37,6 @@ public class RoomBookingController {
     }
 
     @GetMapping("/")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Page<RoomBooking> getAllRoomBooking(Pageable pageable) {
         return roomBookingService.getAllRoomBookingsWithPage(pageable);
     }
