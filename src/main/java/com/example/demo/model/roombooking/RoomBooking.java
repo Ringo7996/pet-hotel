@@ -56,9 +56,9 @@ public class RoomBooking {
     private PaymentType paymentType;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "user_id")
     private User user;
-
 
     @PostPersist
     protected void onCreate() {
