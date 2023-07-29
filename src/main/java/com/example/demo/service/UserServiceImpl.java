@@ -7,9 +7,11 @@ import com.example.demo.model.entity.Role;
 import com.example.demo.model.entity.TokenConfirm;
 import com.example.demo.model.entity.User;
 import com.example.demo.model.request.CreateUserRequest;
+import com.example.demo.model.request.UpdateUserRequest;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.TokenConfirmRepository;
 import com.example.demo.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -85,6 +88,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateInfo(UpdateUserRequest request,HttpSession session) {
+        String email = (String) session.getAttribute("MY_SESSION");
+        User userSystem = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("User is not found"));
+        Optional<User> user = userRepository.findByEmail(request.getEmail());
+        if(user.isPresent() && request.getEmail().equalsIgnoreCase(email) || !user.isPresent()){
+            userSystem.setEmail(request.getEmail());
+            userSystem.setName(request.getName());
+            userSystem.setPhone(request.getPhone());
+            userRepository.save(userSystem);
+            session.setAttribute("MY_SESSION",request.getEmail());
+        }
+        else throw  new ExitsUserException("Email already exists");
+    }
+
+    @Override
     public void resetPw(String email, String encodedPassword) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("User is not found"));
         user.setPassword(encodedPassword);
@@ -96,6 +114,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(name).orElseThrow(() -> new NotFoundException("User " + name + " is not found"));
     }
 
+
     @Override
     public Page<User> getAllUsersWithPage(Pageable pageable) {
         return userRepository.findAll(pageable);
@@ -105,5 +124,6 @@ public class UserServiceImpl implements UserService {
     public User getAnUser(Integer userId) {
         return userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User is not found"));
     }
+
 
 }

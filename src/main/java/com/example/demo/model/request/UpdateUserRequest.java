@@ -14,18 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 public class UpdateUserRequest {
 
-    @NotNull
     private String name;
 
-    @Email
     private String email;
 
-    @NotNull
     private String phone;
 
-    @NotNull
-    private String password;
-
-    @NotNull
-    private List<Pet> pets;
 }

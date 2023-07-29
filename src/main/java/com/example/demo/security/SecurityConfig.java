@@ -63,7 +63,8 @@ public class SecurityConfig {
                 "/js/**",
                 "/admin/**",
                 "/plugins/**",
-                "api/v1/users/principal"
+                "api/v1/users/principal",
+                "api/v1/**"
 
         };
         http
@@ -71,12 +72,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers(PUBLIC_ROUTE).permitAll()
                         .anyRequest().authenticated()
-                )
-                .formLogin(formLogin ->
-                        formLogin
-                                .loginPage("/login")
-                                .defaultSuccessUrl("/")
-                                .permitAll()
                 )
                 .logout((logout) -> logout
                         .logoutSuccessUrl("/")

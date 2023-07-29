@@ -4,6 +4,8 @@ package com.example.demo.controller;
 import com.example.demo.model.entity.User;
 import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.request.LoginRequest;
+import com.example.demo.model.request.UpdatePetRequest;
+import com.example.demo.model.request.UpdateUserRequest;
 import com.example.demo.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +90,16 @@ public class AuthController {
         }
         return ResponseEntity.ok("Create Success");
     }
+    @PostMapping("update-info")
+    public ResponseEntity<?> updateInfo(@RequestBody UpdateUserRequest request, HttpSession session) {
+        try {
+            userService.updateInfo(request,session);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e);
+        }
+        return ResponseEntity.ok("Update Success");
+    }
+
 
 }
 // Client -> Server -> Tạo session -> Sesson_id lưu vào trong cookie -> Client
