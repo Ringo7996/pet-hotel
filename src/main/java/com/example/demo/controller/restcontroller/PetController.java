@@ -20,7 +20,6 @@ public class PetController {
     private PetService petService;
 
     @GetMapping("/")
-//    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_STAFF')")
     public Page<Pet> getAllPets(Pageable pageable) {
         return petService.getAllPetsWithPage(pageable);
     }

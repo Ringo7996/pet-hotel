@@ -11,17 +11,19 @@ import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/users")
-//@PreAuthorize("hasAnyRole('ROLE_ROOT_ADMIN', 'ROLE_HOTEL_STAFF', 'ROLE_HOTEL_ADMIN')")
+@PreAuthorize("hasAnyRole('ROLE_ROOT_ADMIN', 'ROLE_HOTEL_STAFF', 'ROLE_HOTEL_ADMIN','ROLE_USER')")
 public class UserController {
 
     @Autowired
@@ -36,19 +38,26 @@ public class UserController {
     @Autowired
     private PetService petService;
 
-    @GetMapping("/principal")
+    @GetMapping()
     public User getUser() {
         Authentication authentication = authenticationFacade.getAuthentication();
         return userService.findByEmail((String) authentication.getPrincipal());
     }
 
+    @GetMapping("principal")
+    public ResponseEntity<?> checkPrincipal() {
+        Authentication authentication = authenticationFacade.getAuthentication();
+        System.out.println("authen");
+        System.out.println(authentication.toString());
+        User user = userService.findByEmail((String) authentication.getPrincipal());
+        System.out.println("prin");
+        System.out.println(user.toString());
+        return ResponseEntity.ok(user);
+    }
+
 
     @GetMapping("/")
     public ResponseEntity<?> getAllUsers(Pageable pageable) {
-        System.out.println("chạy vào trong");
-        System.out.println(getUser());
-
-//        return userService.getAllUsersWithPage(pageable);
         return ResponseEntity.ok(getUser());
     }
 
