@@ -2,10 +2,7 @@ package com.example.demo.controller.controllers;
 
 
 import com.example.demo.model.entity.User;
-import com.example.demo.model.request.CreateUserRequest;
-import com.example.demo.model.request.LoginRequest;
-import com.example.demo.model.request.UpdatePetRequest;
-import com.example.demo.model.request.UpdateUserRequest;
+import com.example.demo.model.request.*;
 import com.example.demo.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -70,7 +67,7 @@ public class AuthController {
     }
 
 
-    @PatchMapping("/update-password")
+    @PatchMapping("/reset-password")
     public ResponseEntity<?> resetPw(@RequestParam(name = "email") String email, @RequestBody String password) {
 
         String encodedPassword = encoder.encode(password);
@@ -82,7 +79,15 @@ public class AuthController {
         }
         return ResponseEntity.ok("Update password success");
     }
-
+    @PatchMapping("/update-password")
+    public ResponseEntity<?> updatePw(@Valid @RequestBody UpdatePasswordRequest request, HttpSession session) {
+        try {
+            userService.updatePassword(request,session);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.toString());
+        }
+        return ResponseEntity.ok("Update password success");
+    }
     @PostMapping("create-user")
     public ResponseEntity<?> createUser(@RequestBody @Valid CreateUserRequest request) {
         try {

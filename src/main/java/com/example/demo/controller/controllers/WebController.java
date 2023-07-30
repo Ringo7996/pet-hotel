@@ -1,4 +1,4 @@
-package com.example.demo.controller.controllers;
+package com.example.demo.controller;
 
 import com.example.demo.service.TokenConfirmService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,6 @@ public class WebController {
 
     @GetMapping("/sign-up")
     public String getSingUp(Authentication authentication, Model model) {
-
         if (authentication != null && authentication.isAuthenticated()) {
             System.out.println("redirect");
             return "redirect:/";
