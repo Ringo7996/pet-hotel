@@ -67,11 +67,17 @@ public class SecurityConfig {
                 "api/v1/**"
 
         };
+        String[] PRIVATE_ROUTE = {
+                "/admin",
+                "/admin/**",
+                "/user",
+                "/user/**"
+        };
         http
                 .csrf(c -> c.disable())
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers(PUBLIC_ROUTE).permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(PRIVATE_ROUTE).authenticated()
+                        .anyRequest().permitAll()
                 )
                 .formLogin(formLogin ->
                         formLogin
