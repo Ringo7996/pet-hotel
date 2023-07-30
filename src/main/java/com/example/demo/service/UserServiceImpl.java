@@ -92,7 +92,6 @@ public class UserServiceImpl implements UserService {
     public void updateInfo(UpdateUserRequest request, HttpSession session) {
         String email = (String) session.getAttribute("MY_SESSION");
         User userSystem = findByEmail(email);
-
         Optional<User> user = userRepository.findByEmail(request.getEmail());
         if (user.isEmpty() || request.getEmail().equalsIgnoreCase(email)) {
             userSystem.setEmail(request.getEmail());

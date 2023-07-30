@@ -5,6 +5,7 @@ import com.example.demo.model.entity.Image;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ImageService {
     Image readImageById(Integer id);
@@ -14,4 +15,5 @@ public interface ImageService {
     Image uploadImageByUserId(Integer userId, MultipartFile file);
 
     List<Image> getImageListByUserId(Integer id);
+
 }

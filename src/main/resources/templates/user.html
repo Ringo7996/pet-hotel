@@ -47,7 +47,8 @@
                                             <div class="panel-body">
                                             	<div class="row">
                                                 	<div class="col-sm-5 col-md-4 user-img">
-                                                        <img src="/images/user-profile.jpg" class="img-responsive" alt="user-img" />
+                                                        <img th:if="${USER.image}" th:src="@{'http://localhost:8080/api/v1/files/' +${USER.id}}" class="img-responsive" alt="user-img" />
+                                                        <img th:unless="${USER.image}" src="/images/user-profile.jpg" class="img-responsive" alt="user-img" />
                                                         <button class="btn btn-upload" data-toggle="modal">Upload</button>
                                                         <div class="mb-3" hidden>
                                                             <input hidden class="form-control file" type="file" id="formFileMultiple" multiple>
@@ -114,18 +115,18 @@
                             <span style="color: darkred; padding: 12px 0; display: inline-block" id="mess"></span>
                         	<div class="form-group">
                         		<label>Your Name</label>
-                            	<input id="name" type="text" class="form-control" placeholder="Name"/>
+                            	<input id="name" th:value="${USER.name}" type="text" class="form-control" placeholder="Name"/>
                             </div><!-- end form-group -->
 
 
                             <div class="form-group">
                         		<label>Your Email</label>
-                            	<input id="email" type="email" class="form-control" placeholder="Email" />
+                            	<input id="email" th:value="${USER.email}" type="email" class="form-control" placeholder="Email" />
                             </div><!-- end form-group -->
 
                             <div class="form-group">
                         		<label>Your Phone</label>
-                            	<input id="phone" type="text" class="form-control" placeholder="Phone Number" />
+                            	<input id="phone" th:value="${USER.phone}" type="text" class="form-control" placeholder="Phone Number" />
                             </div><!-- end form-group -->
 
                             <button class="btn btn-orange">Save Changes</button>

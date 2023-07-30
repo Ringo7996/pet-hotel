@@ -64,8 +64,6 @@ public class SecurityConfig {
                 "/admin/**",
                 "/plugins/**",
                 "api/v1/users/principal",
-
-
                 "api/v1/**"
 
         };

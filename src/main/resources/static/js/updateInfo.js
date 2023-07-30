@@ -80,17 +80,17 @@ formUpload.addEventListener('change', function() {
     var data = new FormData();
     data.append('file', file);
     $.ajax({
-        url: 'api/v1/files',
+        url: 'http://localhost:8080/api/v1/files',
         type: 'POST',
         data: data,
         contentType: false,
         enctype: 'multipart/form-data',
         processData: false,
         success: function(response) {
-            // Xử lý phản hồi từ server sau khi tệp tin được tải lên thành công
+           console.log("ok");
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            // Xử lý lỗi nếu có
+            console.log("fail");
         }
     })
 });
