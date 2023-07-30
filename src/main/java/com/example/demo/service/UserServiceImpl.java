@@ -107,16 +107,13 @@ public class UserServiceImpl implements UserService {
         User userSystem = findByEmail(email);
 
         if (encoder.matches(request.getOldPassword(), userSystem.getPassword())) {
-            userSystem.setPassword(encoder.encode(request.getNewPassword()));
-            userRepository.save(userSystem);
+            userSystem.setPassword(request.getNewPassword());
         } else throw new Exception("old password is not match");
     }
 
 
     @Override
     public void resetPw(String email, String encodedPassword) {
-        System.out.println(email);
-
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("User is not found"));
         user.setPassword(encodedPassword);
         userRepository.save(user);

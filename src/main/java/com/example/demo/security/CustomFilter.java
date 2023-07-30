@@ -31,6 +31,7 @@ public class CustomFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+
         // Lấy ra thông tin của user
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(userEmail);
 
