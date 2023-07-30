@@ -64,6 +64,8 @@ public class SecurityConfig {
                 "/admin/**",
                 "/plugins/**",
                 "api/v1/users/principal",
+
+
                 "api/v1/**"
 
         };
@@ -73,6 +75,13 @@ public class SecurityConfig {
                         .requestMatchers(PUBLIC_ROUTE).permitAll()
                         .anyRequest().authenticated()
                 )
+//                .formLogin(formLogin ->
+//                        formLogin
+//                                .loginPage("/login")
+//                                .defaultSuccessUrl("/")
+//                                .permitAll()
+//                )
+
                 .logout((logout) -> logout
                         .logoutSuccessUrl("/")
                         .deleteCookies("JSESSIONID")
