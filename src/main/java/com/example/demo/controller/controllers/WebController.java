@@ -24,8 +24,8 @@ public class WebController {
         if (authentication != null && authentication.isAuthenticated()) {
             return "redirect:/";
         }
-        model.addAttribute("page","login");
-        return "common";
+//        model.addAttribute("page","login");
+        return "login";
     }
 
     @GetMapping("/forgot-password")
@@ -49,8 +49,8 @@ public class WebController {
             System.out.println("redirect");
             return "redirect:/";
         }
-        model.addAttribute("page", "sign-up");
-        return "common";
+//        model.addAttribute("page", "sign-up");
+        return "sign-up";
     }
 
 }
