@@ -26,8 +26,8 @@ public class UserProfile {
        } catch (Exception e){
            System.out.println(e.toString());
        }
-        model.addAttribute("page", "user");
-        return "common";
+//        model.addAttribute("page", "user");
+        return "user";
     }
 
 }
