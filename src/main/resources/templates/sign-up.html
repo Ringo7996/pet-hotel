@@ -1,14 +1,18 @@
 <!doctype html>
-<html lang="en">
-    <head>
-    </head>
-    <body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: main-fragment(~{:: #css}, ~{:: .wrapper}, ~{:: #javascript})}">
+
+<head>
+    <title>Sign-up</title>
+</head>
+<body>
+    <div class="wrapper">
     <!--================ PAGE-COVER =================-->
         <section class="page-cover" id="cover-registration">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12">
-                    	<h1 class="page-title">Registration Page</h1>
+                        <h1 class="page-title">Registration Page</h1>
                         <ul class="breadcrumb">
                             <li><a href="#">Home</a></li>
                             <li class="active">Registration Page</li>
@@ -17,16 +21,16 @@
                 </div><!-- end row -->
             </div><!-- end container -->
         </section><!-- end page-cover -->
-        
-        
+
+
         <!--===== INNERPAGE-WRAPPER ====-->
         <section class="innerpage-wrapper">
-        	<div id="registration" class="innerpage-section-padding">
+            <div id="registration" class="innerpage-section-padding">
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12">
-                        
-                        	<div class="flex-content">
+
+                            <div class="flex-content">
                                 <div class="custom-form custom-form-fields">
                                     <h3>Registration</h3>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
@@ -60,7 +64,7 @@
                                     </form>
 
                                     <div class="other-links">
-                                    	<p class="link-line">Already Have An Account ? <a href="/login">Login Here</a></p>
+                                    	<p class="link-line">Already Have An Account ? <a href="/sign-up">Login Here</a></p>
                                     </div><!-- end other-links -->
                                 </div><!-- end custom-form -->
 
@@ -78,41 +82,41 @@
 
         <!--======================= BEST FEATURES =====================-->
         <section id="best-features" class="banner-padding black-features">
-        	<div class="container">
-        		<div class="row">
-        			<div class="col-sm-6 col-md-3">
-                    	<div class="b-feature-block">
-                    		<span><i class="fa fa-dollar"></i></span>
-                        	<h3>Best Price Guarantee</h3>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="b-feature-block">
+                            <span><i class="fa fa-dollar"></i></span>
+                            <h3>Best Price Guarantee</h3>
                             <p>Lorem ipsum dolor sit amet, ad duo fugit aeque fabulas, in lucilius prodesset pri. Veniam delectus ei vis.</p>
                         </div><!-- end b-feature-block -->
                    </div><!-- end columns -->
 
                    <div class="col-sm-6 col-md-3">
-                    	<div class="b-feature-block">
-                    		<span><i class="fa fa-lock"></i></span>
-                        	<h3>Safe and Secure</h3>
+                        <div class="b-feature-block">
+                            <span><i class="fa fa-lock"></i></span>
+                            <h3>Safe and Secure</h3>
                             <p>Lorem ipsum dolor sit amet, ad duo fugit aeque fabulas, in lucilius prodesset pri. Veniam delectus ei vis.</p>
                         </div><!-- end b-feature-block -->
                    </div><!-- end columns -->
 
                    <div class="col-sm-6 col-md-3">
-                    	<div class="b-feature-block">
-                    		<span><i class="fa fa-thumbs-up"></i></span>
-                        	<h3>Best Travel Agents</h3>
+                        <div class="b-feature-block">
+                            <span><i class="fa fa-thumbs-up"></i></span>
+                            <h3>Best Travel Agents</h3>
                             <p>Lorem ipsum dolor sit amet, ad duo fugit aeque fabulas, in lucilius prodesset pri. Veniam delectus ei vis.</p>
                         </div><!-- end b-feature-block -->
                    </div><!-- end columns -->
 
                    <div class="col-sm-6 col-md-3">
-                    	<div class="b-feature-block">
-                    		<span><i class="fa fa-bars"></i></span>
-                        	<h3>Travel Guidelines</h3>
+                        <div class="b-feature-block">
+                            <span><i class="fa fa-bars"></i></span>
+                            <h3>Travel Guidelines</h3>
                             <p>Lorem ipsum dolor sit amet, ad duo fugit aeque fabulas, in lucilius prodesset pri. Veniam delectus ei vis.</p>
                         </div><!-- end b-feature-block -->
                    </div><!-- end columns -->
                 </div><!-- end row -->
-        	</div><!-- end container -->
+            </div><!-- end container -->
         </section><!-- end best-features -->
 
 
@@ -120,7 +124,7 @@
         <section id="newsletter-1" class="section-padding back-size newsletter">
             <div class="container">
                 <div class="row">
-                	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
                         <h2>Subscribe Our Newsletter</h2>
                         <p>Subscibe to receive our interesting updates</p>
                         <form>
@@ -135,9 +139,12 @@
                 </div><!-- end row -->
             </div><!-- end container -->
         </section><!-- end newsletter-1 -->
+    </div>
+<!-- Page Scripts Starts -->
+<th:block id="javascript">
+<script src="/js/signUp.js"></script>
+</th:block>
+<!-- Page Scripts Ends -->
 
-        <!-- Page Scripts Starts -->
-        <script src="/js/signUp.js"></script>
-        <!-- Page Scripts Ends -->
-    </body>
+</body>
 </html>
