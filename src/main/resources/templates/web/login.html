@@ -85,8 +85,11 @@
                 alert("Login success");
                 window.location.href = "/"
             }
+            if (data.status === 400) {
+                alert("Tài khoản hoặc mật khấu không đúng")
+            }
         } catch (e) {
-            console.log(e)
+           console.log(e);
         }
     })
 </script>
