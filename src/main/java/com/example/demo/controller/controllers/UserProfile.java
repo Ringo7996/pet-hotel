@@ -29,5 +29,17 @@ public class UserProfile {
         model.addAttribute("page", "user");
         return "common";
     }
+    @GetMapping("/update-password")
+    public String updatePassword(HttpSession session,Model model){
+        String email = (String) session.getAttribute("MY_SESSION");
+        try {
+            User user = userService.findByEmail(email);
+            model.addAttribute("USER",user);
+        } catch (Exception e){
+            System.out.println(e.toString());
+        }
+        model.addAttribute("page","update-password");
+        return "common";
+    }
 
 }

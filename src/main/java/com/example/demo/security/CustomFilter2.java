@@ -17,7 +17,7 @@ import java.io.IOException;
 // Kiểm tra quyền của user đối với moi request
 @Component
 @Slf4j
-public class CustomFilter extends OncePerRequestFilter {
+public class CustomFilter2 extends OncePerRequestFilter {
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
@@ -28,6 +28,7 @@ public class CustomFilter extends OncePerRequestFilter {
         String userEmail = (String) request.getSession().getAttribute("MY_SESSION");
         log.info("email = {}", userEmail);
         if (userEmail == null) {
+//            response.sendRedirect(request.getContextPath() + "/login");
             filterChain.doFilter(request, response);
             return;
         }
