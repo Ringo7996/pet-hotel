@@ -22,10 +22,10 @@ form.addEventListener("submit", async (e) => {
         return false;
     }
     // Kiểm tra mật khẩu
-    if (password.length < 8) {
-        mess.innerText="Mật khẩu phải chứa ít nhất 8 ký tự!";
-        return false;
-    }
+    // if (password.length < 8) {
+    //     mess.innerText="Mật khẩu phải chứa ít nhất 8 ký tự!";
+    //     return false;
+    // }
 
     try {
         const request = {

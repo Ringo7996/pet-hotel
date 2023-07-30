@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.controllers;
 
 import com.example.demo.service.TokenConfirmService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,13 +43,15 @@ public class WebController {
         return "update-password";
     }
 
-    @GetMapping("/sing-up")
+    @GetMapping("/sign-up")
     public String getSingUp(Authentication authentication, Model model) {
+
         if (authentication != null && authentication.isAuthenticated()) {
+            System.out.println("redirect");
             return "redirect:/";
         }
-        model.addAttribute("page", "sing-up");
-        return "commom";
+        model.addAttribute("page", "sign-up");
+        return "common";
     }
 
 }
