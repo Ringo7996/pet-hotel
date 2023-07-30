@@ -60,11 +60,12 @@ public class AuthController {
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<?> sendResetPwEmail(@RequestBody String email) {
-        System.out.println(email);
+    public ResponseEntity<?> sendResetPwEmail(@RequestBody Email email) {
+        System.out.println(email.getEmail());
         try {
-            userService.sendResetPwEmail(email);
+            userService.sendResetPwEmail(email.getEmail());
         } catch (Exception e) {
+            System.out.println(e.toString());
             return ResponseEntity.badRequest().body("Cannot send email");
         }
 

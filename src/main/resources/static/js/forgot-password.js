@@ -17,12 +17,15 @@ let validate = async ()=>{
     }
 
     try {
+        const dataform ={
+            email,
+        }
         const data = await fetch(`http://localhost:8080/api/v1/auth/forgot-password`, {
             method: "POST",
             headers: {
-                "Content-Type": "text/plain"
+                "Content-Type": "application/json"
             },
-            body: email,
+            body: JSON.stringify(dataform)
         })
 
         if (data.status === 200) {
@@ -31,4 +34,8 @@ let validate = async ()=>{
     } catch (e) {
         console.log(e)
     }
+}
+form.onsubmit =(e)=>{
+    e.preventDefault()
+    validate()
 }
