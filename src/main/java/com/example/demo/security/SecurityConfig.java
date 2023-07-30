@@ -52,7 +52,7 @@ public class SecurityConfig {
                 "/",
                 "/api/v1/auth/**",
                 "/login",
-                "/sing-up",
+                "/sign-up",
                 "/forgot-password",
                 "/api/send-email",
                 "/swagger-ui/**",
