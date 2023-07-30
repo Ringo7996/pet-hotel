@@ -15,7 +15,7 @@ let validation = async ()=>{
         return;
     }
 
-    if (newPw.length < 8 || oldPw.length < 8) {
+    if (newPw.length < 8 || confirmPw.length < 8) {
         mess.innerText="Mật khẩu phải chứa ít nhất 8 ký tự!";
         return false;
     }
