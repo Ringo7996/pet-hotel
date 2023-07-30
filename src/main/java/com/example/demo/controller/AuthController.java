@@ -3,6 +3,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.entity.User;
 import com.example.demo.model.request.*;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -25,6 +26,9 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -56,7 +60,8 @@ public class AuthController {
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<?> sendResetPwEmail(@RequestParam String email) {
+    public ResponseEntity<?> sendResetPwEmail(@RequestBody String email) {
+        System.out.println(email);
         try {
             userService.sendResetPwEmail(email);
         } catch (Exception e) {
@@ -68,13 +73,12 @@ public class AuthController {
 
 
     @PatchMapping("/reset-password")
-    public ResponseEntity<?> resetPw(@RequestParam(name = "email") String email, @RequestBody String password) {
-
-        String encodedPassword = encoder.encode(password);
-
+    public ResponseEntity<?> resetPw(@Valid @RequestBody ResetPasswodRequest password) {
+        String encodedPassword = encoder.encode(password.getPassword());
         try {
-            userService.resetPw(email, encodedPassword);
+            userService.resetPw(password.getEmail(), encodedPassword);
         } catch (Exception e) {
+            System.out.println(e.toString());
             return ResponseEntity.badRequest().body("Cannot update password");
         }
         return ResponseEntity.ok("Update password success");

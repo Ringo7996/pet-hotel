@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.service.TokenConfirmService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -38,9 +39,12 @@ public class WebController {
     // -> Gửi email xác nhận quên mật khẩu
     // Trong email có 1 link để xác thực
     @GetMapping("/reset-password/{token}")
-    public String getUpdatePasswordPage(@PathVariable String token, Model model) {
+    public String getUpdatePasswordPage(@PathVariable("token") String token, Model model, HttpSession session) {
+
         model = tokenConfirmService.checkToken(token, model);
-        return "update-password";
+        boolean isValid = (boolean) model.getAttribute("isValid") ;
+        if(!isValid) return "/Error/error-page";
+        return "reset-password";
     }
 
     @GetMapping("/sing-up")
