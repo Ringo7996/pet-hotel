@@ -64,6 +64,9 @@ public class User implements UserDetails {
     @JsonManagedReference
     private List<SpaBooking> spaBookings;
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    private Image image;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles.stream()
@@ -100,4 +103,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

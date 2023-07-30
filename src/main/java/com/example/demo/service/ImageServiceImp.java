@@ -48,17 +48,28 @@ public class ImageServiceImp implements ImageService {
                 .orElseThrow(() -> {
                     throw new RuntimeException("user id not found");
                 });
-
         try {
+            List<Image> image = getImageListByUserId(userId);
+            if(!image.isEmpty()) {
+                Image image1 = image.get(0);
+                image1.setType(file.getContentType());
+                image1.setData(file.getBytes());
+                imageRepository.save(image1);
+                return  image1;
+            }
+
             Image image2upload = Image.builder()
                     .type(file.getContentType())
                     .data(file.getBytes())
                     .user(user2upload)
                     .build();
-
             imageRepository.save(image2upload);
+            user2upload.setImage(image2upload);
+            userRepository.save(user2upload);
+
             return image2upload;
         } catch (IOException e) {
+            System.out.println(e.toString());
             throw new RuntimeException("Upload error");
         }
     }
@@ -86,7 +97,6 @@ public class ImageServiceImp implements ImageService {
                 .orElseThrow(() -> {
                     throw new RuntimeException("user id not found");
                 });
-
         return imageRepository.findByUser_Id(id);
     }
 }

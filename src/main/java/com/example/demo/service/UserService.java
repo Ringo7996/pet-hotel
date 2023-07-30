@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 
+import com.example.demo.model.entity.Image;
 import com.example.demo.model.entity.User;
 import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.request.UpdateUserRequest;

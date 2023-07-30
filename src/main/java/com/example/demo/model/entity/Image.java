@@ -30,8 +30,9 @@ public class Image {
     @Column(name = "created_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "user_id")
+    @MapsId
     private User user;
 
     @PrePersist

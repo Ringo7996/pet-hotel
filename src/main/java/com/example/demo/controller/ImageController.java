@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,23 +23,23 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
-//    @Autowired
-//    private AuthenticationFacade authenticationFacade;
+    @Autowired
+    private AuthenticationFacade authenticationFacade;
 
     @Autowired
     private UserService userService;
 
 
-//    public User getUser() {
-//        Authentication authentication = authenticationFacade.getAuthentication();
-//        return userService.findByEmail((String) authentication.getPrincipal());
-//    }
+    public User getUser() {
+        Authentication authentication = authenticationFacade.getAuthentication();
+        return userService.findByEmail((String) authentication.getPrincipal());
+    }
 
     // upload ảnh
     @PostMapping("/files")
     public Image uploadImage(@ModelAttribute("file") MultipartFile file) {
         // upload len user id 1;
-        return imageService.uploadImageByUserId(1, file);
+        return imageService.uploadImageByUserId(getUser().getId(),file);
     }
 
 
