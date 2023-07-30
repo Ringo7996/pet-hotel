@@ -14,10 +14,7 @@ function validateForm() {
     var confirmPassword = document.getElementById("confirmPassword").value;
 
 
-    if (name.trim() === "" || phone.trim() === "" || password.trim() === "" || confirmPassword.trim() === "" || email.trim() === "") {
-        mess.innerText = "Vui lòng nhập đầu đủ dữ liệu"
-        return false;
-    }
+
 
     // Kiểm tra số điện thoại
     var phoneRegex = /^[0-9]{10}$/;

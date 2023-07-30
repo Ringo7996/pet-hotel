@@ -73,13 +73,12 @@ public class SecurityConfig {
                         .requestMatchers(PUBLIC_ROUTE).permitAll()
                         .anyRequest().authenticated()
                 )
-//                .formLogin(formLogin ->
-//                        formLogin
-//                                .loginPage("/login")
-//                                .defaultSuccessUrl("/")
-//                                .permitAll()
-//                )
-
+                .formLogin(formLogin ->
+                        formLogin
+                                .loginPage("/login")
+                                .defaultSuccessUrl("/")
+                                .permitAll()
+                )
                 .logout((logout) -> logout
                         .logoutSuccessUrl("/")
                         .deleteCookies("JSESSIONID")
