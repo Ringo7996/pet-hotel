@@ -20,11 +20,12 @@ public class WebController {
 //    }
 
     @GetMapping("/login")
-    public String getLoginPage(Authentication authentication) {
+    public String getLoginPage(Authentication authentication,Model model) {
         if (authentication != null && authentication.isAuthenticated()) {
             return "redirect:/";
         }
-        return "web/login";
+        model.addAttribute("page","login");
+        return "common";
     }
 
     @GetMapping("/forgot-password")
@@ -47,8 +48,8 @@ public class WebController {
         if (authentication != null && authentication.isAuthenticated()) {
             return "redirect:/";
         }
-        model.addAttribute("page","sing-up");
-        return "comom";
+        model.addAttribute("page", "sing-up");
+        return "commom";
     }
 
 }

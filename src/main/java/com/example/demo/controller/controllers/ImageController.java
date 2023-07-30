@@ -1,4 +1,4 @@
-package com.example.demo.controller.controllers;
+package com.example.demo.controller;
 
 
 import com.example.demo.model.entity.Image;
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,7 +38,8 @@ public class ImageController {
     // upload ảnh
     @PostMapping("/files")
     public Image uploadImage(@ModelAttribute("file") MultipartFile file) {
-        return imageService.uploadImageByUserId(getUser().getId(), file);
+        // upload len user id 1;
+        return imageService.uploadImageByUserId(getUser().getId(),file);
     }
 
 
@@ -62,7 +64,8 @@ public class ImageController {
     // 3. xoá ảnh
     @DeleteMapping("/files/{id}")
     public ResponseEntity<?> deleteFile(@PathVariable(name = "id") Integer Fileid) {
-        imageService.deleteImageById(Fileid, getUser().getId());
+        // đang đăng nhập user id 1;
+        imageService.deleteImageById(Fileid, 1);
         return ResponseEntity.noContent().build();
     }
 

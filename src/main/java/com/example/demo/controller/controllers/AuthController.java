@@ -4,8 +4,11 @@ package com.example.demo.controller.controllers;
 import com.example.demo.model.entity.User;
 import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.request.LoginRequest;
+import com.example.demo.model.request.UpdatePetRequest;
+import com.example.demo.model.request.UpdateUserRequest;
 import com.example.demo.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -80,7 +84,7 @@ public class AuthController {
     }
 
     @PostMapping("create-user")
-    public ResponseEntity<?> createUser(@RequestBody CreateUserRequest request) {
+    public ResponseEntity<?> createUser(@RequestBody @Valid CreateUserRequest request) {
         try {
             System.out.println(request);
             userService.createUser(request);
@@ -89,6 +93,17 @@ public class AuthController {
         }
         return ResponseEntity.ok("Create Success");
     }
+
+    @PostMapping("update-info")
+    public ResponseEntity<?> updateInfo( @Valid @RequestBody UpdateUserRequest request, HttpSession session) {
+        try {
+            userService.updateInfo(request,session);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e);
+        }
+        return ResponseEntity.ok("Update Success");
+    }
+
 
 }
 // Client -> Server -> Tạo session -> Sesson_id lưu vào trong cookie -> Client

@@ -63,7 +63,8 @@ public class SecurityConfig {
                 "/js/**",
                 "/admin/**",
                 "/plugins/**",
-                "api/v1/users/principal"
+                "api/v1/users/principal",
+                "api/v1/**"
 
         };
         http

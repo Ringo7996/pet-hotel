@@ -2,8 +2,7 @@ package com.example.demo.model.request;
 
 
 import com.example.demo.model.entity.Pet;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.util.List;
@@ -14,18 +13,13 @@ import java.util.List;
 @AllArgsConstructor
 public class UpdateUserRequest {
 
-    @NotNull
+    @NotEmpty(message = "name cannot empty")
+    @NotNull(message = "name cannot empty")
     private String name;
 
-    @Email
+    @Email(message = "email is not valid")
     private String email;
 
-    @NotNull
+    @Size(min = 10, max = 13, message = "phone number is not valid")
     private String phone;
-
-    @NotNull
-    private String password;
-
-    @NotNull
-    private List<Pet> pets;
 }
