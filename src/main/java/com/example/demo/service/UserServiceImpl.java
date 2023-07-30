@@ -105,7 +105,6 @@ public class UserServiceImpl implements UserService {
     public void updatePassword(UpdatePasswordRequest request, HttpSession session) throws Exception {
         String email = (String) session.getAttribute("MY_SESSION");
         User userSystem = findByEmail(email);
-
         if (encoder.matches(request.getOldPassword(), userSystem.getPassword())) {
             userSystem.setPassword(encoder.encode(request.getNewPassword()));
             userRepository.save(userSystem);
@@ -115,9 +114,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void resetPw(String email, String encodedPassword) {
-        System.out.println(email);
-
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("User is not found"));
+        User user = findByEmail(email);
         user.setPassword(encodedPassword);
         userRepository.save(user);
     }
