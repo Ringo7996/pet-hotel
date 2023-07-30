@@ -1,9 +1,7 @@
-
-
 let form = document.getElementById("updateInfo");
 
 //validate
-let validate =()=>{
+let validate = () => {
     let name = document.getElementById("name").value;
     let email = document.getElementById("email").value;
     let phone = document.getElementById("phone").value;
@@ -16,17 +14,17 @@ let validate =()=>{
     // Kiểm tra số điện thoại
     var phoneRegex = /^[0-9]{10}$/;
     if (!phoneRegex.test(phone)) {
-        mess.innerText="Vui lòng nhập số điện thoại hợp lệ (gồm 10 chữ số)!";
+        mess.innerText = "Vui lòng nhập số điện thoại hợp lệ (gồm 10 chữ số)!";
         return false;
     }
 
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-        mess.innerText ="Vui lòng nhập địa chỉ email hợp lệ!";
+        mess.innerText = "Vui lòng nhập địa chỉ email hợp lệ!";
         return false;
     }
 
-    let data ={
+    let data = {
         name,
         email,
         phone,
@@ -36,20 +34,20 @@ let validate =()=>{
         type: 'POST',
         contentType: "application/json",
         data: JSON.stringify(data),
-        success: function(res) {
+        success: function (res) {
             alert("Chỉnh sủa thành công");
             location.reload();
         },
-        error: function(xhr, status, error) {
-            if(xhr.status === 400){
-                mess.innerText="Email đã tồn tại"
+        error: function (xhr, status, error) {
+            if (xhr.status === 400) {
+                mess.innerText = "Email đã tồn tại"
             }
         },
     });
 
     return true;
 }
-form.onsubmit =(e)=>{
+form.onsubmit = (e) => {
     e.preventDefault();
     validate();
 }
@@ -63,14 +61,14 @@ let img = document.querySelector(".img-responsive");
 
 console.log(bthUpload)
 
-bthUpload.onclick =()=>{
+bthUpload.onclick = () => {
     console.log(formUpload)
     formUpload.click();
 }
-formUpload.addEventListener('change', function() {
+formUpload.addEventListener('change', function () {
     const file = formUpload.files[0];
     const reader = new FileReader();
-    reader.addEventListener('load', function() {
+    reader.addEventListener('load', function () {
         img.src = reader.result;
     }, false);
 
@@ -86,10 +84,11 @@ formUpload.addEventListener('change', function() {
         contentType: false,
         enctype: 'multipart/form-data',
         processData: false,
-        success: function(response) {
-           console.log("ok");
+        success: function (response) {
+            console.log("ok");
         },
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus, errorThrown, response) {
+            window.alert(JSON.parse(jqXHR.responseText).message)
             console.log("fail");
         }
     })
