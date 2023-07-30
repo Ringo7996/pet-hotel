@@ -47,12 +47,13 @@ public class WebController {
         return "reset-password";
     }
 
-    @GetMapping("/sing-up")
+    @GetMapping("/sign-up")
     public String getSingUp(Authentication authentication, Model model) {
         if (authentication != null && authentication.isAuthenticated()) {
+            System.out.println("redirect");
             return "redirect:/";
         }
-        model.addAttribute("page", "sing-up");
+        model.addAttribute("page", "sign-up");
         return "common";
     }
 

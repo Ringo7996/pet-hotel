@@ -35,6 +35,14 @@ public class Image {
     @MapsId
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hotel_id")
+    private Hotel hotel;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pet_id")
+    private Pet pet;
+
     @PrePersist
     public void prePersist() {
         createdAt = LocalDateTime.now();

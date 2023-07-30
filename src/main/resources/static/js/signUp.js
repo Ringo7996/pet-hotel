@@ -1,5 +1,5 @@
 
-let form = document.querySelector("#sing_up");
+let form = document.querySelector("#sign_up");
 let inputs = form.querySelectorAll(".form-control");
 
 // validate
@@ -14,7 +14,18 @@ function validateForm() {
     var confirmPassword = document.getElementById("confirmPassword").value;
 
 
+    if (name === ""){
+        console.log(name)
+        mess.innerText ="Tên không thể để trống!";
+        return false;
+    }
 
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        console.log(email)
+        mess.innerText ="Vui lòng nhập địa chỉ email hợp lệ!";
+        return false;
+    }
 
     // Kiểm tra số điện thoại
     var phoneRegex = /^[0-9]{10}$/;
@@ -22,11 +33,7 @@ function validateForm() {
         mess.innerText="Vui lòng nhập số điện thoại hợp lệ (gồm 10 chữ số)!";
         return false;
     }
-    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        mess.innerText ="Vui lòng nhập địa chỉ email hợp lệ!";
-        return false;
-    }
+
     // Kiểm tra mật khẩu
     if (password.length < 8) {
         mess.innerText="Mật khẩu phải chứa ít nhất 8 ký tự!";
