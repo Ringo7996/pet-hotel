@@ -26,9 +26,9 @@ public class UserProfile {
        } catch (Exception e){
            System.out.println(e.toString());
        }
-//        model.addAttribute("page", "user");
         return "user";
     }
+
     @GetMapping("/update-password")
     public String updatePassword(HttpSession session,Model model){
         String email = (String) session.getAttribute("MY_SESSION");
@@ -38,8 +38,8 @@ public class UserProfile {
         } catch (Exception e){
             System.out.println(e.toString());
         }
-        model.addAttribute("page","update-password");
-        return "common";
+
+        return "update-password";
     }
 
 }

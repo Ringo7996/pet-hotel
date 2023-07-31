@@ -29,8 +29,8 @@
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div class="dashboard-heading">
                             <h2>Travel <span>Profile</span></h2>
-                            <p>Hi Lisa, Welcome to Star Travels!</p>
-                            <p>All your trips booked with us will appear here and you'll be able to manage everything!</p>
+                            <p>Hi, Welcome to Pet Hotel! <span th:text="${USER.name}"></span></p>
+                            <p>All your hotels booked with us will appear here and you'll be able to manage everything!</p>
                         </div><!-- end dashboard-heading -->
 
                         <div class="dashboard-wrapper">
@@ -55,7 +55,7 @@
                                                 <div class="col-sm-5 col-md-4 user-img">
                                                     <img th:if="${USER.image}" th:src="@{'http://localhost:8080/api/v1/files/' +${USER.id}}" class="img-responsive" alt="user-img" />
                                                     <img th:unless="${USER.image}" src="/images/user-profile.jpg" class="img-responsive" alt="user-img" />
-                                                    <button class="btn btn-upload" data-toggle="modal">Upload</button>
+                                                    <button class="btn btn-upload" data-toggle="modal">Change avatar</button>
                                                     <div class="mb-3" hidden>
                                                         <input hidden class="form-control file" type="file" id="formFileMultiple" multiple>
                                                     </div>
@@ -66,15 +66,13 @@
                                                         <li><span>Name:</span> <p th:text = "${USER.name}" ></p></li>
                                                         <li><span>Email:</span><p th:text = "${USER.email}" ></p></li>
                                                         <li><span>Phone:</span> <p th:text = "${USER.phone}"></p></li>
+                                                        <li><span>Password:</span> <p> <a href="/user/update-password">Reset Password</a></p></li>
+
                                                     </ul>
                                                     <button class="btn" data-toggle="modal" data-target="#edit-profile">Edit Profile</button>
                                                 </div><!-- end columns -->
 
-                                                <div class="col-sm-12 user-desc">
-                                                    <h4>About You</h4>
-                                                    <p>Vestibulum tristique, justo eu sollicitudin sagittis, metus dolor eleifend urna, quis scelerisque purus quam nec ligula. Suspendisse iaculis odio odio, ac vehicula nisi faucibus eu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse posuere semper sem ac aliquet. Duis vel bibendum tellus, eu hendrerit sapien. Proin fringilla, enim vel lobortis viverra, augue orci fringilla diam, sed cursus elit mi vel lacus. Nulla facilisi. Fusce sagittis, magna non vehicula gravida, ante arcu pulvinar arcu, aliquet luctus arcu purus sit amet sem. Mauris blandit odio sed nisi porttitor egestas. Mauris in quam interdum purus vehicula rutrum quis in sem. Integer interdum lectus at nulla dictum luctus. Sed risus felis, posuere id condimentum non, egestas pulvinar enim. Praesent pretium risus eget nisi ullamcorper fermentum. Duis lacinia nisi ac rhoncus vestibulum.</p>
 
-                                                </div><!-- end columns -->
                                             </div><!-- end row -->
 
                                         </div><!-- end panel-body -->
@@ -83,13 +81,6 @@
 
                             </div><!-- end row -->
                         </div><!-- end dashboard-wrapper -->
-                    <div class="col-sm-12">
-                    	<h1 class="page-title">My Account</h1>
-                        <ul class="breadcrumb">
-                            <li><a href="/user/update-password">ĐẶT LẠI MẬT KHẨU</a></li>
-                            <li class="active">My Account</li>
-                        </ul>
-                    </div><!-- end columns -->
                 </div><!-- end row -->
             </div><!-- end container -->
         </div><!-- end dashboard -->

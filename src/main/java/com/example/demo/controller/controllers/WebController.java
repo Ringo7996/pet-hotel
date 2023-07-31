@@ -1,6 +1,8 @@
-package com.example.demo.controller;
+package com.example.demo.controller.controllers;
 
+import com.example.demo.model.entity.User;
 import com.example.demo.service.TokenConfirmService;
+import com.example.demo.service.UserServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -13,12 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class WebController {
     @Autowired
     private TokenConfirmService tokenConfirmService;
+    @Autowired
+    UserServiceImpl userService;
 
-    // Ai cũng có thể vào được
-//    @GetMapping("/")
-//    public String getHome() {
-//        return "web/index";
-//    }
 
     @GetMapping("/login")
     public String getLoginPage(Authentication authentication,Model model) {
@@ -30,10 +29,17 @@ public class WebController {
     }
 
     @GetMapping("/forgot-password")
-    public String getForgotPasswordPage() {
+    public String getForgotPasswordPage(HttpSession session, Model model) {
+        String email = (String) session.getAttribute("MY_SESSION");
+        try {
+            User user = userService.findByEmail(email);
+            model.addAttribute("USER",user);
+        } catch (Exception e){
+            System.out.println(e.toString());
+        }
+
         return "forgot-password";
     }
-
 
 
     // -> Gửi email xác nhận quên mật khẩu
