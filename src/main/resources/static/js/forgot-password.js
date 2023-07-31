@@ -32,3 +32,7 @@ let validate = async ()=>{
         console.log(e)
     }
 }
+form.onsubmit =(e)=>{
+    e.preventDefault()
+    validate()
+}

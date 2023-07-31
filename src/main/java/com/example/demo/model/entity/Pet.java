@@ -50,4 +50,7 @@ public class Pet {
     @OneToMany(mappedBy = "pet", fetch = FetchType.EAGER)
     private List<RoomBooking> roomBookings;
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "pet")
+    private Image image;
+
 }

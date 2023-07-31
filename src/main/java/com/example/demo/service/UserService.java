@@ -8,6 +8,7 @@ import com.example.demo.model.request.UpdateUserRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.ui.Model;
 
 public interface UserService {
 
@@ -25,5 +26,6 @@ public interface UserService {
 
     User findById(Integer userId);
 
+    Model getUserLogin (HttpSession session, Model model);
 
 }

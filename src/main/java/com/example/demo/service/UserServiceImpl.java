@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -135,5 +136,14 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User is not found"));
     }
 
+    @Override
+    public Model getUserLogin(HttpSession session , Model model) {
+        String email =(String) session.getAttribute("MY_SESSION");
+
+        User user =findByEmail(email);
+        model.addAttribute("USER",user);
+
+        return model;
+    }
 
 }

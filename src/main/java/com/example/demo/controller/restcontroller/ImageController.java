@@ -42,6 +42,11 @@ public class ImageController {
         return imageService.uploadImageByUserId(getUser().getId(),file);
     }
 
+    @PostMapping("/file-pet/{id}")
+    public Image uploadImagePet(@ModelAttribute("file") MultipartFile file,@PathVariable("id") Integer id) {
+        return imageService.uploadImageByPetId(id,file);
+    }
+
 
     // xem ảnh
     @GetMapping("/files/{id}")
@@ -53,10 +58,18 @@ public class ImageController {
                 .body(image.getData());
     }
 
-
     @GetMapping("/users/{id}/files")
-    public List<Image> getImageListByUserId(@PathVariable Integer id) {
-        return imageService.getImageListByUserId(id);
+    public ResponseEntity<?> getImageByUserId(@PathVariable Integer id) {
+
+        Image image;
+        try {
+            image = imageService.getImageListByUserId(id).get(0);
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.toString());
+        }
+        return  ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(image.getType()))
+                .body(image.getData());
 
     }
 
