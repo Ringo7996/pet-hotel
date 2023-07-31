@@ -39,7 +39,7 @@ public class Pet {
     private Sex sex;
 
     @Column(name = "status")
-    private Boolean status = true;
+    private Boolean status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -52,5 +52,10 @@ public class Pet {
 
     @OneToOne(cascade = CascadeType.PERSIST, mappedBy = "pet")
     private Image image;
+
+    @PostPersist
+    protected void onCreate() {
+        this.status = true;
+    }
 
 }

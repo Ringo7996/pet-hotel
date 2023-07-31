@@ -40,8 +40,7 @@ class DemoThymeleafSecurityApplicationTests {
     void save_role() {
         List<Role> roles = List.of(
                 new Role(null, "ROOT_ADMIN"),
-                new Role(null, "HOTEL_ADMIN"),
-                new Role(null, "HOTEL_STAFF"),
+                new Role(null, "ADMIN"),
                 new Role(null, "USER")
         );
         roleRepository.saveAll(roles);
@@ -50,24 +49,47 @@ class DemoThymeleafSecurityApplicationTests {
     @Test
     void save_pet() {
         List<Pet> pet = List.of(
-                Pet.builder().name("Xám").breed("ta").type("mèo").color("xám").status(true).sex(Sex.MALE).build(),
-                Pet.builder().name("Đen").breed("mèo ta").type("mèo").color("đen").status(true).sex(Sex.FEMALE).build(),
-                Pet.builder().name("Bò Sữa").breed("mèo tây").type("chó").color("vàng").status(true).sex(Sex.MALE).build(),
-                Pet.builder().name("Giẻ Lau").breed("mèo tây").type("mèo").color("đen").status(true).sex(Sex.MALE).build(),
-                Pet.builder().name("Vàng").breed("mèo tây").type("chó").color("vàng").status(true).sex(Sex.MALE).build(),
-                Pet.builder().name("Mẹ Xề").breed("mèo tây").type("mèo").color("tam thể").status(true).sex(Sex.FEMALE).build(),
-                Pet.builder().name("Bin").breed("mèo con").type("chó").color("tam thể").status(true).sex(Sex.FEMALE).build(),
-                Pet.builder().name("Bo").breed("mèo ai cập").type("mèo").color("tam thể").status(true).sex(Sex.FEMALE).build()
+                Pet.builder().name("Xám").breed("ta").type("mèo").color("xám").sex(Sex.MALE).build(),
+                Pet.builder().name("Đen").breed("mèo ta").type("mèo").color("đen").sex(Sex.FEMALE).build(),
+                Pet.builder().name("Bò Sữa").breed("mèo tây").type("chó").color("vàng").sex(Sex.MALE).build(),
+                Pet.builder().name("Giẻ Lau").breed("mèo tây").type("mèo").color("đen").sex(Sex.MALE).build(),
+                Pet.builder().name("Vàng").breed("mèo tây").type("chó").color("vàng").sex(Sex.MALE).build(),
+                Pet.builder().name("Mẹ Xề").breed("mèo tây").type("mèo").color("tam thể").sex(Sex.FEMALE).build(),
+                Pet.builder().name("Bin").breed("mèo con").type("chó").color("tam thể").sex(Sex.FEMALE).build(),
+                Pet.builder().name("Bo").breed("mèo ai cập").type("mèo").color("tam thể").sex(Sex.FEMALE).build()
         );
         petRepository.saveAll(pet);
+    }
+
+
+    @Test
+    void save_hotel() {
+        List<Hotel> hotels = List.of(
+                Hotel.builder().name("Hotel 1").address("Address I").city("Hà Nội").district("Đống đa").description("Description I").build(),
+                Hotel.builder().name("Hotel 2").address("Address K").city("Hà Nội").district("Thanh xuân").description("Description K").build(),
+                Hotel.builder().name("Hotel 3").address("Address L").city("Hà Nội").district("Đống đa").description("Description L").build(),
+                Hotel.builder().name("Hotel 4").address("Address M").city("Hà Nội").district("Thanh xuân").description("Description M").build(),
+                Hotel.builder().name("Hotel 5").address("Address E").city("Hà Nội").district("Đống đa").description("Description E").build(),
+                Hotel.builder().name("Hotel 6").address("Address F").city("HCM").district("Quận 1").description("Description F").build(),
+                Hotel.builder().name("Hotel 7").address("Address G").city("HCM").district("Quận 10").description("Description G").build(),
+                Hotel.builder().name("Hotel 8").address("Address H").city("Hà Nội").district("Thanh Xuân").description("Description H").build(),
+                Hotel.builder().name("Hotel 9").address("Address H").city("HCM").district("Quận 10").description("Description H").build(),
+                Hotel.builder().name("Hotel 10").address("Address H").city("Hà Nội").district("Đống Đa").description("Description H").build(),
+                Hotel.builder().name("Hotel 11").address("Address H").city("HCM").district("Quận 1").description("Description H").build(),
+                Hotel.builder().name("Hotel 12").address("Address H").city("Hà Nội").district("Đống Đa").description("Description H").build()
+        );
+        hotelRepository.saveAll(hotels);
     }
 
     @Test
     void save_user() {
         Role rootAdmin = roleRepository.findByName("ROOT_ADMIN").orElse(null);
-        Role hotelAdmin = roleRepository.findByName("HOTEL_ADMIN").orElse(null);
-        Role hotelStaff = roleRepository.findByName("HOTEL_STAFF").orElse(null);
+        Role hotelAdmin = roleRepository.findByName("ADMIN").orElse(null);
         Role user = roleRepository.findByName("USER").orElse(null);
+
+        Hotel hotel1 = hotelRepository.findById(1).orElse(null);
+        Hotel hotel2 = hotelRepository.findById(2).orElse(null);
+        Hotel hotel3 = hotelRepository.findById(3).orElse(null);
 
         Pet pet1 = petRepository.findById(1).orElse(null);
         Pet pet2 = petRepository.findById(2).orElse(null);
@@ -78,15 +100,16 @@ class DemoThymeleafSecurityApplicationTests {
         Pet pet7 = petRepository.findById(7).orElse(null);
         Pet pet8 = petRepository.findById(8).orElse(null);
 
-        System.out.println(pet1.getName());
         User user1 = User.builder().name("Nguyễn Văn A").phone("0123456789").roles(List.of(rootAdmin))
                 .email("rootadmin@gmail.com").password(encoder.encode("123"))
                 .pets(List.of(pet1, pet2)).build();
         User user2 = User.builder().name("Nguyễn Văn B").phone("0123456789").roles(List.of(hotelAdmin))
-                .email("hoteladmin@gmail.com").password(encoder.encode("123"))
+                .email("admin1@gmail.com").password(encoder.encode("123"))
+                .myHotels(List.of(hotel1,hotel2))
                 .pets(List.of(pet3, pet4)).build();
-        User user3 = User.builder().name("Nguyễn Văn C").phone("0123456789").roles(List.of(hotelStaff))
-                .email("hotelstaff@gmail.com").password(encoder.encode("123"))
+        User user3 = User.builder().name("Nguyễn Văn C").phone("0123456789").roles(List.of(hotelAdmin,user))
+                .email("admin2@gmail.com").password(encoder.encode("123"))
+                .myHotels(List.of(hotel2,hotel3,hotel1))
                 .pets(List.of(pet5,pet6)).build();
         User user4 = User.builder().name("Nguyễn Văn D").phone("0123456789").roles(List.of(user))
                 .email("user@gmail.com").password(encoder.encode("123"))
@@ -105,20 +128,6 @@ class DemoThymeleafSecurityApplicationTests {
     }
 
 
-    @Test
-    void save_hotel() {
-        List<Hotel> hotels = List.of(
-               Hotel.builder().name("Hotel I").address("Address I").city("Hà Nội").district("Đống đa").description("Description I").build(),
-               Hotel.builder().name("Hotel K").address("Address K").city("Hà Nội").district("Thanh xuân").description("Description K").build(),
-               Hotel.builder().name("Hotel L").address("Address L").city("Hà Nội").district("Đống đa").description("Description L").build(),
-               Hotel.builder().name("Hotel M").address("Address M").city("Hà Nội").district("Thanh xuân").description("Description M").build(),
-               Hotel.builder().name("Hotel E").address("Address E").city("Hà Nội").district("Đống đa").description("Description E").build(),
-               Hotel.builder().name("Hotel F").address("Address F").city("HCM").district("Quận 1").description("Description F").build(),
-               Hotel.builder().name("Hotel G").address("Address G").city("HCM").district("Quận 10").description("Description G").build(),
-               Hotel.builder().name("Hotel H").address("Address H").city("HCM").district("Quận 10").description("Description H").build()
-        );
-        hotelRepository.saveAll(hotels);
-    }
 
     @Test
     void save_payment_type(){
@@ -178,7 +187,6 @@ class DemoThymeleafSecurityApplicationTests {
         HotelRoomType hotelRoomType1 = hotelRoomTypeRepository.findById(1).orElse(null);
         HotelRoomType hotelRoomType2 = hotelRoomTypeRepository.findById(2).orElse(null);
         HotelRoomType hotelRoomType3 = hotelRoomTypeRepository.findById(3).orElse(null);
-        HotelRoomType hotelRoomType4 = hotelRoomTypeRepository.findById(4).orElse(null);
 
         PaymentType paymentType1 = paymentTypeRepository.findById(1).orElse(null);
         PaymentType paymentType2 = paymentTypeRepository.findById(1).orElse(null);

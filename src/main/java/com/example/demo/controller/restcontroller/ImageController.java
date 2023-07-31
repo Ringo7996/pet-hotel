@@ -43,7 +43,7 @@ public class ImageController {
     }
 
     @PostMapping("/file-pet/{id}")
-    public Image uploadImagePet(@ModelAttribute("file") MultipartFile file,@PathVariable("id") Integer id) {
+    public Image uploadImagePet(@ModelAttribute("file")  MultipartFile file,@PathVariable("id") Integer id) {
         return imageService.uploadImageByPetId(id,file);
     }
 

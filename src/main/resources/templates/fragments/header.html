@@ -91,12 +91,16 @@
                         <li><a href="tour-listing-right-sidebar.html">List View Right Sidebar</a></li>
                     </ul>
                 </li>
+
+                <th:block th:if="${USER}">
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">User<span><i class="fa fa-angle-down"></i></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/user/profile">Thông tin</a></li>
-                        <li><a href="/logout">Đăng xuất </a></li>
+                        <li><a href="/admin"  th:if=" not ${USER} or  (${#lists.size(USER.roles)} > 1) or (${#lists.size(USER.roles)} == 1 and ${USER.roles[0].name} != 'USER' ) ">Admin Page</a></li>
+                        <li><a href="/user/profile">User Profile</a></li>
+                        <li><a href="/logout">Logout </a></li>
                     </ul>
                 </li>
+                </th:block>
                 <li><a href="javascript:void(0)" class="search-button"><span><i class="fa fa-search"></i></span></a></li>
             </ul>
         </div><!-- end navbar collapse -->
@@ -147,5 +151,7 @@
     </div><!-- end mySidenav -->
 </div><!-- end sidenav-content -->
 </header>
+
+
 </body>
 </html>

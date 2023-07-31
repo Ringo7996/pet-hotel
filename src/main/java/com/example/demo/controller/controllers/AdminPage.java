@@ -55,14 +55,9 @@ public class AdminPage {
     @GetMapping("/users/{id}/detail")
     public String getUserDetailPage(Model model, @PathVariable(name = "id") Integer userId){
         User user = userService.findById(userId);
-        System.out.println("user= " + user);
-
         List<Pet> pets = user.getPets();
-
         List<RoomBooking> roomBookings = user.getRoomBookings();
-
         boolean isRootAdmin = roleService.isRootAdmin(userId);
-
         boolean isAdmin = roleService.isAdmin(userId);
 
         model.addAttribute("user",user);

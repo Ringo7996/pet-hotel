@@ -25,7 +25,6 @@ public class WebController {
         if (authentication != null && authentication.isAuthenticated()) {
             return "redirect:/";
         }
-//        model.addAttribute("page","login");
         return "login";
     }
 
@@ -59,7 +58,7 @@ public class WebController {
             System.out.println("redirect");
             return "redirect:/";
         }
-//        model.addAttribute("page", "sign-up");
+
         return "sign-up";
     }
 

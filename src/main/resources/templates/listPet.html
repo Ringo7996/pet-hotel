@@ -6,7 +6,7 @@
     <title>User profile</title>
 </head>
 <body>
-    <div class="wrapper">
+<div class="wrapper">
     <!--========== PAGE-COVER =========-->
     <section class="page-cover dashboard">
         <div class="container">
@@ -48,14 +48,15 @@
 
                                 <div class="col-xs-12 col-sm-10 col-md-10 dashboard-content user-profile">
                                     <div class="d-flex justify-content-between" style="display: flex; justify-content: space-between">
-                                        <h2 class="dash-content-title">My Profile</h2>
+                                        <h2 class="dash-content-title">My Pets</h2>
                                         <div>
                                             <button class="btn" data-toggle="modal" data-target="#create-pet">Add Pet</button>
                                         </div>
 
                                     </div>
-                                    <div th:if="${listPets}" th:each="pet : ${listPets}" class="panel panel-default">
-                                        <div class="panel-heading"><h4>Profile Details</h4></div>
+
+                                    <div th:if="${listPets}" th:each="pet, index : ${listPets}" class="panel panel-default">
+                                        <div class="panel-heading"> <h4><span>Pet No.<span> <span th:text=" ${index.index+1}"> Pet No.</span></h4></div>
                                         <div class="panel-body">
                                             <div class="row">
                                                 <div class="col-sm-5 col-md-4 user-img">
@@ -81,21 +82,15 @@
 
                                         </div><!-- end panel-body -->
                                     </div><!-- end panel-detault -->
-                                    <div th:unless="${listPets}">Pet rỗng</div>
+                                    <div th:unless="${listPets}">Bạn chưa có pet nào trong danh sách</div>
                                 </div><!-- end columns -->
 
                             </div><!-- end row -->
                         </div><!-- end dashboard-wrapper -->
-                    <div class="col-sm-12">
-                    	<h1 class="page-title">My Account</h1>
-                        <ul class="breadcrumb">
-                            <li><a href="/user/update-password">ĐẶT LẠI MẬT KHẨU</a></li>
-                            <li class="active">My Account</li>
-                        </ul>
-                    </div><!-- end columns -->
-                </div><!-- end row -->
-            </div><!-- end container -->
-        </div><!-- end dashboard -->
+
+                    </div><!-- end row -->
+                </div><!-- end container -->
+            </div><!-- end dashboard -->
     </section><!-- end innerpage-wrapper -->
     <!--========================= NEWSLETTER-1 ==========================-->
     <section id="newsletter-1" class="section-padding back-size newsletter">
@@ -140,12 +135,12 @@
 
                         <div class="form-group">
                             <label>Type</label>
-                            <input id="type" type="text" class="form-control" placeholder="Type" />
+                            <input id="type" type="text" class="form-control" placeholder="Type"/>
                         </div><!-- end form-group -->
 
                         <div class="form-group">
                             <label>Color</label>
-                            <input id="color" type="text" class="form-control" placeholder="Color" />
+                            <input id="color" type="text" class="form-control" placeholder="Color"/>
                         </div><!-- end form-group -->
 
                         <div class="form-check">
@@ -160,7 +155,7 @@
                                 FEMALE
                             </label>
                         </div>
-                        <span hidden id ="id"></span>
+                        <span hidden id="id"></span>
                         <button class="btn btn-orange">Save Changes</button>
                     </form>
                 </div><!-- end modal-bpdy -->

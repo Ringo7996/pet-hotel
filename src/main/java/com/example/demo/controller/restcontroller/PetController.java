@@ -17,11 +17,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("api/v1/pets")
-@PreAuthorize("hasAnyRole('ROLE_ROOT_ADMIN', 'ROLE_ADMIN')")
 public class PetController {
     @Autowired
     private PetService petService;
 
+    @PreAuthorize("hasAnyRole('ROLE_ROOT_ADMIN', 'ROLE_ADMIN')")
     @GetMapping("/")
     public Page<Pet> getAllPets(Pageable pageable) {
         return petService.getAllPetsWithPage(pageable);
