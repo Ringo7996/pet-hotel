@@ -2,6 +2,7 @@ package com.example.demo.controller.controllers;
 
 import com.example.demo.model.entity.User;
 import com.example.demo.service.TokenConfirmService;
+import com.example.demo.service.UserService;
 import com.example.demo.service.UserServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class WebController {
     @Autowired
     private TokenConfirmService tokenConfirmService;
     @Autowired
-    UserServiceImpl userService;
+    UserService userService;
 
 
     @GetMapping("/login")
