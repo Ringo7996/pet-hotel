@@ -1,6 +1,7 @@
 package com.example.demo.model.entity;
 
 
+import com.example.demo.model.enums.Status;
 import com.example.demo.model.roombooking.RoomBooking;
 import com.example.demo.model.spabooking.SpaBooking;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -10,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -37,6 +39,9 @@ public class User implements UserDetails {
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "status")
+    private boolean status;
 
     @ManyToMany
     @JsonManagedReference
@@ -103,5 +108,11 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    @PostPersist
+    protected void onCreate() {
+        this.status = true;
+    }
+
 
 }

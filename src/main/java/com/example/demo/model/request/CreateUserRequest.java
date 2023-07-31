@@ -26,4 +26,5 @@ public class CreateUserRequest {
     @NotNull
     private String password;
 
+
 }

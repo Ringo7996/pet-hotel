@@ -17,7 +17,7 @@ public class WebController {
     @Autowired
     private TokenConfirmService tokenConfirmService;
     @Autowired
-    UserService userService;
+    private UserService userService;
 
 
     @GetMapping("/login")
@@ -42,7 +42,6 @@ public class WebController {
         return "forgot-password";
     }
 
-
     // -> Gửi email xác nhận quên mật khẩu
     // Trong email có 1 link để xác thực
     @GetMapping("/reset-password/{token}")
@@ -50,7 +49,7 @@ public class WebController {
 
         model = tokenConfirmService.checkToken(token, model);
         boolean isValid = (boolean) model.getAttribute("isValid") ;
-        if(!isValid) return "/Error/error-page";
+        if(!isValid) return "/error/error-page";
         return "reset-password";
     }
 

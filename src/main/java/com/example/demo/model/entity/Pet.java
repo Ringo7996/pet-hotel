@@ -38,8 +38,8 @@ public class Pet {
     @Column(name = "sex")
     private Sex sex;
 
-    @Column(name = "is_visible")
-    private boolean isVisible;
+    @Column(name = "status")
+    private boolean status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

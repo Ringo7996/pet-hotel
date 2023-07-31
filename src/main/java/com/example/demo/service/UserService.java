@@ -23,7 +23,7 @@ public interface UserService {
 
     Page<User> getAllUsersWithPage(Pageable pageable);
 
-    User getAnUser(Integer userId);
+    User findById(Integer userId);
 
 
 }

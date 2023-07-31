@@ -11,12 +11,14 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"/>
     <!-- Font Awesome -->
-    <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}"/>
-
+    <link rel="stylesheet" th:href="@{/adm/plugins/fontawesome-free/css/all.min.css}"/>
     <!-- Theme style -->
-    <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}"/>
+    <link rel="stylesheet" th:href="@{/adm/dist/css/adminlte.min.css}"/>
     <!-- overlayScrollbars -->
-    <link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}"/>
+    <link rel="stylesheet" th:href="@{/adm/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}"/>
+
+    <link rel="stylesheet" th:href="@{/adm/plugins/select2/css/select2.min.css}"/>
+    <link rel="stylesheet" th:href="@{/adm/dist/css/style.css}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
           integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA=="
@@ -27,26 +29,26 @@
 
 <body>
 <!--    HEADER-->
-<th:block th:replace="~{admin/blog/fragments/header ::nav}"></th:block>
+<th:block th:replace="~{adm/fragments/header ::nav}"></th:block>
 
 <!--NAVBAR-->
-<th:block th:replace="~{admin/blog/fragments/sidebar ::aside}"></th:block>
+<th:block th:replace="~{adm/fragments/sidebar ::aside}"></th:block>
 
 <!--    CONTENT-->
 <th:block th:replace="${content} ?: ~{}"></th:block>
 
 
 <!-- jQuery -->
-<!--<script th:src="@{/plugins/jquery/jquery.min.js}"></script>-->
+<script th:src="@{/adm/plugins/jquery/jquery.min.js}"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap 4 -->
-<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/adm/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
 <!-- overlayScrollbars -->
-<script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+<script th:src="@{/adm/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
 <!-- AdminLTE App -->
-<script th:src="@{/dist/js/adminlte.js}"></script>
+<script th:src="@{/adm/dist/js/adminlte.js}"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.js"
         integrity="sha512-GzbaI5EsNzdEUq6/2XLYpr1y9CUZRIVsUeWTAFgULtQa5jZ3Nug8i0nZKM6jp9NffBCZhymPPQFcF0DK+JkRpw=="
@@ -59,7 +61,7 @@
 
 
 <!--    JS-->
-<script th:src="@{/js/main.js}"></script>
+<script th:src="@{adm/js/main.js}"></script>
 
 <script>
     toastr.options = {
@@ -83,5 +85,7 @@
 </script>
 
 <th:block th:replace="${js} ?: ~{}"></th:block>
+
+
 </body>
 </html>

@@ -1,4 +1,4 @@
-package com.example.demo.controller.controllers;
+package com.example.demo.controller.restcontroller;
 
 
 import com.example.demo.model.entity.Image;
@@ -65,7 +65,7 @@ public class ImageController {
     @DeleteMapping("/files/{id}")
     public ResponseEntity<?> deleteFile(@PathVariable(name = "id") Integer Fileid) {
         // đang đăng nhập user id 1;
-        imageService.deleteImageById(Fileid, 1);
+        imageService.deleteImageById(Fileid, getUser().getId());
         return ResponseEntity.noContent().build();
     }
 

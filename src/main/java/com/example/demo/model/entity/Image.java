@@ -32,7 +32,6 @@ public class Image {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    @MapsId
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)

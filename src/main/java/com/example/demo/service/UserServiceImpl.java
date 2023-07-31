@@ -81,10 +81,10 @@ public class UserServiceImpl implements UserService {
                 .password(encoder.encode(request.getPassword()))
                 .phone(request.getPhone())
                 .roles(List.of(userRole))
+                .status(true)
                 .build();
 
         userRepository.save(newUser);
-
         return newUser;
     }
 
@@ -131,7 +131,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getAnUser(Integer userId) {
+    public User findById(Integer userId) {
         return userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User is not found"));
     }
 

@@ -50,14 +50,14 @@ class DemoThymeleafSecurityApplicationTests {
     @Test
     void save_pet() {
         List<Pet> pet = List.of(
-                Pet.builder().name("Xám").breed("ta").type("mèo").color("xám").isVisible(true).sex(Sex.MALE).build(),
-                Pet.builder().name("Đen").breed("mèo ta").type("mèo").color("đen").isVisible(true).sex(Sex.FEMALE).build(),
-                Pet.builder().name("Bò Sữa").breed("mèo tây").type("chó").color("vàng").isVisible(true).sex(Sex.MALE).build(),
-                Pet.builder().name("Giẻ Lau").breed("mèo tây").type("mèo").color("đen").isVisible(true).sex(Sex.MALE).build(),
-                Pet.builder().name("Vàng").breed("mèo tây").type("chó").color("vàng").isVisible(true).sex(Sex.MALE).build(),
-                Pet.builder().name("Mẹ Xề").breed("mèo tây").type("mèo").color("tam thể").isVisible(true).sex(Sex.FEMALE).build(),
-                Pet.builder().name("Bin").breed("mèo con").type("chó").color("tam thể").isVisible(true).sex(Sex.FEMALE).build(),
-                Pet.builder().name("Bo").breed("mèo ai cập").type("mèo").color("tam thể").isVisible(true).sex(Sex.FEMALE).build()
+                Pet.builder().name("Xám").breed("ta").type("mèo").color("xám").status(true).sex(Sex.MALE).build(),
+                Pet.builder().name("Đen").breed("mèo ta").type("mèo").color("đen").status(true).sex(Sex.FEMALE).build(),
+                Pet.builder().name("Bò Sữa").breed("mèo tây").type("chó").color("vàng").status(true).sex(Sex.MALE).build(),
+                Pet.builder().name("Giẻ Lau").breed("mèo tây").type("mèo").color("đen").status(true).sex(Sex.MALE).build(),
+                Pet.builder().name("Vàng").breed("mèo tây").type("chó").color("vàng").status(true).sex(Sex.MALE).build(),
+                Pet.builder().name("Mẹ Xề").breed("mèo tây").type("mèo").color("tam thể").status(true).sex(Sex.FEMALE).build(),
+                Pet.builder().name("Bin").breed("mèo con").type("chó").color("tam thể").status(true).sex(Sex.FEMALE).build(),
+                Pet.builder().name("Bo").breed("mèo ai cập").type("mèo").color("tam thể").status(true).sex(Sex.FEMALE).build()
         );
         petRepository.saveAll(pet);
     }
@@ -108,14 +108,14 @@ class DemoThymeleafSecurityApplicationTests {
     @Test
     void save_hotel() {
         List<Hotel> hotels = List.of(
-               Hotel.builder().name("Hotel I").address("Address I").city("Hà Nội").disctrict("Đống đa").description("Description I").build(),
-               Hotel.builder().name("Hotel K").address("Address K").city("Hà Nội").disctrict("Thanh xuân").description("Description K").build(),
-               Hotel.builder().name("Hotel L").address("Address L").city("Hà Nội").disctrict("Đống đa").description("Description L").build(),
-               Hotel.builder().name("Hotel M").address("Address M").city("Hà Nội").disctrict("Thanh xuân").description("Description M").build(),
-               Hotel.builder().name("Hotel E").address("Address E").city("Hà Nội").disctrict("Đống đa").description("Description E").build(),
-               Hotel.builder().name("Hotel F").address("Address F").city("HCM").disctrict("Quận 1").description("Description F").build(),
-               Hotel.builder().name("Hotel G").address("Address G").city("HCM").disctrict("Quận 10").description("Description G").build(),
-               Hotel.builder().name("Hotel H").address("Address H").city("HCM").disctrict("Quận 10").description("Description H").build()
+               Hotel.builder().name("Hotel I").address("Address I").city("Hà Nội").district("Đống đa").description("Description I").build(),
+               Hotel.builder().name("Hotel K").address("Address K").city("Hà Nội").district("Thanh xuân").description("Description K").build(),
+               Hotel.builder().name("Hotel L").address("Address L").city("Hà Nội").district("Đống đa").description("Description L").build(),
+               Hotel.builder().name("Hotel M").address("Address M").city("Hà Nội").district("Thanh xuân").description("Description M").build(),
+               Hotel.builder().name("Hotel E").address("Address E").city("Hà Nội").district("Đống đa").description("Description E").build(),
+               Hotel.builder().name("Hotel F").address("Address F").city("HCM").district("Quận 1").description("Description F").build(),
+               Hotel.builder().name("Hotel G").address("Address G").city("HCM").district("Quận 10").description("Description G").build(),
+               Hotel.builder().name("Hotel H").address("Address H").city("HCM").district("Quận 10").description("Description H").build()
         );
         hotelRepository.saveAll(hotels);
     }

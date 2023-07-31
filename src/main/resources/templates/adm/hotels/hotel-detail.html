@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{adm/fragments/layout :: main-fragment(~{:: #css}, ~{:: .wrapper}, ~{:: #javascript})}">
+
+
+<head>
+    <!-- Ionicons -->
+    <th:block id="css">
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+
+        <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css"/>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.css"
+              integrity="sha512-K1k7jSn9RDKEcn/ugqVVvWYu0bcS3q1w6m/5pQSnrj0bCfIqF6Wk49lkmckSb4wglvTP9V17LtS0q0XxYccXbg=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        <style>
+            .modal-dialog {
+                max-width: 1000px;
+            }
+
+            .image-container {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-gap: 10px;
+            }
+
+            .image-item {
+                height: 150px;
+                border: 2px solid #eee;
+            }
+
+            .image-item img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .image-item.selected {
+                border-color: #28a145 !important;
+                border-width: 4px !important;
+            }
+
+        </style>
+
+    </th:block>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#">Hotels</a>
+                            </li>
+                            <li class="breadcrumb-item active" th:text="${hotel.name}">
+                                Blog title
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row py-2">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-default">
+                            <i class="fas fa-chevron-left"></i> Back
+                        </button>
+                        <button type="button" class="btn btn-info px-4" id="btnUpdate">
+                            Save
+                        </button>
+                    </div>
+
+                    <div class="col-6 d-flex justify-content-end">
+                        <button type="button" class="btn btn-danger px-4" id="btnDelete">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body row">
+                    <div class="col-5 text-center d-flex align-items-center justify-content-center">
+                        <div class="col-5 col-12 user-img">
+                            <img src="/images/user-profile.jpg" class="img-responsive" alt="user-img" />
+                            <br>
+                            <button class="btn btn-info" data-toggle="modal">Change avatar</button>
+                        </div>
+                    </div>
+                    <div class="col-7">
+                        <div class="form-group">
+                            <label for="inputName">Name</label>
+                            <input type="text" id="inputName" th:value="${hotel.name}" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputName">City</label>
+                            <input type="text" id="inputName" th:value="${hotel.city}" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputName">Address</label>
+                            <input type="text" id="inputName" th:value="${hotel.address}" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputName">Description</label>
+                            <textarea type="text" id="inputName" th:text="${hotel.description}" class="form-control"  rows="3">
+
+                            </textarea>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="invoice p-3 mb-3">
+                <div class="row">
+                    <div class="col-6">
+                        <h4>  Room Type List </h4>
+                    </div>
+
+                    <div class="col-6 d-flex justify-content-end">
+                        <button type="button" class="btn btn-info px-4">
+                            Add
+                        </button>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-12 table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr  th:each="roomType: ${roomTypeList}">
+                                <td th:text="${roomType.id}">1</td>
+                                <td th:text="${roomType.description}">Call of Duty</td>
+                                <td th:text="${roomType.price}">455-981-221</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger px-4">Delete </button>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="invoice p-3 mb-3">
+                <div class="row">
+                    <div class="col-6">
+                        <h4>Staff List</h4>
+                    </div>
+
+                <div class="col-6 d-flex justify-content-end">
+                    <button type="button" class="btn btn-info px-4">
+                        Add
+                    </button>
+                </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-12 table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone Number</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr  th:each="user: ${staffList}">
+                                <td th:text="${user.id}">1</td>
+                                <td th:text="${user.name}">Call of Duty</td>
+                                <td th:text="${user.email}">Call of Duty</td>
+                                <td th:text="${user.phone}">455-981-221</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger px-4">Delete </button>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+
+                    </div>
+
+    </div>
+</div>
+
+
+<th:block id="javascript">
+
+</th:block>
+</body>
+
+</html>

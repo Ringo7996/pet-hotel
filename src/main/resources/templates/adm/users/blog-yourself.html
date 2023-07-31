@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{admin/blog/layout/layout :: main-fragment(~{:: #css}, ~{:: .wrapper}, ~{:: #javascript})}">
+      th:replace="~{adm/fragments/layout :: main-fragment(~{:: #css}, ~{::body}, ~{})}">
+
 
 <head>
     <!-- Ionicons -->
@@ -63,7 +64,7 @@
                                     <tbody>
                                     <tr>
                                         <td>
-                                            <a href="./blog-detail.html">Khai giảng khóa
+                                            <a href="../hotels/hotel-detail.html">Khai giảng khóa
                                                 Java Spring Boot 12A
                                                 - song song 2 hình
                                                 thức offline /

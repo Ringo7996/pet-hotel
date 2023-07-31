@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org"
-	  th:replace="~{admin/blog/layout/layout :: main-fragment(~{:: #css}, ~{:: .wrapper}, ~{})}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	  th:replace="~{adm/fragments/layout :: main-fragment(~{:: #css}, ~{:: .wrapper}, ~{:: #javascript})}">
 
 <head>
 	<!-- Ionicons -->
@@ -24,7 +24,7 @@
 									<a href="#">Dashboard</a>
 								</li>
 								<li class="breadcrumb-item active">
-									Danh sách bài viết
+									Danh sách user
 								</li>
 							</ol>
 						</div>
@@ -38,10 +38,7 @@
 					<div class="row py-2">
 						<div class="col-12">
 							<button type="button" class="btn btn-primary">
-								<i class="fas fa-plus"></i> Viết bài
-							</button>
-							<button type="button" class="btn btn-info">
-								<i class="fas fa-redo"></i> Refresh
+								<i class="fas fa-plus"></i> Create user
 							</button>
 						</div>
 					</div>
@@ -60,24 +57,15 @@
 											</tr>
 										</thead>
 										<tbody>
-										<th:block th:with="blogList = ${page.getContent()}">
-											<tr th:each="blog: ${blogList}">
+										<th:block th:with="userList = ${page.getContent()}">
+											<tr th:each="user: ${userList}">
 												<td>
-													<a th:href="@{/admin/blogs/{id}/detail (id=${blog.id}) }"  th:text="${blog.title}" >Khai giảng khóa
-														Java Spring Boot 12A
-														- song song 2 hình
-														thức offline /
-														online đáp ứng nhu
-														cầu đào tạo từ xa</a>
+													<a th:href="@{/admin/users/{id}/detail (id=${user.id}) }"  th:text="${user.name}" > Name</a>
 												</td>
 												<td>
-													<a href="#" th:text="${blog.user.name}">John Doe</a>
+													<a href="#" th:text="${user.email}">Email</a>
 												</td>
-												<td>
-													<span th:each="category : ${blog.categories}" th:text="${category.name}"> Java, Golang, Springboot </span>
-												</td>
-												<td th:text="${blog.status}">Công khai</td>
-												<td th:text="${#temporals.format(blog.createdAt, 'dd/MM/yyyy')}">06-07-2022</td>
+												<td th:text="${user.phone}">Phone</td>
 											</tr>
 										</th:block>
 										</tbody>
@@ -88,15 +76,15 @@
 
 											<li class="paginate_button page-item previous" th:classappend="${currentPage == 1 ? 'disabled' : ''}"
 												id="example2_previous">
-												<a th:href="@{/admin/blogs/index?page={pageNumber} (pageNumber= ${currentPage - 1})}" aria-controls="example2" data-dt-idx="0" tabindex="0"
+												<a th:href="@{/admin/users/user-list?page={pageNumber} (pageNumber= ${currentPage - 1})}" aria-controls="example2" data-dt-idx="0" tabindex="0"
 													class="page-link">Previous</a>
 											</li>
 
 
 
-											<th:block th:with="numbers = ${T(com.example.Blog.utils.Utils).createList(page.getTotalPages())}">
+											<th:block th:with="numbers = ${T(com.example.demo.ultils.Utils).createList(page.getTotalPages())}">
 											<li  th:each="number: ${numbers}"  class="paginate_button page-item" th:classappend="${number == currentPage ? 'active' : ''}">
-												<a th:href="@{/admin/blogs/index?page={pageNumber} (pageNumber=${number}) }" aria-controls="example2" data-dt-idx="1" tabindex="0"
+												<a th:href="@{/admin/users/user-list?page={pageNumber} (pageNumber=${number}) }" aria-controls="example2" data-dt-idx="1" tabindex="0"
 													class="page-link" th:text="${number}"> </a>
 											</li>
 											</th:block>
@@ -104,7 +92,7 @@
 
 
 											<li class="paginate_button page-item next" id="example2_next"  th:classappend="${currentPage == page.getTotalPages() ? 'disabled' : ''}" >
-												<a th:href="@{/admin/blogs/index?page={pageNumber} (pageNumber= ${currentPage + 1})}" aria-controls="example2" data-dt-idx="7" tabindex="0"
+												<a th:href="@{/admin/users/user-list?page={pageNumber} (pageNumber= ${currentPage + 1})}" aria-controls="example2" data-dt-idx="7" tabindex="0"
 													class="page-link">Next</a>
 											</li>
 										</ul>

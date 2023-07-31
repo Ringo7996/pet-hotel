@@ -9,10 +9,10 @@
 <body>
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a th:href="@{/admin/blogs}" class="brand-link">
-            <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-                 style="opacity: 0.8" />
-            <span class="brand-text font-weight-light">Admin</span>
+        <a th:href="@{/admin}" class="brand-link">
+<!--            <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"-->
+<!--                 style="opacity: 0.8" />-->
+            <span class="brand-text font-weight-light">Pet Hotel Admin Page</span>
         </a>
 
         <!-- Sidebar -->
@@ -24,50 +24,21 @@
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-chart-pie"></i>
                             <p>
-                                Quản lý bài viết
+                                User
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a th:href="@{/admin/blogs/index}" class="nav-link">
+                                <a th:href="@{/admin/users/user-list}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Tất cả bài viết</p>
+                                    <p>User List</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a th:href="@{/admin/blogs/own-blogs}" class="nav-link">
+                                <a th:href="@{/admin/users/user-create}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Bài viết của tôi</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a th:href="@{/admin/blogs/blog-create}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Tạo bài viết</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-tree"></i>
-                            <p>
-                                Quản lý user
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="pages/UI/general.html" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Danh sách user</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/UI/icons.html" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Tạo user</p>
+                                    <p>Create User</p>
                                 </a>
                             </li>
                         </ul>
@@ -75,17 +46,47 @@
 
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-chart-pie"></i>
+                            <i class="nav-icon fas fa-tree"></i>
                             <p>
-                                Quản lý category
-                                <i class="right fas fa-angle-left"></i>
+                                Hotel
+                                <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a th:href="@{/admin/categories/index}" class="nav-link">
+                                <a th:href="@{/admin/hotels/hotel-list}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Danh sách category</p>
+                                    <p>Hotel list</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/admin/hotels/hotel-create}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Create Hotel</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-tree"></i>
+                            <p>
+                                Room Booking
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a th:href="@{/admin/room-bookings/room-booking-list}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Room Booking list</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/admin/room-bookings/room-booking-create}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Create Room Booking</p>
                                 </a>
                             </li>
                         </ul>
