@@ -14,6 +14,10 @@ public interface ImageService {
 
     Image uploadImageByUserId(Integer userId, MultipartFile file);
 
+    Image uploadImageByPetId(Integer petId, MultipartFile file);
+
     List<Image> getImageListByUserId(Integer id);
+
+    Optional getImageByPetId(Integer id);
 
 }

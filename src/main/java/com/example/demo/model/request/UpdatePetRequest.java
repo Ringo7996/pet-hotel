@@ -23,7 +23,7 @@ public class UpdatePetRequest {
     private String color;
 
     @NotNull
-    private Sex sex;
+    private String sex;
 
     private boolean isVisible;
 }

@@ -32,14 +32,13 @@ public class Image {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    @MapsId
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "pet_id")
     private Pet pet;
 
