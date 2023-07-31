@@ -29,13 +29,16 @@ public class Hotel {
     private String city;
 
     @Column(name = "district")
-    private String disctrict;
+    private String district;
 
     @Column(name = "address")
     private String address;
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "status")
+    private boolean status;
 
     @OneToMany(mappedBy = "hotel", fetch = FetchType.EAGER)
     @JsonBackReference
@@ -44,5 +47,10 @@ public class Hotel {
     @JsonBackReference
     @ManyToMany(mappedBy = "myHotels", fetch = FetchType.EAGER)
     private List<User> staff = new ArrayList<>();
+
+    @PostPersist
+    protected void onCreate() {
+        this.status = true;
+    }
 
 }

@@ -3,6 +3,7 @@ package com.example.demo.controller.restcontroller;
 
 import com.example.demo.model.entity.Pet;
 import com.example.demo.model.entity.User;
+import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.roombooking.RoomBooking;
 import com.example.demo.security.AuthenticationFacade;
 import com.example.demo.service.PetService;
@@ -13,17 +14,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/users")
-@PreAuthorize("hasAnyRole('ROLE_ROOT_ADMIN', 'ROLE_HOTEL_STAFF', 'ROLE_HOTEL_ADMIN','ROLE_USER')")
 public class UserController {
 
     @Autowired
@@ -65,7 +61,7 @@ public class UserController {
     //Xem info user
     @GetMapping("/{userId}")
     public User getAnUser(@PathVariable(name = "userId") Integer userId) {
-        return userService.getAnUser(userId);
+        return userService.findById(userId);
     }
 
     // Xem list pet của user
@@ -90,6 +86,11 @@ public class UserController {
     @GetMapping("/{userId}/room-bookings/{roomBookingId}")
     public RoomBooking getOneRoomBooking(@PathVariable(name = "userId") Integer userId, @PathVariable(name = "roomBookingId") Integer roomBookingId) {
         return roomBookingService.findByIdWithUser(roomBookingId, getUser());
+    }
+
+    @PostMapping("/create")
+    public User createUser(@RequestBody CreateUserRequest request){
+        return userService.createUser(request);
     }
 
 }

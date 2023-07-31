@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-
 import com.example.demo.model.entity.Image;
 import com.example.demo.model.entity.User;
 import com.example.demo.model.request.CreateUserRequest;
@@ -25,7 +24,7 @@ public interface UserService {
 
     Page<User> getAllUsersWithPage(Pageable pageable);
 
-    User getAnUser(Integer userId);
+    User findById(Integer userId);
 
     Model getUserLogin (HttpSession session, Model model);
 

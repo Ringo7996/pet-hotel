@@ -57,21 +57,21 @@ public class SecurityConfig {
                 "/api/send-email",
                 "/swagger-ui/**",
                 "/reset-password/{token}",
+                "/adm/**",
                 "/dist/**",
                 "/css/**",
                 "/images/**",
                 "/js/**",
-                "/admin/**",
                 "/plugins/**",
                 "api/v1/users/principal",
                 "api/v1/**"
 
         };
         String[] PRIVATE_ROUTE = {
-                "/admin",
-                "/admin/**",
-                "/user",
-                "/user/**"
+//                "/admin",
+//                "/admin/**",
+//                "/user",
+//                "/user/**"
         };
         http
                 .csrf(c -> c.disable())

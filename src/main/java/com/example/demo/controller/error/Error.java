@@ -9,7 +9,7 @@ public class Error implements ErrorController {
     private static final String PATH = "/Error";
     @RequestMapping(PATH)
     public String error() {
-        return "Error/error-page" ;
+        return "error/error-page" ;
     }
 
 }

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{adm/fragments/layout :: main-fragment(~{:: #css}, ~{:: .wrapper}, ~{:: #javascript})}">
+
+
+<head>
+    <!-- Ionicons -->
+    <th:block id="css">
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+
+        <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css"/>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.css"
+              integrity="sha512-K1k7jSn9RDKEcn/ugqVVvWYu0bcS3q1w6m/5pQSnrj0bCfIqF6Wk49lkmckSb4wglvTP9V17LtS0q0XxYccXbg=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        <style>
+            .modal-dialog {
+                max-width: 1000px;
+            }
+
+            .image-container {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-gap: 10px;
+            }
+
+            .image-item {
+                height: 150px;
+                border: 2px solid #eee;
+            }
+
+            .image-item img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .image-item.selected {
+                border-color: #28a145 !important;
+                border-width: 4px !important;
+            }
+
+        </style>
+
+    </th:block>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#">Hotels</a>
+                            </li>
+                            <li class="breadcrumb-item active" >
+                                Create new Hotel
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row py-2">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-default">
+                            <i class="fas fa-chevron-left"></i> Back
+                        </button>
+                        <button type="button" class="btn btn-info px-4" id="btnUpdate">
+                            Save
+                        </button>
+                    </div>
+
+                    <div class="col-6 d-flex justify-content-end">
+                        <button type="button" class="btn btn-danger px-4" id="btnDelete">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body row">
+                    <div class="col-5 text-center d-flex align-items-center justify-content-center">
+                        <div class="col-5 col-12 user-img">
+                            <img src="/images/user-profile.jpg" class="img-responsive" alt="user-img" />
+                            <br>
+                            <button class="btn btn-info" data-toggle="modal">Change avatar</button>
+                        </div>
+                    </div>
+                    <div class="col-7">
+                        <div class="form-group">
+                            <label for="inputName">Name</label>
+                            <input type="text" id="inputName"  class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputName">Email</label>
+                            <input type="text" id="inputName"  class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputName">Phone</label>
+                            <input type="text" id="inputName"  class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputName">Password</label>
+                            <input type="password" id="inputName" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputName">Confirm Password</label>
+                            <input type="password" id="inputName" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputName">Role</label>
+
+                            <div class="form-group">
+                                <div class="d-inline">
+                                    <input type="checkbox" id="checkboxPrimary1" >
+                                    <label for="checkboxPrimary1">Root Admin  </label>
+                                </div>
+                                <div class="d-inline">
+                                    <input type="checkbox" id="checkboxPrimary2">
+                                    <label for="checkboxPrimary2">Admin  </label>
+                                </div>
+                                <div class="d-inline">
+                                    <input type="checkbox" id="checkboxPrimary3" checked disabled>
+                                    <label for="checkboxPrimary3">User</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</div>
+</div>
+
+
+<th:block id="javascript">
+
+</th:block>
+</body>
+
+</html>

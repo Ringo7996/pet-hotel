@@ -1,7 +1,7 @@
 package com.example.demo.controller.controllers;
 
 import com.example.demo.model.entity.User;
-import com.example.demo.service.UserServiceImpl;
+import com.example.demo.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class Home {
     @Autowired
-    UserServiceImpl userService;
+    private UserService userService;
+
     @GetMapping("")
     public String index(Model model,  HttpSession session){
         String email =(String) session.getAttribute("MY_SESSION");

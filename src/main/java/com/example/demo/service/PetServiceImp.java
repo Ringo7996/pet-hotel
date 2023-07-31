@@ -35,7 +35,7 @@ public class PetServiceImp implements PetService {
             return pet;
         }
 
-        if (loginUser.getPets().contains(pet) && pet.isVisible()) {
+        if (loginUser.getPets().contains(pet) && pet.isStatus()) {
             return pet;
         } else {
             throw new ForbiddenException("Bạn không thể truy cập pet này");

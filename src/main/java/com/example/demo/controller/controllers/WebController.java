@@ -2,6 +2,7 @@ package com.example.demo.controller.controllers;
 
 import com.example.demo.model.entity.User;
 import com.example.demo.service.TokenConfirmService;
+import com.example.demo.service.UserService;
 import com.example.demo.service.UserServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class WebController {
     @Autowired
     private TokenConfirmService tokenConfirmService;
     @Autowired
-    UserServiceImpl userService;
+    private UserService userService;
 
 
     @GetMapping("/login")
@@ -41,7 +42,6 @@ public class WebController {
         return "forgot-password";
     }
 
-
     // -> Gửi email xác nhận quên mật khẩu
     // Trong email có 1 link để xác thực
     @GetMapping("/reset-password/{token}")
@@ -49,7 +49,7 @@ public class WebController {
 
         model = tokenConfirmService.checkToken(token, model);
         boolean isValid = (boolean) model.getAttribute("isValid") ;
-        if(!isValid) return "/Error/error-page";
+        if(!isValid) return "/error/error-page";
         return "reset-password";
     }
 

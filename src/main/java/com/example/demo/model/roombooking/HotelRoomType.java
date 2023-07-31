@@ -32,7 +32,7 @@ public class HotelRoomType {
 
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "hotel_ID")
+    @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 
     @Column(name = "total_room_number")
