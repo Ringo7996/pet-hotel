@@ -1,5 +1,6 @@
 package com.example.demo.controller.controllers;
 
+import com.example.demo.model.entity.Pet;
 import com.example.demo.service.PetService;
 import com.example.demo.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -25,7 +26,7 @@ public class PetCRL {
     public String index(Model model, HttpSession session){
         try {
             model=userService.getUserLogin(session,model);
-            List<com.example.demo.model.entity.Pet> listPets = petService.findAllPetBySession(session);
+            List<Pet> listPets = petService.findAllPetBySession(session);
             model.addAttribute("listPets",listPets);
         }catch (Exception e){
             System.out.println(e.toString());
