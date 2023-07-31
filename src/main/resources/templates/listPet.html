@@ -47,7 +47,13 @@
                                 </div><!-- end columns -->
 
                                 <div class="col-xs-12 col-sm-10 col-md-10 dashboard-content user-profile">
-                                    <h2 class="dash-content-title">My Profile</h2>
+                                    <div class="d-flex justify-content-between" style="display: flex; justify-content: space-between">
+                                        <h2 class="dash-content-title">My Profile</h2>
+                                        <div>
+                                            <button class="btn" data-toggle="modal" data-target="#create-pet">Add Pet</button>
+                                        </div>
+
+                                    </div>
                                     <div th:if="${listPets}" th:each="pet : ${listPets}" class="panel panel-default">
                                         <div class="panel-heading"><h4>Profile Details</h4></div>
                                         <div class="panel-body">
@@ -161,9 +167,66 @@
             </div><!-- end modal-content -->
         </div><!-- end modal-dialog -->
     </div><!-- end edit-profile -->
+
+        <div id="create-pet" class="modal custom-modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h3 class="modal-title">Create Pet Profile</h3>
+                    </div><!-- end modal-header -->
+                    <div class="modal-body">
+                        <form id="form-add-pet">
+                            <div class="row">
+                            <div class="col-sm-5 col-md-4 user-img">
+                                <img src="/images/user-profile.jpg" class="img-responsive" alt="user-img" />
+                                <button type="button" class="btn btn-add">Add Image</button>
+                                <div hidden ><input  id="add-file-pet" type="file" multiple></div>
+                            </div>
+                             </div>
+                            <span style="color: darkred; padding: 12px 0; display: inline-block" id="mess-create"></span>
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input id="name-pet" type="text" class="form-control" placeholder="Name"/>
+                            </div><!-- end form-group -->
+
+                            <div class="form-group">
+                                <label>Breed</label>
+                                <input id="breed-pet" type="text" class="form-control" placeholder="Breed"/>
+                            </div><!-- end form-group -->
+
+                            <div class="form-group">
+                                <label>Type</label>
+                                <input id="type-pet" type="text" class="form-control" placeholder="Type" />
+                            </div><!-- end form-group -->
+
+                            <div class="form-group">
+                                <label>Color</label>
+                                <input id="color-pet" type="text" class="form-control" placeholder="Color" />
+                            </div><!-- end form-group -->
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sex" value="MALE" id="flex1">
+                                <label class="form-check-label" for="flex1">
+                                    MALE
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sex" value="FEMALE" id="flex2">
+                                <label class="form-check-label" for="flex2">
+                                    FEMALE
+                                </label>
+                            </div>
+                            <button class="btn btn-orange">Add</button>
+                        </form>
+                    </div><!-- end modal-bpdy -->
+                </div><!-- end modal-content -->
+            </div><!-- end modal-dialog -->
+        </div><!-- end edit-profile -->
     </div>
     <th:block id="javascript">
         <script src ="/js/updateInfoPet.js"></script>
+        <script src ="/js/addPet.js"></script>
     </th:block>
 </body>
 </html>

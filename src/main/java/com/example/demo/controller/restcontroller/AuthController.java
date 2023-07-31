@@ -65,6 +65,7 @@ public class AuthController {
         try {
             userService.sendResetPwEmail(email);
         } catch (Exception e) {
+            System.out.println(e.toString());
             return ResponseEntity.badRequest().body("Cannot send email");
         }
 

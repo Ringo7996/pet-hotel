@@ -41,7 +41,7 @@ public class User implements UserDetails {
     private String password;
 
     @Column(name = "status")
-    private boolean status;
+    private Boolean status;
 
     @ManyToMany
     @JsonManagedReference
@@ -58,7 +58,6 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
-//    , cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     private List<Pet> pets;
 
     @OneToMany(mappedBy = "user")

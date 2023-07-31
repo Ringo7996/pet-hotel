@@ -112,7 +112,8 @@ public class ImageServiceImp implements ImageService {
     }
 
 
-    private void validateFile(MultipartFile file) {
+    @Override
+    public void validateFile(MultipartFile file) {
         String[] IMAGE_TYPES = {"image/jpeg", "image/png", "image/gif"};
 
         boolean typeValidate = false;

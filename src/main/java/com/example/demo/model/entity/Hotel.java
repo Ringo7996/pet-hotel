@@ -38,7 +38,7 @@ public class Hotel {
     private String description;
 
     @Column(name = "status")
-    private boolean status;
+    private Boolean status;
 
     @OneToMany(mappedBy = "hotel", fetch = FetchType.EAGER)
     @JsonBackReference
