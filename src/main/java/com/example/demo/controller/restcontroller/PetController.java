@@ -6,12 +6,14 @@ import com.example.demo.model.entity.Pet;
 import com.example.demo.model.request.UpdatePetRequest;
 import com.example.demo.service.PetService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("api/v1/pets")
@@ -38,6 +40,21 @@ public class PetController {
             return ResponseEntity.badRequest().body(e);
         }
         return ResponseEntity.ok("Update success");
+    }
+
+    @PostMapping("/add-new-pet")
+    public  ResponseEntity<?> addNewPet(@Valid @ModelAttribute UpdatePetRequest petRequest,
+                                            @RequestParam(value = "file",required = false) MultipartFile file,HttpSession session ){
+
+
+        try {
+            petService.saveNewPet(petRequest,file, session);
+        } catch (Exception e){
+            System.out.println(e.toString());
+            return ResponseEntity.badRequest().body(e.toString());
+        }
+        return ResponseEntity.ok("Add success");
+
     }
 
 }

@@ -67,12 +67,12 @@ public class SecurityConfig {
                 "api/v1/**"
 
         };
-        String[] PRIVATE_ROUTE = {
-//                "/admin",
-//                "/admin/**",
-//                "/user",
-//                "/user/**"
-        };
+       String[] PRIVATE_ROUTE = {
+                "/admin",
+                "/admin/**",
+                "/user",
+                "/user/**"
+       };
         http
                 .csrf(c -> c.disable())
                 .authorizeHttpRequests((authz) -> authz

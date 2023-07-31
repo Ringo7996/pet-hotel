@@ -20,4 +20,5 @@ public interface ImageService {
 
     Optional getImageByPetId(Integer id);
 
+    void validateFile(MultipartFile file);
 }

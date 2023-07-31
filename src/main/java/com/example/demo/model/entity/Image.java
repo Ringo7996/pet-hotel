@@ -38,7 +38,7 @@ public class Image {
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "pet_id")
     private Pet pet;
 

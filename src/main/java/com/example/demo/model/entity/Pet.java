@@ -39,7 +39,7 @@ public class Pet {
     private Sex sex;
 
     @Column(name = "status")
-    private boolean status;
+    private Boolean status = true;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -50,7 +50,7 @@ public class Pet {
     @OneToMany(mappedBy = "pet", fetch = FetchType.EAGER)
     private List<RoomBooking> roomBookings;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "pet")
+    @OneToOne(cascade = CascadeType.PERSIST, mappedBy = "pet")
     private Image image;
 
 }
