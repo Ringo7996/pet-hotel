@@ -22,10 +22,10 @@
           <div class="col-sm-12">
             <ol class="breadcrumb">
               <li class="breadcrumb-item">
-                <a href="#">Dashboard</a>
+                <a href="/admin">Dashboard</a>
               </li>
               <li class="breadcrumb-item active">
-                Hotel List
+                My hotels
               </li>
             </ol>
           </div>
@@ -36,6 +36,8 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+
+        <th:block th:if="${isRootAdminRole}">
         <div class="row py-2">
           <div class="col-12">
             <button type="button" class="btn btn-primary" id="btnCreate">
@@ -43,6 +45,9 @@
             </button>
           </div>
         </div>
+        </th:block>
+
+
         <div class="row">
           <div class="col-12">
             <div class="card">

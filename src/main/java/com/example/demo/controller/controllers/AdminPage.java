@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
@@ -41,79 +42,115 @@ public class AdminPage {
 
 
     @GetMapping
-    public String getAdminPage(){
+    public String getAdminPage(Model model) {
+        model.addAllAttributes(Map.of(
+                "isRootAdminRole",isRootAdminRole(),
+                "isAdminRole",isAdminRole()
+        ));
+
         return "adm/index";
     }
 
     @GetMapping("/users/user-list")
-    public String getUserPage(Model model, Pageable pageable){
+    public String getUserPage(Model model, Pageable pageable) {
         Page<User> userPage = userService.getAllUsersWithPage(pageable);
-        model.addAttribute("page",userPage);
-        model.addAttribute("currentPage",pageable.getPageNumber());
+
+        model.addAllAttributes(Map.of(
+                "isRootAdminRole",isRootAdminRole(),
+                "isAdminRole",isAdminRole(),
+                "page", userPage,
+                "currentPage", pageable.getPageNumber()
+        ));
+
         return "adm/users/user-list";
     }
 
     @GetMapping("/users/user-create")
-    public String getCreateUserPage(){
+    public String getCreateUserPage(Model model) {
+        model.addAllAttributes(Map.of(
+                "isRootAdminRole",isRootAdminRole(),
+                "isAdminRole",isAdminRole()
+        ));
+
         return "adm/users/user-create";
     }
 
     @GetMapping("/users/{id}/detail")
-    public String getUserDetailPage(Model model, @PathVariable(name = "id") Integer userId){
+    public String getUserDetailPage(Model model, @PathVariable(name = "id") Integer userId) {
         User user = userService.findById(userId);
         List<Pet> pets = user.getPets();
         List<RoomBooking> roomBookings = user.getRoomBookings();
         boolean isRootAdmin = roleService.isRootAdmin(userId);
         boolean isAdmin = roleService.isAdmin(userId);
 
-        model.addAttribute("user",user);
-        model.addAttribute("petList",pets);
-        model.addAttribute("roomBookingList",roomBookings);
-        model.addAttribute("isRootAdmin",isRootAdmin);
-        model.addAttribute("isAdmin",isAdmin);
+        model.addAllAttributes(Map.of(
+                "isRootAdminRole",isRootAdminRole(),
+                "isAdminRole",isAdminRole(),
+                "user", user,
+                "petList", pets,
+                "roomBookingList", roomBookings,
+                "isRootAdmin", isRootAdmin,
+                "isAdmin", isAdmin
+        ));
+
         return "adm/users/user-detail";
     }
 
 
     @GetMapping("/hotels/hotel-list")
-    public String getHotelPage(Model model, Pageable pageable){
+    public String getHotelPage(Model model, Pageable pageable) {
         Page<Hotel> hotelPage = hotelService.getAllHotelsWithPage(pageable);
-        model.addAttribute("page",hotelPage);
-        model.addAttribute("currentPage",pageable.getPageNumber());
+
+        model.addAllAttributes(Map.of(
+                "isRootAdminRole",isRootAdminRole(),
+                "isAdminRole",isAdminRole(),
+                "page", hotelPage,
+                "currentPage", pageable.getPageNumber()
+        ));
+
 
         return "adm/hotels/hotel-list";
     }
 
     @GetMapping("/hotels/my-hotels")
-    public String getMyHotels(Model model, Pageable pageable){
+    public String getMyHotels(Model model, Pageable pageable) {
         Page<Hotel> hotelPage = hotelService.getMyHotelsWithPage(pageable, getUser().getId());
 
-        model.addAttribute("page",hotelPage);
-        model.addAttribute("currentPage",pageable.getPageNumber());
+        model.addAllAttributes(Map.of(
+                "isRootAdminRole",isRootAdminRole(),
+                "isAdminRole",isAdminRole(),
+                "page", hotelPage,
+                "currentPage", pageable.getPageNumber()
+        ));
 
         return "adm/hotels/my-hotels";
     }
 
 
-
     @GetMapping("/hotels/hotel-create")
-    public String getCreateHotelPage(){
+    public String getCreateHotelPage(Model model) {
+        model.addAllAttributes(Map.of(
+                "isRootAdminRole",isRootAdminRole(),
+                "isAdminRole",isAdminRole()
+        ));
+
         return "adm/hotels/hotel-create";
     }
 
 
     @GetMapping("/hotels/{id}/detail")
-    public String getHotelDetailPage(Model model, @PathVariable(name = "id") Integer hotelId){
+    public String getHotelDetailPage(Model model, @PathVariable(name = "id") Integer hotelId) {
         Hotel hotel = hotelService.findById(hotelId);
         List<RoomType> roomTypeList = hotelService.getRoomType(hotelId);
         List<User> staffs = hotel.getStaff();
 
-        System.out.println("hotel" + hotel);
-        System.out.println("staff" + hotel.getStaff());
-
-        model.addAttribute("hotel",hotel);
-        model.addAttribute("roomTypeList",roomTypeList);
-        model.addAttribute("staffList",staffs);
+        model.addAllAttributes(Map.of(
+                "isRootAdminRole",isRootAdminRole(),
+                "isAdminRole",isAdminRole(),
+                "hotel", hotel,
+                "roomTypeList", roomTypeList,
+                "staffList", staffs
+        ));
 
         return "adm/hotels/hotel-detail";
     }
@@ -123,5 +160,14 @@ public class AdminPage {
         Authentication authentication = authenticationFacade.getAuthentication();
         return userService.findByEmail((String) authentication.getPrincipal());
     }
+
+    public boolean isAdminRole() {
+        return roleService.isAdmin(getUser().getId());
+    }
+
+    public boolean isRootAdminRole() {
+        return roleService.isRootAdmin(getUser().getId());
+    }
+
 
 }

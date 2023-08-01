@@ -35,12 +35,15 @@
                                     <p>User List</p>
                                 </a>
                             </li>
+
+                            <th:block th:if="${isRootAdminRole}">
                             <li class="nav-item">
                                 <a th:href="@{/admin/users/user-create}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Create User</p>
                                 </a>
                             </li>
+                            </th:block>
                         </ul>
                     </li>
 
@@ -53,26 +56,35 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+                            <th:block th:if="${isRootAdminRole}">
                             <li class="nav-item">
                                 <a th:href="@{/admin/hotels/hotel-list}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>All Hotels</p>
                                 </a>
                             </li>
+                            </th:block>
+
+                            <th:block th:if="${isAdminRole}">
                             <li class="nav-item">
                                 <a th:href="@{/admin/hotels/my-hotels}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>My Hotels</p>
                                 </a>
                             </li>
+                            </th:block>
+
+                            <th:block th:if="${isRootAdminRole}">
                             <li class="nav-item">
                                 <a th:href="@{/admin/hotels/hotel-create}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Create Hotel</p>
                                 </a>
                             </li>
+                            </th:block>
                         </ul>
                     </li>
+
 
                     <li class="nav-item">
                         <a href="#" class="nav-link">
@@ -89,12 +101,15 @@
                                     <p>All Room Type</p>
                                 </a>
                             </li>
+
+                            <th:block th:if="${isRootAdminRole}">
                             <li class="nav-item">
                                 <a th:href="@{/admin/room-type/room-type-create}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Create Room Type</p>
                                 </a>
                             </li>
+                            </th:block>
                         </ul>
                     </li>
 
