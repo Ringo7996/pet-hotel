@@ -36,7 +36,7 @@
                                 </a>
                             </li>
 
-                            <th:block th:if="${isRootAdminRole}">
+                            <th:block th:if="${sharedModel.isRootAdminRole}">
                             <li class="nav-item">
                                 <a th:href="@{/admin/users/user-create}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -56,7 +56,7 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <th:block th:if="${isRootAdminRole}">
+                            <th:block th:if="${sharedModel.isRootAdminRole}">
                             <li class="nav-item">
                                 <a th:href="@{/admin/hotels/hotel-list}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -65,7 +65,7 @@
                             </li>
                             </th:block>
 
-                            <th:block th:if="${isAdminRole}">
+                            <th:block th:if="${sharedModel.isAdminRole}">
                             <li class="nav-item">
                                 <a th:href="@{/admin/hotels/my-hotels}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -74,7 +74,7 @@
                             </li>
                             </th:block>
 
-                            <th:block th:if="${isRootAdminRole}">
+                            <th:block th:if="${sharedModel.isRootAdminRole}">
                             <li class="nav-item">
                                 <a th:href="@{/admin/hotels/hotel-create}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -102,7 +102,7 @@
                                 </a>
                             </li>
 
-                            <th:block th:if="${isRootAdminRole}">
+                            <th:block th:if="${sharedModel.isRootAdminRole}">
                             <li class="nav-item">
                                 <a th:href="@{/admin/room-type/room-type-create}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>

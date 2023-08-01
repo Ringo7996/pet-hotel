@@ -17,9 +17,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,14 +42,16 @@ public class AdminPage {
     @Autowired
     private RoleService roleService;
 
+    @ModelAttribute("sharedModel")
+    public Map<String, Object> getSharedModel() {
+        Map<String, Object> sharedModel = new HashMap<>();
+        sharedModel.put("isRootAdminRole", isRootAdminRole());
+        sharedModel.put("isAdminRole", isAdminRole());
+        return sharedModel;
+    }
 
     @GetMapping
-    public String getAdminPage(Model model) {
-        model.addAllAttributes(Map.of(
-                "isRootAdminRole",isRootAdminRole(),
-                "isAdminRole",isAdminRole()
-        ));
-
+    public String getAdminPage() {
         return "adm/index";
     }
 
@@ -56,8 +60,6 @@ public class AdminPage {
         Page<User> userPage = userService.getAllUsersWithPage(pageable);
 
         model.addAllAttributes(Map.of(
-                "isRootAdminRole",isRootAdminRole(),
-                "isAdminRole",isAdminRole(),
                 "page", userPage,
                 "currentPage", pageable.getPageNumber()
         ));
@@ -67,11 +69,6 @@ public class AdminPage {
 
     @GetMapping("/users/user-create")
     public String getCreateUserPage(Model model) {
-        model.addAllAttributes(Map.of(
-                "isRootAdminRole",isRootAdminRole(),
-                "isAdminRole",isAdminRole()
-        ));
-
         return "adm/users/user-create";
     }
 
@@ -84,8 +81,6 @@ public class AdminPage {
         boolean isAdmin = roleService.isAdmin(userId);
 
         model.addAllAttributes(Map.of(
-                "isRootAdminRole",isRootAdminRole(),
-                "isAdminRole",isAdminRole(),
                 "user", user,
                 "petList", pets,
                 "roomBookingList", roomBookings,
@@ -102,8 +97,6 @@ public class AdminPage {
         Page<Hotel> hotelPage = hotelService.getAllHotelsWithPage(pageable);
 
         model.addAllAttributes(Map.of(
-                "isRootAdminRole",isRootAdminRole(),
-                "isAdminRole",isAdminRole(),
                 "page", hotelPage,
                 "currentPage", pageable.getPageNumber()
         ));
@@ -117,8 +110,6 @@ public class AdminPage {
         Page<Hotel> hotelPage = hotelService.getMyHotelsWithPage(pageable, getUser().getId());
 
         model.addAllAttributes(Map.of(
-                "isRootAdminRole",isRootAdminRole(),
-                "isAdminRole",isAdminRole(),
                 "page", hotelPage,
                 "currentPage", pageable.getPageNumber()
         ));
@@ -129,11 +120,6 @@ public class AdminPage {
 
     @GetMapping("/hotels/hotel-create")
     public String getCreateHotelPage(Model model) {
-        model.addAllAttributes(Map.of(
-                "isRootAdminRole",isRootAdminRole(),
-                "isAdminRole",isAdminRole()
-        ));
-
         return "adm/hotels/hotel-create";
     }
 
@@ -145,8 +131,6 @@ public class AdminPage {
         List<User> staffs = hotel.getStaff();
 
         model.addAllAttributes(Map.of(
-                "isRootAdminRole",isRootAdminRole(),
-                "isAdminRole",isAdminRole(),
                 "hotel", hotel,
                 "roomTypeList", roomTypeList,
                 "staffList", staffs
