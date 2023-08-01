@@ -76,16 +76,16 @@
             <div class="container-fluid">
                 <div class="row py-2">
                     <div class="col-6">
-                        <button type="button" class="btn btn-default">
+                        <button type="button" class="btn btn-default back">
                             <i class="fas fa-chevron-left"></i> Back
                         </button>
-                        <button type="button" class="btn btn-info px-4" id="btnUpdate">
+                        <button id="btn-submit" type="button" class="btn btn-info px-4">
                             Save
                         </button>
                     </div>
 
                     <div class="col-6 d-flex justify-content-end">
-                        <button type="button" class="btn btn-danger px-4" id="btnDelete">
+                        <button type="button" class="btn btn-danger px-4 cancel" id="btnDelete">
                             Cancel
                         </button>
                     </div>
@@ -95,51 +95,54 @@
                 <div class="card-body row">
                     <div class="col-5 text-center d-flex align-items-center justify-content-center">
                         <div class="col-5 col-12 user-img">
-                            <img src="/images/user-profile.jpg" class="img-responsive" alt="user-img" />
+                            <img id="img-review" src="/images/user-profile.jpg" class="img-responsive" alt="user-img" />
                             <br>
-                            <button class="btn btn-info" data-toggle="modal">Change avatar</button>
+                            <button class="btn btn-info" id="btn-upload" data-toggle="modal">Change avatar</button>
+                            <div hidden ><input id="file-img" type="file" multiple></div>
                         </div>
                     </div>
+
                     <div class="col-7">
+                        <div style="padding: 16px 0;"><span id="mess" style="color: red;"></span></div>
                         <div class="form-group">
-                            <label for="inputName">Name</label>
-                            <input type="text" id="inputName"  class="form-control">
+                            <label for="name">Name</label>
+                            <input type="text" id="name"  class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="inputName">Email</label>
-                            <input type="text" id="inputName"  class="form-control">
+                            <label for="email">Email</label>
+                            <input type="text" id="email"  class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="inputName">Phone</label>
-                            <input type="text" id="inputName"  class="form-control">
+                            <label for="phone">Phone</label>
+                            <input type="text" id="phone"  class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="inputName">Password</label>
-                            <input type="password" id="inputName" class="form-control">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="inputName">Confirm Password</label>
-                            <input type="password" id="inputName" class="form-control">
+                            <label for="confirm-password">Confirm Password</label>
+                            <input type="password" id="confirm-password" class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="inputName">Role</label>
+                            <label>Role</label>
 
                             <div class="form-group">
                                 <div class="d-inline">
-                                    <input type="checkbox" id="checkboxPrimary1" >
+                                    <input class="role" value="2" type="checkbox" id="checkboxPrimary1" >
                                     <label for="checkboxPrimary1">Root Admin  </label>
                                 </div>
                                 <div class="d-inline">
-                                    <input type="checkbox" id="checkboxPrimary2">
-                                    <label for="checkboxPrimary2">Admin  </label>
+                                    <input class="role" value="3" type="checkbox" id="checkboxPrimary2">
+                                    <label for="checkboxPrimary2"> Admin  </label>
                                 </div>
                                 <div class="d-inline">
-                                    <input type="checkbox" id="checkboxPrimary3" checked disabled>
+                                    <input class="role" value="1" type="checkbox" id="checkboxPrimary3" checked disabled>
                                     <label for="checkboxPrimary3">User</label>
                                 </div>
                             </div>
@@ -158,7 +161,8 @@
 
 
 <th:block id="javascript">
-
+    <script src="/adm/js/createUser.js"></script>
+    <script src="/adm/js/handlerCancelandBack.js"></script>
 </th:block>
 </body>
 

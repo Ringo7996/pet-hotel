@@ -3,12 +3,14 @@ package com.example.demo.service;
 
 import com.example.demo.exception.ExitsUserException;
 import com.example.demo.exception.NotFoundException;
+import com.example.demo.model.entity.Image;
 import com.example.demo.model.entity.Role;
 import com.example.demo.model.entity.TokenConfirm;
 import com.example.demo.model.entity.User;
 import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.request.UpdatePasswordRequest;
 import com.example.demo.model.request.UpdateUserRequest;
+import com.example.demo.repository.ImageRepository;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.TokenConfirmRepository;
 import com.example.demo.repository.UserRepository;
@@ -19,8 +21,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,6 +47,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder encoder;
 
+    @Autowired
+    private ImageRepository imageRepository;
+
+    @Autowired
+    ImageService imageService;
 
     @Override
     public void sendResetPwEmail(String email) {
@@ -87,6 +97,72 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(newUser);
         return newUser;
+    }
+
+    @Override
+    public void createUserByAdmin(CreateUserRequest request){
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new NotFoundException("User already exists");
+        }
+        List<Role> roles = convertInToRole(request.getRoles());
+
+        User newUser = User.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(encoder.encode(request.getPassword()))
+                .phone(request.getPhone())
+                .roles(roles)
+                .status(true)
+                .build();
+
+        if(request.getFile() != null ){
+           try {
+               MultipartFile file = request.getFile();
+               imageService.validateFile(file);
+               Image image2upload = Image.builder()
+                       .type(file.getContentType())
+                       .data(file.getBytes())
+                       .user(newUser)
+                       .build();
+               newUser.setImage(image2upload);
+               imageRepository.save(image2upload);
+           } catch (Exception e){
+               throw new RuntimeException(e.toString());
+           }
+        }
+        userRepository.save(newUser);
+    }
+
+    @Override
+    public void updateUserByAdmin(UpdateUserRequest request,Integer id) {
+        User user =findById(id);
+        if(!user.getEmail().equalsIgnoreCase(request.getEmail()))
+            if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+                throw new NotFoundException("User already exists");
+            }
+        List<Role> roles = convertInToRole(request.getRoles());
+
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setName(request.getName());
+        user.setRoles(roles);
+
+        if(request.getFile() != null ){
+            try {
+                MultipartFile file = request.getFile();
+                imageService.validateFile(file);
+                Image image2upload = Image.builder()
+                        .type(file.getContentType())
+                        .data(file.getBytes())
+                        .user(user)
+                        .build();
+                user.setImage(image2upload);
+                imageRepository.save(image2upload);
+            } catch (Exception e){
+                throw new RuntimeException(e.toString());
+            }
+        }
+        userRepository.save(user);
     }
 
     @Override
@@ -145,5 +221,17 @@ public class UserServiceImpl implements UserService {
 
         return model;
     }
-
+    private List<Role> convertInToRole(List<Integer> list){
+        List<Role> roles = new ArrayList<>();
+        Role userRole;
+        for (Integer i: list){
+            if (i == 1) {
+                userRole = roleRepository.findByName("USER").orElse(null);
+            }else if(i == 2){
+                userRole = roleRepository.findByName("ROOT_ADMIN").orElse(null);
+            }else userRole = roleRepository.findByName("ADMIN").orElse(null);
+            roles.add(userRole);
+        }
+        return  roles;
+    }
 }

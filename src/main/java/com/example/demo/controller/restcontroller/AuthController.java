@@ -6,15 +6,22 @@ import com.example.demo.model.request.*;
 import com.example.demo.repository.UserRepository;
 
 import com.example.demo.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,9 +41,8 @@ public class AuthController {
     private PasswordEncoder encoder;
 
 
-
     @PostMapping("login-handle")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpSession session) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpSession session, HttpServletRequest req, HttpServletResponse response) {
         // Tạo đối tượng xác thực
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 request.getEmail(),
@@ -52,6 +58,8 @@ public class AuthController {
 
             // Lưu vào trong session
             session.setAttribute("MY_SESSION", authentication.getName()); // Lưu email -> session
+
+            SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(req, response);
 
             return ResponseEntity.ok("Login success");
         } catch (Exception e) {

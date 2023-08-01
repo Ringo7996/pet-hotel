@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.model.entity.Image;
 import com.example.demo.model.entity.User;
 import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.request.UpdatePasswordRequest;
@@ -27,5 +26,8 @@ public interface UserService {
     User findById(Integer userId);
 
     Model getUserLogin (HttpSession session, Model model);
+
+    void createUserByAdmin(CreateUserRequest request) ;
+    void updateUserByAdmin(UpdateUserRequest request,Integer id) ;
 
 }
