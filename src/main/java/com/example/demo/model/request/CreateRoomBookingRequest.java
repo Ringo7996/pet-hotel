@@ -28,7 +28,7 @@ public class CreateRoomBookingRequest {
     private HotelRoomType hotelRoomType;
 
     @NotNull
-    private PaymentType paymentType;
+    private String paymentType;
 
 
 }

@@ -25,4 +25,8 @@ public interface PetService {
 
     void updateInfoPet (UpdatePetRequest pet, Integer id, HttpSession session);
     void saveNewPet(UpdatePetRequest petRequest, MultipartFile file, HttpSession session) throws IOException;
+
+    void makePetActive(Integer petId);
+
+    void makePetInactive(Integer petId) throws Exception;
 }

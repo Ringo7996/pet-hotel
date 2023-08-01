@@ -131,6 +131,28 @@ public class PetServiceImp implements PetService {
         user.setPets(list);
         userRepository.save(user);
     }
+
+    @Override
+    public void makePetActive(Integer petId) {
+        Pet pet = petRepository.findById(petId).orElseThrow(() -> new NotFoundException("Pet not found"));
+        pet.setStatus(true);
+    }
+
+    @Override
+    public void makePetInactive(Integer petId) throws Exception {
+        Pet pet = petRepository.findById(petId).orElseThrow(() -> new NotFoundException("Pet not found"));
+        if(!isPetHavingBooking()){
+            pet.setStatus(true);
+        } else {
+            throw new Exception("Cannot delete pet because pet is in a booking reservation");
+        }
+    }
+
+    private boolean isPetHavingBooking() {
+        //TO DO: check xem pet có đang nằm trong booking nào không?
+
+        return true;
+    }
 }
 
 

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{adm/fragments/layout :: main-fragment(~{:: #css}, ~{:: .wrapper}, ~{:: #javascript})}">
+
+
+<head>
+    <!-- Ionicons -->
+    <th:block id="css">
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+
+        <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css"/>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.css"
+              integrity="sha512-K1k7jSn9RDKEcn/ugqVVvWYu0bcS3q1w6m/5pQSnrj0bCfIqF6Wk49lkmckSb4wglvTP9V17LtS0q0XxYccXbg=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        <style>
+            .modal-dialog {
+                max-width: 1000px;
+            }
+
+            .image-container {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-gap: 10px;
+            }
+
+            .image-item {
+                height: 150px;
+                border: 2px solid #eee;
+            }
+
+            .image-item img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .image-item.selected {
+                border-color: #28a145 !important;
+                border-width: 4px !important;
+            }
+
+        </style>
+
+    </th:block>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="/admin">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/admin/room-types/room-type-list">Room Type</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                Room Type Create
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row py-2">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-default back">
+                            <i class="fas fa-chevron-left"></i> Back
+                        </button>
+                        <button type="button" class="btn btn-info px-4" id="btnUpdate">
+                            Save
+                        </button>
+                    </div>
+
+                    <div class="col-6 d-flex justify-content-end">
+                        <button type="button" class="btn btn-danger px-4 reset" id="btnDelete">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body row">
+                    <div class="col-5 text-center d-flex align-items-center justify-content-center">
+                        <div class="col-5 col-12 user-img">
+                            <!--                            <img th:if="${user.image}" id="img-review" th:src="@{'/api/v1/users/'+${user.id}+'/files'}" class="img-responsive" alt="user-img" />-->
+                            <!--                            <img th:unless="${user.image}" id="img-review" src="/images/user-profile.jpg" class="img-responsive" alt="user-img" />-->
+                            <img  id="img-review" src="/images/user-profile.jpg" class="img-responsive" alt="user-img" />
+                            <br>
+                            <button class="btn btn-info" id="btn-upload" data-toggle="modal">Change avatar</button>
+                            <div hidden ><input id="file-img" type="file" multiple></div>
+                            <!--                            <span hidden id="id" th:text="${user.id}"></span>-->
+                        </div>
+                    </div>
+                    <div class="col-7">
+                        <div style="padding: 16px 0;"><span id="mess" style="color: red;"></span></div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Price</label>
+                            <input type="text" id="email" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea type="text" id="description" class="form-control"  rows="3">
+
+                            </textarea>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+    </div>
+</div>
+</section>
+
+</div>
+
+</div>
+</div>
+
+
+<th:block id="javascript">
+    <script src="/adm/js/handlerResetandBack.js"></script>
+    <script src="/adm/js/updateInfoByAdmin.js"></script>
+</th:block>
+</body>
+
+</html>

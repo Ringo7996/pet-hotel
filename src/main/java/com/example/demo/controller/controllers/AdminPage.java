@@ -3,9 +3,11 @@ package com.example.demo.controller.controllers;
 import com.example.demo.model.entity.Hotel;
 import com.example.demo.model.entity.Pet;
 import com.example.demo.model.entity.User;
+import com.example.demo.model.roombooking.HotelRoomType;
 import com.example.demo.model.roombooking.RoomBooking;
 import com.example.demo.model.roombooking.RoomType;
 import com.example.demo.security.AuthenticationFacade;
+import com.example.demo.service.HotelRoomTypeService;
 import com.example.demo.service.HotelService;
 import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
@@ -32,7 +34,6 @@ public class AdminPage {
     @Autowired
     private AuthenticationFacade authenticationFacade;
 
-
     @Autowired
     private UserService userService;
 
@@ -40,13 +41,16 @@ public class AdminPage {
     private HotelService hotelService;
 
     @Autowired
+    private HotelRoomTypeService hotelRoomTypeService;
+
+    @Autowired
     private RoleService roleService;
 
     @ModelAttribute("sharedModel")
     public Map<String, Object> getSharedModel() {
         Map<String, Object> sharedModel = new HashMap<>();
-        sharedModel.put("isRootAdminRole", isRootAdminRole());
-        sharedModel.put("isAdminRole", isAdminRole());
+        sharedModel.put("isRootAdminRole", roleService.isRootAdmin(getUser().getId()));
+        sharedModel.put("isAdminRole", roleService.isAdmin(getUser().getId()));
         return sharedModel;
     }
 
@@ -76,6 +80,7 @@ public class AdminPage {
     public String getUserDetailPage(Model model, @PathVariable(name = "id") Integer userId) {
         User user = userService.findById(userId);
         List<Pet> pets = user.getPets();
+        List<Hotel> hotels = user.getMyHotels();
         List<RoomBooking> roomBookings = user.getRoomBookings();
         boolean isRootAdmin = roleService.isRootAdmin(userId);
         boolean isAdmin = roleService.isAdmin(userId);
@@ -83,6 +88,7 @@ public class AdminPage {
         model.addAllAttributes(Map.of(
                 "user", user,
                 "petList", pets,
+                "hotelList", hotels,
                 "roomBookingList", roomBookings,
                 "isRootAdmin", isRootAdmin,
                 "isAdmin", isAdmin
@@ -127,12 +133,12 @@ public class AdminPage {
     @GetMapping("/hotels/{id}/detail")
     public String getHotelDetailPage(Model model, @PathVariable(name = "id") Integer hotelId) {
         Hotel hotel = hotelService.findById(hotelId);
-        List<RoomType> roomTypeList = hotelService.getRoomType(hotelId);
+        List<HotelRoomType> hotelRoomTypes = hotelRoomTypeService.findByHotel_Id(hotelId);
         List<User> staffs = hotel.getStaff();
 
         model.addAllAttributes(Map.of(
                 "hotel", hotel,
-                "roomTypeList", roomTypeList,
+                "hotelRoomTypeList", hotelRoomTypes,
                 "staffList", staffs
         ));
 
@@ -143,14 +149,6 @@ public class AdminPage {
     public User getUser() {
         Authentication authentication = authenticationFacade.getAuthentication();
         return userService.findByEmail((String) authentication.getPrincipal());
-    }
-
-    public boolean isAdminRole() {
-        return roleService.isAdmin(getUser().getId());
-    }
-
-    public boolean isRootAdminRole() {
-        return roleService.isRootAdmin(getUser().getId());
     }
 
 

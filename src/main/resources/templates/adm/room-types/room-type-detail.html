@@ -60,10 +60,10 @@
                                 <a href="/admin">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="/admin/hotels/hotel-list">Hotels</a>
+                                <a href="/admin/room-types/room-type-list">Room Type</a>
                             </li>
-                            <li class="breadcrumb-item active" th:text="${hotel.name}">
-                                Hotel Detail
+                            <li class="breadcrumb-item active" th:text="${roomType.name}">
+                                Room Type Detail
                             </li>
                         </ol>
                     </div>
@@ -71,13 +71,12 @@
             </div>
         </div>
 
-
         <section class="content">
             <div class="container-fluid">
                 <div class="row py-2">
                     <div class="col-6">
-                        <button type="button" class="btn btn-default reset">
-                            <i class="fas fa-chevron-left"></i> Reset
+                        <button type="button" class="btn btn-default back">
+                            <i class="fas fa-chevron-left"></i> Back
                         </button>
                         <button type="button" class="btn btn-info px-4" id="btnUpdate">
                             Save
@@ -91,43 +90,38 @@
                     </div>
                 </div>
             </div>
+
             <div class="card">
                 <div class="card-body row">
                     <div class="col-5 text-center d-flex align-items-center justify-content-center">
                         <div class="col-5 col-12 user-img">
-                            <img src="/images/user-profile.jpg" class="img-responsive" alt="user-img" />
+<!--                            <img th:if="${user.image}" id="img-review" th:src="@{'/api/v1/users/'+${user.id}+'/files'}" class="img-responsive" alt="user-img" />-->
+<!--                            <img th:unless="${user.image}" id="img-review" src="/images/user-profile.jpg" class="img-responsive" alt="user-img" />-->
+                            <img  id="img-review" src="/images/user-profile.jpg" class="img-responsive" alt="user-img" />
                             <br>
-                            <button class="btn btn-info" data-toggle="modal">Change avatar</button>
+                            <button class="btn btn-info" id="btn-upload" data-toggle="modal">Change avatar</button>
+                            <div hidden ><input id="file-img" type="file" multiple></div>
+<!--                            <span hidden id="id" th:text="${user.id}"></span>-->
                         </div>
                     </div>
                     <div class="col-7">
+                        <div style="padding: 16px 0;"><span id="mess" style="color: red;"></span></div>
                         <div class="form-group">
-                            <label for="inputName">Name</label>
-                            <input type="text" id="inputName" th:value="${hotel.name}" class="form-control">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" th:value="${roomType.name}" class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="inputName">City</label>
-                            <input type="text" id="inputName" th:value="${hotel.city}" class="form-control">
+                            <label for="email">Price</label>
+                            <input type="text" id="email" th:value="${#numbers.formatDecimal(roomType.price, 0, 'COMMA', 0, 'POINT')}"  class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="inputName">District</label>
-                            <input type="text" id="inputName" th:value="${hotel.district}" class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputName">Address</label>
-                            <input type="text" id="inputName" th:value="${hotel.address}" class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputName">Description</label>
-                            <textarea type="text" id="inputName" th:text="${hotel.description}" class="form-control"  rows="3">
+                            <label for="description">Description</label>
+                            <textarea type="text" id="description" th:text="${roomType.description}" class="form-control"  rows="3">
 
                             </textarea>
                         </div>
-
 
                     </div>
                 </div>
@@ -136,7 +130,7 @@
             <div class="invoice p-3 mb-3">
                 <div class="row">
                     <div class="col-6">
-                        <h4>  Room Type List </h4>
+                        <h4>Hotels having this room type</h4>
                     </div>
 
                     <div class="col-6 d-flex justify-content-end">
@@ -154,83 +148,47 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Price</th>
-                                <th>Room Number</th>
+                                <th>City</th>
+                                <th>District</th>
+                                <th>Address</th>
+                                <th>Room number</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr  th:each="hotelRoomType: ${hotelRoomTypeList}">
-                                <td th:text="${hotelRoomType.roomType.id}">1</td>
-                                <td th:text="${hotelRoomType.roomType.name}">Call of Duty</td>
-                                <td th:text="${hotelRoomType.roomType.price}">455-981-221</td>
-                                <td th:text="${hotelRoomType.totalRoomNumber}">455-981-221</td>
+                                <td th:text="${hotelRoomType.hotel.id}">2</td>
+                                <td th:text="${hotelRoomType.hotel.name}">2</td>
+                                <td th:text="${hotelRoomType.hotel.city}">2</td>
+                                <td th:text="${hotelRoomType.hotel.district}">2</td>
+                                <td th:text="${hotelRoomType.hotel.address}">2</td>
+                                <td th:text="${hotelRoomType.totalRoomNumber}">2</td>
                                 <td>
-                                    <a th:href="@{/admin/room-types/{id}/detail (id=${hotelRoomType.roomType.id})}">
-                                        <button type="button" class="btn btn-info px-4">Detail </button>
+                                    <a th:href="@{/admin/hotels/{id}/detail (id=${hotelRoomType.hotel.id})}">
+                                      <button type="button" class="btn btn-info px-4">Detail </button>
                                     </a>
                                     <button type="button" class="btn btn-danger px-4">Delete </button>
                                 </td>
                             </tr>
-
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
-            <div class="invoice p-3 mb-3">
-                <div class="row">
-                    <div class="col-6">
-                        <h4>Staff List</h4>
-                    </div>
-
-                <div class="col-6 d-flex justify-content-end">
-                    <button type="button" class="btn btn-info px-4">
-                        Add
-                    </button>
-                </div>
-
-
-                </div>
-                <div class="row">
-                    <div class="col-12 table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone Number</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr  th:each="user: ${staffList}">
-                                <td th:text="${user.id}">1</td>
-                                <td th:text="${user.name}">Call of Duty</td>
-                                <td th:text="${user.email}">Call of Duty</td>
-                                <td th:text="${user.phone}">455-981-221</td>
-                                <td>
-                                    <a th:href="@{/admin/users/{id}/detail (id=${user.id})}">
-                                        <button type="button" class="btn btn-info px-4">Detail </button>
-                                    </a>
-                                    <button type="button" class="btn btn-danger px-4">Delete </button>
-                                </td>
-                            </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
         </section>
+    </div>
+</div>
+</section>
+
+</div>
+
+</div>
 </div>
 
 
 <th:block id="javascript">
     <script src="/adm/js/handlerResetandBack.js"></script>
+    <script src="/adm/js/updateInfoByAdmin.js"></script>
 </th:block>
 </body>
 

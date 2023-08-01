@@ -1,9 +1,8 @@
 package com.example.demo.model.roombooking;
 
-
-import com.example.demo.model.entity.PaymentType;
 import com.example.demo.model.entity.Pet;
 import com.example.demo.model.entity.User;
+import com.example.demo.model.enums.PaymentType;
 import com.example.demo.model.enums.Status;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -51,8 +50,6 @@ public class RoomBooking {
     @JoinColumn(name = "hotel_room_type_id")
     private HotelRoomType hotelRoomType;
 
-    @ManyToOne
-    @JoinColumn(name = "payment_type_id")
     private PaymentType paymentType;
 
     @ManyToOne
@@ -63,7 +60,7 @@ public class RoomBooking {
     @PostPersist
     protected void onCreate() {
         creatdAt = LocalDateTime.now();
-        cancelable = paymentType.getId() == 1;
+        cancelable = !(paymentType == PaymentType.CASH);
         status = Status.PENDING;
         user = pet.getUser();
     }

@@ -1,7 +1,6 @@
 package com.example.demo.controller.restcontroller;
 
 
-
 import com.example.demo.model.entity.Pet;
 import com.example.demo.model.request.UpdatePetRequest;
 import com.example.demo.service.PetService;
@@ -31,11 +30,10 @@ public class PetController {
     public ResponseEntity<?> updateInfoPet(
             @PathVariable("id") Integer id,
             @RequestBody UpdatePetRequest request,
-            HttpSession session)
-    {
+            HttpSession session) {
         try {
-            petService.updateInfoPet(request,id,session);
-        } catch (Exception e){
+            petService.updateInfoPet(request, id, session);
+        } catch (Exception e) {
             System.out.println(e.toString());
             return ResponseEntity.badRequest().body(e);
         }
@@ -43,18 +41,38 @@ public class PetController {
     }
 
     @PostMapping("/add-new-pet")
-    public  ResponseEntity<?> addNewPet(@Valid @ModelAttribute UpdatePetRequest petRequest,
-                                            @RequestParam(value = "file",required = false) MultipartFile file,HttpSession session ){
-
-
+    public ResponseEntity<?> addNewPet(@Valid @ModelAttribute UpdatePetRequest petRequest,
+                                       @RequestParam(value = "file", required = false) MultipartFile file, HttpSession session) {
         try {
-            petService.saveNewPet(petRequest,file, session);
-        } catch (Exception e){
+            petService.saveNewPet(petRequest, file, session);
+        } catch (Exception e) {
             System.out.println(e.toString());
             return ResponseEntity.badRequest().body(e.toString());
         }
         return ResponseEntity.ok("Add success");
 
+    }
+
+    @PostMapping("/make-pet-active/{id}")
+    public ResponseEntity<?> makePetActive(@PathVariable(name = "id") Integer petId){
+        try {
+            petService.makePetActive(petId);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return ResponseEntity.badRequest().body(e.toString());
+        }
+        return ResponseEntity.ok("Make pet active successfully");
+    }
+
+    @PostMapping("/make-pet-inactive/{id}")
+    public ResponseEntity<?> makePetInactive(@PathVariable(name = "id") Integer petId){
+        try {
+            petService.makePetInactive(petId);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return ResponseEntity.badRequest().body(e.toString());
+        }
+        return ResponseEntity.ok("Make pet active successfully");
     }
 
 }

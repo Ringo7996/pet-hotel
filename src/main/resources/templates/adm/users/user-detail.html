@@ -60,7 +60,7 @@
                                 <a href="/admin">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="admin/users/user-list">Users</a>
+                                <a href="/admin/users/user-list">Users</a>
                             </li>
                             <li class="breadcrumb-item active" th:text="${user.name}">
                                 User Detail
@@ -75,8 +75,8 @@
             <div class="container-fluid">
                 <div class="row py-2">
                     <div class="col-6">
-                        <button type="button" class="btn btn-default reset">
-                            <i class="fas fa-chevron-left"></i> Reset
+                        <button type="button" class="btn btn-default back">
+                            <i class="fas fa-chevron-left"></i> Back
                         </button>
                         <button type="button" class="btn btn-info px-4" id="btnUpdate">
                             Save
@@ -84,7 +84,7 @@
                     </div>
 
                     <div class="col-6 d-flex justify-content-end">
-                        <button type="button" class="btn btn-danger px-4 cancel" id="btnDelete">
+                        <button type="button" class="btn btn-danger px-4" id="btnDelete">
                             Delete
                         </button>
                     </div>
@@ -137,18 +137,121 @@
                                     <label for="user">User</label>
                                 </div>
                             </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </section>
+
+        <div class="invoice p-3 mb-3">
+            <div class="row">
+                <div class="col-6">
+                    <h4>Pet List</h4>
+                </div>
+
+                <div class="col-6 d-flex justify-content-end">
+                    <button type="button" class="btn btn-info px-4">
+                        Add
+                    </button>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-12 table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Sex</th>
+                            <th>Breed</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr  th:each="pet: ${petList}">
+                            <td th:text="${pet.id}">1</td>
+                            <td th:text="${pet.name}">Name</td>
+                            <td th:text="${pet.type}">Mefo</td>
+                            <td th:text="${pet.sex}">Male</td>
+                            <td th:text="${pet.breed}">Golden</td>
+                            <td>
+                                <a th:if="${pet.status}"> Active </a>
+                                <a th:if="not ${pet.status}"> Inactive </a>
+
+                            </td>
+                            <td>
+                                <th:block th:if="not ${pet.status}">
+                                    <button type="button" class="btn btn-info px-4">Active </button>
+                                </th:block>
+                                <th:block th:if="${pet.status}">
+                                    <button type="button" class="btn btn-danger px-4">Inactive </button>
+                                </th:block>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <th:block th:if="${isAdmin}">
+        <div class="invoice p-3 mb-3">
+            <div class="row">
+                <div class="col-6">
+                    <h4>Hotels under management</h4>
+                </div>
+
+                <div class="col-6 d-flex justify-content-end">
+                    <button type="button" class="btn btn-info px-4">
+                        Add
+                    </button>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-12 table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>City</th>
+                            <th>District</th>
+                            <th>Address</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr  th:each="hotel: ${hotelList}">
+                            <td th:text="${hotel.id}">2</td>
+                            <td th:text="${hotel.name}">2</td>
+                            <td th:text="${hotel.city}">2</td>
+                            <td th:text="${hotel.district}">2</td>
+                            <td th:text="${hotel.address}">2</td>
+                            <td>
+                                <a th:href="@{/admin/hotels/{id}/detail (id=${hotel.id})}">
+                                    <button type="button" class="btn btn-info px-4">Detail </button>
+                                </a>
+                                <button type="button" class="btn btn-danger px-4">Delete </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </th:block>
     </div>
-    </section>
 
 </div>
 
-</div>
-</div>
+
 
 
 <th:block id="javascript">

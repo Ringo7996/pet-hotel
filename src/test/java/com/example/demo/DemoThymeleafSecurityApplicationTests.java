@@ -26,6 +26,7 @@ class DemoThymeleafSecurityApplicationTests {
     private HotelRepository hotelRepository;
     @Autowired
     private PaymentTypeRepository paymentTypeRepository;
+
     @Autowired
     private RoomTypeRepository roomTypeRepository;
     @Autowired
@@ -35,6 +36,19 @@ class DemoThymeleafSecurityApplicationTests {
     @Autowired
     private PasswordEncoder encoder;
 
+
+    @Test
+    void saveData(){
+        save_role();
+        save_pet();
+        save_hotel();
+        save_user();
+//        save_payment_type();
+        save_room_type();
+        save_hotel_room_type();
+        save_hotel_room_type();
+        save_room_booking();
+    }
 
     @Test
     void save_role() {
@@ -129,14 +143,14 @@ class DemoThymeleafSecurityApplicationTests {
 
 
 
-    @Test
-    void save_payment_type(){
-        List<PaymentType> paymentTypes = List.of(
-                PaymentType.builder().name("Thanh toán trực tiếp").build(),
-                PaymentType.builder().name("Thanh toán zalo pay").build()
-        );
-        paymentTypeRepository.saveAll(paymentTypes);
-    }
+//    @Test
+//    void save_payment_type(){
+//        List<PaymentType> paymentTypes = List.of(
+//                PaymentType.builder().name("Thanh toán trực tiếp").build(),
+//                PaymentType.builder().name("Thanh toán zalo pay").build()
+//        );
+//        paymentTypeRepository.saveAll(paymentTypes);
+//    }
 
     @Test
     void save_room_type(){
@@ -188,14 +202,12 @@ class DemoThymeleafSecurityApplicationTests {
         HotelRoomType hotelRoomType2 = hotelRoomTypeRepository.findById(2).orElse(null);
         HotelRoomType hotelRoomType3 = hotelRoomTypeRepository.findById(3).orElse(null);
 
-        PaymentType paymentType1 = paymentTypeRepository.findById(1).orElse(null);
-        PaymentType paymentType2 = paymentTypeRepository.findById(1).orElse(null);
 
         List<RoomBooking> roomBookings = List.of(
-                RoomBooking.builder().pet(pet1).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(3)).hotelRoomType(hotelRoomType3).paymentType(paymentType1).build(),
-                RoomBooking.builder().pet(pet2).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(4)).hotelRoomType(hotelRoomType1).paymentType(paymentType2).build(),
-                RoomBooking.builder().pet(pet3).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)).hotelRoomType(hotelRoomType2).paymentType(paymentType1).build(),
-                RoomBooking.builder().pet(pet1).startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(2)).hotelRoomType(hotelRoomType2).paymentType(paymentType1).build()
+                RoomBooking.builder().pet(pet1).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(3)).hotelRoomType(hotelRoomType3).paymentType(com.example.demo.model.enums.PaymentType.CASH).build(),
+                RoomBooking.builder().pet(pet2).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(4)).hotelRoomType(hotelRoomType1).paymentType(com.example.demo.model.enums.PaymentType.ZALO).build(),
+                RoomBooking.builder().pet(pet3).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)).hotelRoomType(hotelRoomType2).paymentType(com.example.demo.model.enums.PaymentType.CASH).build(),
+                RoomBooking.builder().pet(pet1).startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(2)).hotelRoomType(hotelRoomType2).paymentType(com.example.demo.model.enums.PaymentType.ZALO)                        .build()
         );
 
         roomBookingRepository.saveAll(roomBookings);

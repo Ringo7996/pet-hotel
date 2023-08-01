@@ -4,6 +4,8 @@ import com.example.demo.exception.ForbiddenException;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.model.entity.Pet;
 import com.example.demo.model.entity.User;
+import com.example.demo.model.enums.PaymentType;
+import com.example.demo.model.enums.Sex;
 import com.example.demo.model.request.CreateRoomBookingRequest;
 import com.example.demo.model.roombooking.RoomBooking;
 import com.example.demo.repository.RoomBookingRepository;
@@ -51,21 +53,25 @@ public class RoomBookingServiceImp implements RoomBookingService {
 
     @Override
     public RoomBooking makeARoomBooking(CreateRoomBookingRequest request, User user) {
-        if (!user.getPets().contains(request.getPet())){
+        if (!user.getPets().contains(request.getPet())) {
             throw new NotFoundException("Không tìm thấy pet này trong danh sách pet của bạn");
         }
-
-
-
 
         RoomBooking roomBooking = RoomBooking.builder()
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
-                .paymentType(request.getPaymentType())
                 .hotelRoomType(request.getHotelRoomType())
                 .pet(request.getPet())
                 .user(user)
                 .build();
+
+        if (request.getPaymentType().equalsIgnoreCase("CASH")) {
+            roomBooking.setPaymentType(PaymentType.CASH);
+        } else if (request.getPaymentType().equalsIgnoreCase("ZALO")) {
+            roomBooking.setPaymentType(PaymentType.ZALO);
+        } else {
+            throw new NotFoundException("Payment not found");
+        }
 
         roomBookingRepository.save(roomBooking);
         return roomBooking;

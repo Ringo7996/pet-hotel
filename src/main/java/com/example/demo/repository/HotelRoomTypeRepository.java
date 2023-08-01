@@ -11,4 +11,6 @@ import java.util.List;
 @Repository
 public interface HotelRoomTypeRepository extends JpaRepository<HotelRoomType, Integer> {
     List<HotelRoomType> findByHotel_Id(Integer hotelId);
+
+    List<HotelRoomType> findByRoomTypeId(Integer roomTypeId);
 }
