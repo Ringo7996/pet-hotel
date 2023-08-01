@@ -21,10 +21,10 @@
 						<div class="col-sm-12">
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item">
-									<a href="#">Dashboard</a>
+									<a href="/admin">Dashboard</a>
 								</li>
 								<li class="breadcrumb-item active">
-									Danh sách user
+									User List
 								</li>
 							</ol>
 						</div>
@@ -51,23 +51,44 @@
 									<table class="table table-bordered table-hover">
 										<thead>
 											<tr>
-												<th>Tiêu đề</th>
-												<th>Tác giả</th>
-												<th>Danh mục</th>
-												<th>Trạng thái</th>
-												<th>Ngày tạo</th>
+												<th>ID</th>
+												<th>Name</th>
+												<th>Email</th>
+												<th>Phone</th>
+												<th>Roles</th>
+												<th>Action</th>
 											</tr>
 										</thead>
 										<tbody>
 										<th:block th:with="userList = ${page.getContent()}">
 											<tr th:each="user: ${userList}">
 												<td>
-													<a th:href="@{/admin/users/{id}/detail (id=${user.id}) }"  th:text="${user.name}" > Name</a>
+													<a th:text="${user.id}" > Name</a>
 												</td>
 												<td>
-													<a href="#" th:text="${user.email}">Email</a>
+													<a th:text="${user.name}" > Name</a>
 												</td>
-												<td th:text="${user.phone}">Phone</td>
+												<td>
+													<a th:text="${user.email}">Email</a>
+												</td>
+												<td>
+													<a th:text="${user.phone}">Phone</a>
+												</td>
+												<td>
+												<th:block th:each="role: ${user.roles}">
+													<span th:text="${role.name}"> role </span>
+												</th:block>
+												</td>
+												<td>
+                                                <span>
+													<a th:href="@{/admin/users/{id}/detail (id=${user.id})}">
+                                                    <button type="button"
+															class="btn btn-info px-4"> Detail  </button>
+													</a>
+                                                    <button type="button"
+															class="btn btn-danger"> Delete  </button>
+                                                </span>
+												</td>
 											</tr>
 										</th:block>
 										</tbody>
@@ -75,27 +96,18 @@
 
 									<div class="d-flex justify-content-center mt-3" id="pagination">
 										<ul class="pagination mb-0">
-
-											<li class="paginate_button page-item previous" th:classappend="${currentPage == 1 ? 'disabled' : ''}"
-												id="example2_previous">
-												<a th:href="@{/admin/users/user-list?page={pageNumber} (pageNumber= ${currentPage - 1})}" aria-controls="example2" data-dt-idx="0" tabindex="0"
-													class="page-link">Previous</a>
+											<li class="paginate_button page-item previous" th:classappend="${currentPage == 0 ? 'disabled' : ''}" id="example2_previous">
+												<a th:href="@{/admin/hotels/hotel-list?page={pageNumber} (pageNumber= ${currentPage - 1})}" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
 											</li>
-
-
 
 											<th:block th:with="numbers = ${T(com.example.demo.ultils.Utils).createList(page.getTotalPages())}">
-											<li  th:each="number: ${numbers}"  class="paginate_button page-item" th:classappend="${number == currentPage ? 'active' : ''}">
-												<a th:href="@{/admin/users/user-list?page={pageNumber} (pageNumber=${number}) }" aria-controls="example2" data-dt-idx="1" tabindex="0"
-													class="page-link" th:text="${number}"> </a>
-											</li>
+												<li th:each="number: ${numbers}" class="paginate_button page-item" th:classappend="${number == currentPage + 1 ? 'active' : ''}">
+													<a th:href="@{/admin/hotels/hotel-list?page={pageNumber} (pageNumber=${number}-1) }" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link" th:text="${number}"> </a>
+												</li>
 											</th:block>
 
-
-
-											<li class="paginate_button page-item next" id="example2_next"  th:classappend="${currentPage == page.getTotalPages() ? 'disabled' : ''}" >
-												<a th:href="@{/admin/users/user-list?page={pageNumber} (pageNumber= ${currentPage + 1})}" aria-controls="example2" data-dt-idx="7" tabindex="0"
-													class="page-link">Next</a>
+											<li class="paginate_button page-item next" id="example2_next" th:classappend="${currentPage == page.getTotalPages() -1 ? 'disabled' : ''}">
+												<a th:href="@{/admin/hotels/hotel-list?page={pageNumber} (pageNumber= ${currentPage + 1})}" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
 											</li>
 										</ul>
 									</div>

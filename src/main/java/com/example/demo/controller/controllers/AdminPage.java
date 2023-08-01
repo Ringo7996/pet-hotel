@@ -5,6 +5,7 @@ import com.example.demo.model.entity.Pet;
 import com.example.demo.model.entity.User;
 import com.example.demo.model.roombooking.RoomBooking;
 import com.example.demo.model.roombooking.RoomType;
+import com.example.demo.security.AuthenticationFacade;
 import com.example.demo.service.HotelService;
 import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,10 @@ import java.util.List;
 @RequestMapping("/admin")
 @PreAuthorize("hasAnyRole('ROLE_ROOT_ADMIN', 'ROLE_ADMIN')")
 public class AdminPage {
+    @Autowired
+    private AuthenticationFacade authenticationFacade;
+
+
     @Autowired
     private UserService userService;
 
@@ -43,7 +49,7 @@ public class AdminPage {
     public String getUserPage(Model model, Pageable pageable){
         Page<User> userPage = userService.getAllUsersWithPage(pageable);
         model.addAttribute("page",userPage);
-        model.addAttribute("currentPage",pageable.getPageNumber() + 1);
+        model.addAttribute("currentPage",pageable.getPageNumber());
         return "adm/users/user-list";
     }
 
@@ -69,16 +75,25 @@ public class AdminPage {
     }
 
 
-
-
     @GetMapping("/hotels/hotel-list")
     public String getHotelPage(Model model, Pageable pageable){
         Page<Hotel> hotelPage = hotelService.getAllHotelsWithPage(pageable);
         model.addAttribute("page",hotelPage);
-        model.addAttribute("currentPage",pageable.getPageNumber() +1);
+        model.addAttribute("currentPage",pageable.getPageNumber());
 
         return "adm/hotels/hotel-list";
     }
+
+    @GetMapping("/hotels/my-hotels")
+    public String getMyHotels(Model model, Pageable pageable){
+        Page<Hotel> hotelPage = hotelService.getMyHotelsWithPage(pageable, getUser().getId());
+
+        model.addAttribute("page",hotelPage);
+        model.addAttribute("currentPage",pageable.getPageNumber());
+
+        return "adm/hotels/my-hotels";
+    }
+
 
 
     @GetMapping("/hotels/hotel-create")
@@ -89,7 +104,7 @@ public class AdminPage {
 
     @GetMapping("/hotels/{id}/detail")
     public String getHotelDetailPage(Model model, @PathVariable(name = "id") Integer hotelId){
-        Hotel hotel = hotelService.findbyId(hotelId);
+        Hotel hotel = hotelService.findById(hotelId);
         List<RoomType> roomTypeList = hotelService.getRoomType(hotelId);
         List<User> staffs = hotel.getStaff();
 
@@ -104,6 +119,9 @@ public class AdminPage {
     }
 
 
-
+    public User getUser() {
+        Authentication authentication = authenticationFacade.getAuthentication();
+        return userService.findByEmail((String) authentication.getPrincipal());
+    }
 
 }

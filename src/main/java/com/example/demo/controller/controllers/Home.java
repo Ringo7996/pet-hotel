@@ -25,7 +25,6 @@ public class Home {
         } catch (Exception e) {
             System.out.println(e.toString());
         }
-//        model.addAttribute("page","index");
         return "index";
     }
 

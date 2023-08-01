@@ -57,13 +57,13 @@
                     <div class="col-sm-12">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="#">Dashboard</a>
+                                <a href="/admin">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">Hotels</a>
+                                <a href="/users/user-list">Users</a>
                             </li>
-                            <li class="breadcrumb-item active" >
-                                Create new Hotel
+                            <li class="breadcrumb-item active" th:text="${user.name}"">
+                                User Detail
                             </li>
                         </ol>
                     </div>
@@ -71,13 +71,12 @@
             </div>
         </div>
 
-
         <section class="content">
             <div class="container-fluid">
                 <div class="row py-2">
                     <div class="col-6">
-                        <button type="button" class="btn btn-default back">
-                            <i class="fas fa-chevron-left"></i> Back
+                        <button type="button" class="btn btn-default reset">
+                            <i class="fas fa-chevron-left"></i> Reset
                         </button>
                         <button type="button" class="btn btn-info px-4" id="btnUpdate">
                             Save
@@ -86,7 +85,7 @@
 
                     <div class="col-6 d-flex justify-content-end">
                         <button type="button" class="btn btn-danger px-4 cancel" id="btnDelete">
-                            Cancel
+                            Delete
                         </button>
                     </div>
                 </div>
@@ -95,7 +94,7 @@
                 <div class="card-body row">
                     <div class="col-5 text-center d-flex align-items-center justify-content-center">
                         <div class="col-5 col-12 user-img">
-                            <img th:if="${user.image}" id="img-review" th:src="@{'http://localhost:8080/api/v1/users/'+${user.id}+'/files'}" class="img-responsive" alt="user-img" />
+                            <img th:if="${user.image}" id="img-review" th:src="@{'/api/v1/users/'+${user.id}+'/files'}" class="img-responsive" alt="user-img" />
                             <img th:unless="${user.image}" id="img-review" src="/images/user-profile.jpg" class="img-responsive" alt="user-img" />
                             <br>
                             <button class="btn btn-info" id="btn-upload" data-toggle="modal">Change avatar</button>
@@ -138,13 +137,8 @@
                                     <label for="user">User</label>
                                 </div>
                             </div>
-
-
-
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -158,7 +152,7 @@
 
 
 <th:block id="javascript">
-    <script src="/adm/js/handlerCancelandBack.js"></script>
+    <script src="/adm/js/handlerResetandBack.js"></script>
     <script src="/adm/js/updateInfoByAdmin.js"></script>
 </th:block>
 </body>

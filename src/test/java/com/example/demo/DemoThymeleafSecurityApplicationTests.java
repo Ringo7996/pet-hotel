@@ -39,9 +39,9 @@ class DemoThymeleafSecurityApplicationTests {
     @Test
     void save_role() {
         List<Role> roles = List.of(
-                new Role(null, "ROOT_ADMIN"),
-                new Role(null, "ADMIN"),
-                new Role(null, "USER")
+                Role.builder().name("USER").build(),
+                Role.builder().name("ROOT_ADMIN").build(),
+                Role.builder().name("ADMIN").build()
         );
         roleRepository.saveAll(roles);
     }

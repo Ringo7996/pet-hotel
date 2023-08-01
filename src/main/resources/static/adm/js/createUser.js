@@ -19,6 +19,12 @@ btnSubmit.onclick=()=>{
         return false;
     }
 
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        mess.innerText = "Vui lòng nhập địa chỉ email hợp lệ!";
+        return false;
+    }
+
     // Kiểm tra số điện thoại
     var phoneRegex = /^[0-9]{10}$/;
     if (!phoneRegex.test(phone)) {
@@ -26,11 +32,7 @@ btnSubmit.onclick=()=>{
         return false;
     }
 
-    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        mess.innerText = "Vui lòng nhập địa chỉ email hợp lệ!";
-        return false;
-    }
+
     if(password.trim().length <8){
         mess.innerText = "Password phải ít nhất 8 chữ";
         return false;

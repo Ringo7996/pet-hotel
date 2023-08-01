@@ -57,13 +57,13 @@
                     <div class="col-sm-12">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="#">Dashboard</a>
+                                <a href="/">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">Hotels</a>
+                                <a href="/admin/hotels/hotel-list">Hotels</a>
                             </li>
                             <li class="breadcrumb-item active" th:text="${hotel.name}">
-                                Blog title
+                                Hotel Detail
                             </li>
                         </ol>
                     </div>
@@ -76,8 +76,8 @@
             <div class="container-fluid">
                 <div class="row py-2">
                     <div class="col-6">
-                        <button type="button" class="btn btn-default">
-                            <i class="fas fa-chevron-left"></i> Back
+                        <button type="button" class="btn btn-default reset">
+                            <i class="fas fa-chevron-left"></i> Reset
                         </button>
                         <button type="button" class="btn btn-info px-4" id="btnUpdate">
                             Save
@@ -109,6 +109,11 @@
                         <div class="form-group">
                             <label for="inputName">City</label>
                             <input type="text" id="inputName" th:value="${hotel.city}" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputName">District</label>
+                            <input type="text" id="inputName" th:value="${hotel.district}" class="form-control">
                         </div>
 
                         <div class="form-group">
@@ -213,17 +218,11 @@
             </div>
 
         </section>
-
-
-
-                    </div>
-
-    </div>
 </div>
 
 
 <th:block id="javascript">
-
+    <script src="/adm/js/handlerResetandBack.js"></script>
 </th:block>
 </body>
 

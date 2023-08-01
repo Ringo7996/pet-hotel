@@ -22,7 +22,7 @@
                     <div class="col-sm-12">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="#">Dashboard</a>
+                                <a href="/">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item active">
                                 Hotel List
@@ -38,9 +38,11 @@
             <div class="container-fluid">
                 <div class="row py-2">
                     <div class="col-12">
-                        <button type="button" class="btn btn-primary" id="btnCreate">
-                            <i class="fas fa-plus"></i> Create new hotel
-                        </button>
+                        <a href="/admin/hotels/hotel-create">
+                            <button type="button" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Create hotel
+                            </button>
+                        </a>
                     </div>
                 </div>
                 <div class="row">
@@ -53,9 +55,9 @@
                                         <th>ID</th>
                                         <th>Hotel name</th>
                                         <th>City</th>
+                                        <th>District</th>
                                         <th>Address</th>
                                         <th>Action</th>
-                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -73,14 +75,19 @@
                                             <td th:text="${hotel.city}">
                                                 <a>City</a>
                                             </td>
+                                            <td th:text="${hotel.district}">
+                                                <a>District</a>
+                                            </td>
                                             <td th:text="${hotel.address}">
                                                 <a>Address</a>
                                             </td>
 
                                             <td>
                                                 <span>
+                                                <a th:href="@{/admin/hotels/{id}/detail (id=${hotel.id})}">
                                                     <button type="button"
                                                             class="btn btn-info px-4"> Detail  </button>
+                                                </a>
                                                     <button type="button"
                                                             class="btn btn-danger"> Delete  </button>
                                                 </span>
@@ -95,9 +102,9 @@
                                     <ul class="pagination mb-0">
 
                                         <li class="paginate_button page-item previous"
-                                            th:classappend="${currentPage == 1 ? 'disabled' : ''}"
+                                            th:classappend="${currentPage == 0 ? 'disabled' : ''}"
                                             id="example2_previous">
-                                            <a th:href="@{/admin/hotels/index?page={pageNumber} (pageNumber= ${currentPage - 1})}"
+                                            <a th:href="@{/admin/hotels/hotel-list?page={pageNumber} (pageNumber= ${currentPage - 1})}"
                                                aria-controls="example2" data-dt-idx="0" tabindex="0"
                                                class="page-link">Previous</a>
                                         </li>
@@ -106,8 +113,8 @@
                                         <th:block
                                                 th:with="numbers = ${T(com.example.demo.ultils.Utils).createList(page.getTotalPages())}">
                                             <li th:each="number: ${numbers}" class="paginate_button page-item"
-                                                th:classappend="${number == currentPage ? 'active' : ''}">
-                                                <a th:href="@{/admin/hotels/index?page={pageNumber} (pageNumber=${number}) }"
+                                                th:classappend="${number == currentPage + 1 ? 'active' : ''}">
+                                                <a th:href="@{/admin/hotels/hotel-list?page={pageNumber} (pageNumber=${number}-1) }"
                                                    aria-controls="example2" data-dt-idx="1" tabindex="0"
                                                    class="page-link" th:text="${number}"> </a>
                                             </li>
@@ -115,8 +122,8 @@
 
 
                                         <li class="paginate_button page-item next" id="example2_next"
-                                            th:classappend="${currentPage == page.getTotalPages() ? 'disabled' : ''}">
-                                            <a th:href="@{/admin/hotels/index?page={pageNumber} (pageNumber= ${currentPage + 1})}"
+                                            th:classappend="${currentPage == page.getTotalPages() -1 ? 'disabled' : ''}">
+                                            <a th:href="@{/admin/hotels/hotel-list?page={pageNumber} (pageNumber= ${currentPage + 1})}"
                                                aria-controls="example2" data-dt-idx="7" tabindex="0"
                                                class="page-link">Next</a>
                                         </li>

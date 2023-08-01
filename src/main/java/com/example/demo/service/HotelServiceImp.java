@@ -30,7 +30,7 @@ public class HotelServiceImp implements HotelService {
     }
 
     @Override
-    public Hotel findbyId(Integer hotelId) {
+    public Hotel findById(Integer hotelId) {
         return hotelRepository.findById(hotelId).orElseThrow(() -> new NotFoundException("Hotel with id " + hotelId + " is not found"));
     }
 
@@ -47,6 +47,11 @@ public class HotelServiceImp implements HotelService {
     @Override
     public User createHotel(CreateHotelRequest request) {
         return null;
+    }
+
+    @Override
+    public Page<Hotel> getMyHotelsWithPage(Pageable pageable, Integer userId) {
+        return hotelRepository.findByStaff_IdOrderById(userId,pageable);
     }
 
 

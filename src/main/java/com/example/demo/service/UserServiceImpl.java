@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
         Role userRole = roleRepository.findByName("USER").orElse(null);
 
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new NotFoundException("User already exists");
+            throw new ExitsUserException("User already exists");
         }
         User newUser = User.builder()
                 .name(request.getName())
@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createUserByAdmin(CreateUserRequest request){
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new NotFoundException("User already exists");
+            throw new ExitsUserException("User already exists");
         }
         List<Role> roles = convertInToRole(request.getRoles());
 
@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService {
         User user =findById(id);
         if(!user.getEmail().equalsIgnoreCase(request.getEmail()))
             if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-                throw new NotFoundException("User already exists");
+                throw new ExitsUserException("User already exists");
             }
         List<Role> roles = convertInToRole(request.getRoles());
 

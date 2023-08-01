@@ -13,9 +13,11 @@ public interface HotelService {
 
     Page<Hotel> getAllHotelsWithPage(Pageable pageable);
 
-    Hotel findbyId(Integer hotelId);
+    Hotel findById(Integer hotelId);
 
     List<RoomType> getRoomType(Integer hotelId);
 
     User createHotel(CreateHotelRequest request);
+
+    Page<Hotel> getMyHotelsWithPage(Pageable pageable, Integer userId);
 }

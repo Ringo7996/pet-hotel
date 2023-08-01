@@ -57,13 +57,13 @@
                     <div class="col-sm-12">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="#">Dashboard</a>
+                                <a href="/admin">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">Hotels</a>
+                                <a href="/admin/users/user-list">Users</a>
                             </li>
                             <li class="breadcrumb-item active" >
-                                Create new Hotel
+                                Create User
                             </li>
                         </ol>
                     </div>
@@ -85,8 +85,8 @@
                     </div>
 
                     <div class="col-6 d-flex justify-content-end">
-                        <button type="button" class="btn btn-danger px-4 cancel" id="btnDelete">
-                            Cancel
+                        <button type="button" class="btn btn-danger px-4 reset" id="btnDelete">
+                            Reset
                         </button>
                     </div>
                 </div>
@@ -162,7 +162,7 @@
 
 <th:block id="javascript">
     <script src="/adm/js/createUser.js"></script>
-    <script src="/adm/js/handlerCancelandBack.js"></script>
+    <script src="/adm/js/handlerResetandBack.js"></script>
 </th:block>
 </body>
 
