@@ -4,6 +4,7 @@ package com.example.demo.model.request;
 import com.example.demo.model.entity.Pet;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,4 +23,8 @@ public class UpdateUserRequest {
 
     @Size(min = 10, max = 13, message = "phone number is not valid")
     private String phone;
+
+    private MultipartFile file;
+
+    private List<Integer> roles;
 }

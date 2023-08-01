@@ -39,8 +39,9 @@ form.addEventListener("submit", async (e) => {
             },
             body: JSON.stringify(request)
         })
+        const res = await  data.text();
         if (data.status === 200) {
-            window.location.href = "/"
+           window.history.back();
         }
         if (data.status === 400) {
             mess.innerText="Tài khoản hoặc mật khấu không đúng";

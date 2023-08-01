@@ -50,7 +50,7 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "hotel_id"))
     private List<Hotel> myHotels;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -64,7 +64,7 @@ public class User implements UserDetails {
     @JsonManagedReference
     private List<RoomBooking> roomBookings;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(cascade = CascadeType.PERSIST,mappedBy = "user")
     @JsonManagedReference
     private List<SpaBooking> spaBookings;
 

@@ -76,7 +76,7 @@
             <div class="container-fluid">
                 <div class="row py-2">
                     <div class="col-6">
-                        <button type="button" class="btn btn-default">
+                        <button type="button" class="btn btn-default back">
                             <i class="fas fa-chevron-left"></i> Back
                         </button>
                         <button type="button" class="btn btn-info px-4" id="btnUpdate">
@@ -85,7 +85,7 @@
                     </div>
 
                     <div class="col-6 d-flex justify-content-end">
-                        <button type="button" class="btn btn-danger px-4" id="btnDelete">
+                        <button type="button" class="btn btn-danger px-4 cancel" id="btnDelete">
                             Cancel
                         </button>
                     </div>
@@ -95,42 +95,46 @@
                 <div class="card-body row">
                     <div class="col-5 text-center d-flex align-items-center justify-content-center">
                         <div class="col-5 col-12 user-img">
-                            <img src="/images/user-profile.jpg" class="img-responsive" alt="user-img" />
+                            <img th:if="${user.image}" id="img-review" th:src="@{'http://localhost:8080/api/v1/users/'+${user.id}+'/files'}" class="img-responsive" alt="user-img" />
+                            <img th:unless="${user.image}" id="img-review" src="/images/user-profile.jpg" class="img-responsive" alt="user-img" />
                             <br>
-                            <button class="btn btn-info" data-toggle="modal">Change avatar</button>
+                            <button class="btn btn-info" id="btn-upload" data-toggle="modal">Change avatar</button>
+                            <div hidden ><input id="file-img" type="file" multiple></div>
+                            <span hidden id="id" th:text="${user.id}"></span>
                         </div>
                     </div>
                     <div class="col-7">
+                        <div style="padding: 16px 0;"><span id="mess" style="color: red;"></span></div>
                         <div class="form-group">
-                            <label for="inputName">Name</label>
-                            <input type="text" id="inputName" th:value="${user.name}" class="form-control">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" th:value="${user.name}" class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="inputName">Email</label>
-                            <input type="text" id="inputName" th:value="${user.email}"  class="form-control">
+                            <label for="email">Email</label>
+                            <input type="text" id="email" th:value="${user.email}"  class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="inputName">Phone</label>
-                            <input type="text" id="inputName" th:value="${user.phone}" class="form-control">
+                            <label for="phone">Phone</label>
+                            <input type="text" id="phone" th:value="${user.phone}" class="form-control">
                         </div>
 
 
                         <div class="form-group">
-                            <label for="inputName">Role</label>
+                            <label>Role</label>
 
                             <div class="form-group">
                                 <div class="d-inline">
-                                    <input type="checkbox" id="rootadmin" th:checked="${isRootAdmin}" >
+                                    <input class="role" type="checkbox" id="rootadmin" value="2" th:checked="${isRootAdmin}" >
                                     <label for="rootadmin">Root Admin  </label>
                                 </div>
                                 <div class="d-inline">
-                                    <input type="checkbox" id="admin" th:checked="${isAdmin}">
+                                    <input class="role" type="checkbox" id="admin" value="3" th:checked="${isAdmin}">
                                     <label for="admin">Admin  </label>
                                 </div>
                                 <div class="d-inline">
-                                    <input type="checkbox" id="user" checked disabled>
+                                    <input class="role" type="checkbox" id="user" value="1" checked disabled>
                                     <label for="user">User</label>
                                 </div>
                             </div>
@@ -154,7 +158,8 @@
 
 
 <th:block id="javascript">
-
+    <script src="/adm/js/handlerCancelandBack.js"></script>
+    <script src="/adm/js/updateInfoByAdmin.js"></script>
 </th:block>
 </body>
 
