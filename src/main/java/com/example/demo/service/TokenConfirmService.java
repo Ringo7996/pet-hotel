@@ -15,7 +15,6 @@ public class TokenConfirmService {
     @Autowired
     private TokenConfirmRepository tokenConfirmRepository;
 
-
     public Model checkToken(String token, Model model) {
 
         // Ktra token co hop le ko, co trong database ko

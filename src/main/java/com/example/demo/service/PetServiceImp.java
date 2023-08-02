@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.ForbiddenException;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.model.entity.Image;
@@ -9,8 +10,8 @@ import com.example.demo.model.enums.Sex;
 import com.example.demo.model.request.UpdatePetRequest;
 import com.example.demo.repository.ImageRepository;
 import com.example.demo.repository.PetRepository;
+import com.example.demo.repository.RoomBookingRepository;
 import com.example.demo.repository.UserRepository;
-import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -27,16 +29,20 @@ public class PetServiceImp implements PetService {
     private PetRepository petRepository;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    ImageService imageService;
+    private RoomBookingRepository roomBookingRepository;
 
     @Autowired
-    ImageRepository imageRepository;
+    private ImageService imageService;
 
     @Autowired
-    UserRepository userRepository;
+    private ImageRepository imageRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public Pet findById(Integer petId) {
         return petRepository.findById(petId).orElseThrow(() -> new NotFoundException("Không tìm thấy pet với id " + petId));
@@ -69,7 +75,7 @@ public class PetServiceImp implements PetService {
 
         List<Pet> listPets = user.getPets();
 
-        if(listPets.isEmpty()) throw new RuntimeException("User don't have pet");
+        if (listPets.isEmpty()) throw new RuntimeException("User don't have pet");
         return listPets;
     }
 
@@ -85,9 +91,9 @@ public class PetServiceImp implements PetService {
         petSystem.setBreed(pet.getBreed());
         petSystem.setColor(pet.getColor());
         petSystem.setType(pet.getType());
-        if(pet.getSex().equalsIgnoreCase("FEMALE")){
+        if (pet.getSex().equalsIgnoreCase("FEMALE")) {
             petSystem.setSex(Sex.FEMALE);
-        }else{
+        } else {
             petSystem.setSex(Sex.MALE);
         }
 
@@ -107,13 +113,13 @@ public class PetServiceImp implements PetService {
         petSystem.setBreed(petRequest.getBreed());
         petSystem.setColor(petRequest.getColor());
         petSystem.setType(petRequest.getType());
-        if(petRequest.getSex().equalsIgnoreCase("FEMALE")){
+        if (petRequest.getSex().equalsIgnoreCase("FEMALE")) {
             petSystem.setSex(Sex.FEMALE);
-        }else{
+        } else {
             petSystem.setSex(Sex.MALE);
         }
 
-        if(file !=null){
+        if (file != null) {
             imageService.validateFile(file);
             Image image2upload = Image.builder()
                     .type(file.getContentType())
@@ -136,22 +142,26 @@ public class PetServiceImp implements PetService {
     public void makePetActive(Integer petId) {
         Pet pet = petRepository.findById(petId).orElseThrow(() -> new NotFoundException("Pet not found"));
         pet.setStatus(true);
+        petRepository.save(pet);
     }
 
     @Override
-    public void makePetInactive(Integer petId) throws Exception {
+    public void makePetInactive(Integer petId) {
         Pet pet = petRepository.findById(petId).orElseThrow(() -> new NotFoundException("Pet not found"));
-        if(!isPetHavingBooking()){
-            pet.setStatus(true);
+        if (!isPetHavingBooking(petId)) {
+            pet.setStatus(false);
+            petRepository.save(pet);
         } else {
-            throw new Exception("Cannot delete pet because pet is in a booking reservation");
+            throw new BadRequestException("Cannot delete pet because pet is in a booking reservation");
         }
     }
 
-    private boolean isPetHavingBooking() {
-        //TO DO: check xem pet có đang nằm trong booking nào không?
+    private boolean isPetHavingBooking(Integer petId) {
+        int bookingCount = roomBookingRepository.countByPetIdAndEndDateGreaterThanEqual(petId, LocalDate.now());
+        System.out.println(bookingCount);
 
-        return true;
+        // Check xem có tồn tại booking chứa pet id với end date trong tương lai ko.
+        return bookingCount > 0;
     }
 }
 

@@ -26,5 +26,13 @@ public interface RoomBookingRepository extends JpaRepository<RoomBooking, Intege
 
     @Query(nativeQuery = true, value = "SELECT * FROM room_booking WHERE room_booking.hotel_room_type_id IN :hotelRoomTypeIds")
     Page<RoomBooking> findByHotelRoomTypeIdsOrderById(List<Integer> hotelRoomTypeIds, Pageable pageable);
+
+    int countByPetIdAndEndDateGreaterThanEqual(Integer petId, LocalDate now);
+
+
+    @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM room_booking " +
+            "WHERE hotel_room_type_id IN :hotelRoomTypeIds " +
+            "AND end_date >= :now")
+    int countByHotelRoomTypeIdInAndEndDateGreaterThanEqual(List<Integer> hotelRoomTypeIds, LocalDate now);
 }
 

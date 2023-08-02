@@ -12,4 +12,6 @@ public interface RoomTypeService {
     RoomType findById(Integer roomTypeId);
 
     List<RoomType> findAllRoomsNotPartOfHotel(Integer id);
+
+    void deleteRoomType(Integer roomTypeId);
 }

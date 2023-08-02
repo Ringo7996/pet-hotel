@@ -1,7 +1,6 @@
 package com.example.demo.controller.restcontroller;
 
 
-import com.example.demo.controller.error.MessE;
 import com.example.demo.model.entity.User;
 import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.request.UpdateUserRequest;
@@ -73,7 +72,7 @@ public class AdminController {
             return ResponseEntity.ok(users);
         }catch (Exception e){
             System.out.println(e.toString());
-            return ResponseEntity.badRequest().body(new MessE(e.toString()));
+            return ResponseEntity.badRequest().body(e.toString());
         }
     }
 

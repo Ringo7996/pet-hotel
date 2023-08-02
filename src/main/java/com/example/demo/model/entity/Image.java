@@ -41,7 +41,7 @@ public class Image {
     @JsonBackReference
     private Hotel hotel;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "pet_id")
     @JsonBackReference
     private Pet pet;

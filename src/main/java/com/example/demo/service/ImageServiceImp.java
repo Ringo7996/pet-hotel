@@ -23,7 +23,7 @@ public class ImageServiceImp implements ImageService {
     private UserRepository userRepository;
 
     @Autowired
-    PetRepository petRepository;
+    private PetRepository petRepository;
 
     @Override
     public Image readImageById(Integer id) {
@@ -36,11 +36,11 @@ public class ImageServiceImp implements ImageService {
 
     @Override
     public void deleteImageById(Integer imageId, Integer userId) {
-        Image image2find = imageRepository.findById(imageId).orElseThrow(()->{
+        Image image2find = imageRepository.findById(imageId).orElseThrow(() -> {
             throw new RuntimeException("file id not found");
         });
 
-        if(image2find.getId().equals(userId)){
+        if (image2find.getId().equals(userId)) {
             throw new RuntimeException("cant delete other user's file");
         }
         imageRepository.delete(image2find);
@@ -55,12 +55,12 @@ public class ImageServiceImp implements ImageService {
                 });
         try {
             List<Image> image = getImageListByUserId(userId);
-            if(!image.isEmpty()) {
+            if (!image.isEmpty()) {
                 Image image1 = image.get(0);
                 image1.setType(file.getContentType());
                 image1.setData(file.getBytes());
                 imageRepository.save(image1);
-                return  image1;
+                return image1;
             }
 
             Image image2upload = Image.builder()
@@ -88,11 +88,11 @@ public class ImageServiceImp implements ImageService {
                 });
         try {
             Optional<Image> image = getImageByPetId(petId);
-            if(image.isPresent()) {
+            if (image.isPresent()) {
                 image.get().setType(file.getContentType());
                 image.get().setData(file.getBytes());
                 imageRepository.save(image.get());
-                return  image.get();
+                return image.get();
             }
 
             Image image2upload = Image.builder()
@@ -139,7 +139,7 @@ public class ImageServiceImp implements ImageService {
     }
 
     @Override
-    public Optional<Image> getImageByPetId(Integer id){
+    public Optional<Image> getImageByPetId(Integer id) {
         Pet pet2find = petRepository.findById(id)
                 .orElseThrow(() -> {
                     throw new RuntimeException("Pet id not found");

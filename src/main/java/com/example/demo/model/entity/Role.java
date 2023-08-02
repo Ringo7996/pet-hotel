@@ -23,7 +23,7 @@ public class Role {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "roles",cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
     @JsonBackReference
     private List<User> users;
 

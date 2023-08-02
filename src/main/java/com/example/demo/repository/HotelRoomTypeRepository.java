@@ -16,10 +16,8 @@ public interface HotelRoomTypeRepository extends JpaRepository<HotelRoomType, In
 
     List<HotelRoomType> findByRoomTypeId(Integer roomTypeId);
 
-
     @Query(nativeQuery = true, value = "SELECT * FROM hotel_room_type WHERE hotel_room_type.hotel_id IN :hotelIds")
     List<HotelRoomType> findByHotelIdList(List<Integer> hotelIds);
-
 
 
 }

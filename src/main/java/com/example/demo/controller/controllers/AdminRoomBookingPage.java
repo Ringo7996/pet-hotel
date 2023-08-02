@@ -82,7 +82,6 @@ public class AdminRoomBookingPage {
         RoomType roomType = roomBooking.getHotelRoomType().getRoomType();
         HotelRoomType hotelRoomType = roomBooking.getHotelRoomType();
 
-
         model.addAllAttributes(Map.of(
                 "hotel",hotel,
                 "roomType",roomType,
@@ -91,8 +90,6 @@ public class AdminRoomBookingPage {
                 "user", roomBooking.getUser(),
                 "pet",roomBooking.getPet()
         ));
-
-
 
         return "adm/room-bookings/room-booking-detail";
     }

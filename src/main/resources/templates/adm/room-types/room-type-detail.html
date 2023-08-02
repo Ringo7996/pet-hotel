@@ -83,11 +83,13 @@
                         </button>
                     </div>
 
+                    <th:block th:if="${sharedModel.isRootAdminRole}">
                     <div class="col-6 d-flex justify-content-end">
                         <button type="button" class="btn btn-danger px-4" id="btnDelete">
-                            Delete
+                            Inactive
                         </button>
                     </div>
+                    </th:block>
                 </div>
             </div>
 

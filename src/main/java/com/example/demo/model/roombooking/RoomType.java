@@ -2,6 +2,7 @@ package com.example.demo.model.roombooking;
 
 
 
+import com.example.demo.model.enums.Status;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,5 +35,13 @@ public class RoomType {
     @OneToMany(mappedBy = "roomType")
     @JsonBackReference
     private List<HotelRoomType> hotelRoomTypes = new ArrayList<>();
+
+    @Column(name = "status")
+    private Boolean status;
+
+    @PostPersist
+    protected void onCreate() {
+        this.status = true;
+    }
 
 }

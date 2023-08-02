@@ -4,10 +4,7 @@ import com.example.demo.model.roombooking.RoomType;
 import com.example.demo.service.RoomTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,7 +13,8 @@ import java.util.List;
 public class RoomTypeController {
 
     @Autowired
-    RoomTypeService roomTypeService;
+    private RoomTypeService roomTypeService;
+
     @GetMapping("/get-room-type-not-part-of-hotel/{id}")
     public ResponseEntity<?> getRoomTypeNotPartOfHotel(@PathVariable("id") Integer id){
        try {
@@ -26,7 +24,17 @@ public class RoomTypeController {
            System.out.println(e.toString());
            return  ResponseEntity.badRequest().body(e.toString());
        }
-
-
     }
+
+    @DeleteMapping("/delete-room-type/{id}")
+    public ResponseEntity<?> deleteRoomType(@PathVariable(name = "id") Integer roomTypeId){
+        try {
+            roomTypeService.deleteRoomType(roomTypeId);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return ResponseEntity.badRequest().body(e.toString());
+        }
+        return ResponseEntity.ok("Delete room type successfully");
+    }
+
 }

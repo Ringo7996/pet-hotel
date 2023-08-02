@@ -58,6 +58,7 @@
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Price</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -74,13 +75,27 @@
                                                 <a th:text="${#numbers.formatDecimal(roomType.price, 0, 'COMMA', 0, 'POINT')}"></a>
                                             </td>
                                             <td>
+                                                <a th:if="${roomType.status}"> Active</a>
+                                                <a th:if="not ${roomType.status}"> Inactive</a>
+                                            </td>
+                                            <td>
                                                 <span>
 													<a th:href="@{/admin/room-types/{id}/detail (id=${roomType.id})}">
                                                     <button type="button"
                                                             class="btn btn-info px-4"> Detail  </button>
 													</a>
+                                                    <th:block th:if="${sharedModel.isRootAdminRole}">
+
+                                                    <th:block th:if="${roomType.status}">
                                                     <button type="button"
-                                                            class="btn btn-danger"> Delete  </button>
+                                                            class="btn btn-danger"> Inactive  </button>
+                                                    </th:block>
+                                                    <th:block th:if="not ${roomType.status}">
+                                                    <button type="button"
+                                                            class="btn btn-info"> Active  </button>
+                                                    </th:block>
+
+                                                    </th:block>
                                                 </span>
                                             </td>
                                         </tr>

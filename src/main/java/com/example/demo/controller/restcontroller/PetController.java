@@ -53,7 +53,7 @@ public class PetController {
 
     }
 
-    @PostMapping("/make-pet-active/{id}")
+    @PutMapping("/make-pet-active/{id}")
     public ResponseEntity<?> makePetActive(@PathVariable(name = "id") Integer petId){
         try {
             petService.makePetActive(petId);
@@ -64,7 +64,7 @@ public class PetController {
         return ResponseEntity.ok("Make pet active successfully");
     }
 
-    @PostMapping("/make-pet-inactive/{id}")
+    @PutMapping("/make-pet-inactive/{id}")
     public ResponseEntity<?> makePetInactive(@PathVariable(name = "id") Integer petId){
         try {
             petService.makePetInactive(petId);
@@ -72,7 +72,7 @@ public class PetController {
             System.out.println(e.toString());
             return ResponseEntity.badRequest().body(e.toString());
         }
-        return ResponseEntity.ok("Make pet active successfully");
+        return ResponseEntity.ok("Make pet inactive successfully");
     }
 
 }
