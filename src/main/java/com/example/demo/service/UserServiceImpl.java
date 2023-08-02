@@ -3,17 +3,11 @@ package com.example.demo.service;
 
 import com.example.demo.exception.ExitsUserException;
 import com.example.demo.exception.NotFoundException;
-import com.example.demo.model.entity.Image;
-import com.example.demo.model.entity.Role;
-import com.example.demo.model.entity.TokenConfirm;
-import com.example.demo.model.entity.User;
+import com.example.demo.model.entity.*;
 import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.request.UpdatePasswordRequest;
 import com.example.demo.model.request.UpdateUserRequest;
-import com.example.demo.repository.ImageRepository;
-import com.example.demo.repository.RoleRepository;
-import com.example.demo.repository.TokenConfirmRepository;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,6 +46,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     ImageService imageService;
+
+    @Autowired
+    HotelRepository hotelRepository;
 
     @Override
     public void sendResetPwEmail(String email) {
@@ -166,6 +163,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getAdminNotPartOfHotel(Integer id) {
+        Optional<Hotel>hotel = hotelRepository.findById(id);
+        if(hotel.isEmpty()) throw new NotFoundException("Hotel Not Found");
+        return userRepository.getAdminNotPartOfHotel(id);
+    }
+
+    @Override
     public void updateInfo(UpdateUserRequest request, HttpSession session) {
         String email = (String) session.getAttribute("MY_SESSION");
         User userSystem = findByEmail(email);
@@ -234,4 +238,6 @@ public class UserServiceImpl implements UserService {
         }
         return  roles;
     }
+
+
 }

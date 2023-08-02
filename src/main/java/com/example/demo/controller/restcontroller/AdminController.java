@@ -1,6 +1,8 @@
 package com.example.demo.controller.restcontroller;
 
 
+import com.example.demo.controller.error.MessE;
+import com.example.demo.model.entity.User;
 import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.request.UpdateUserRequest;
 import com.example.demo.model.roombooking.RoomBooking;
@@ -14,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -58,6 +62,19 @@ public class AdminController {
             return ResponseEntity.badRequest().body(e.toString());
         }
         return  ResponseEntity.ok("Create success");
+    }
+
+    @GetMapping("/get-admin-not-part-of-hotel/{id}")
+    @PreAuthorize("hasRole('ROLE_ROOT_ADMIN')")
+    public  ResponseEntity<?> getAdminNotPartOfHotel(@PathVariable("id") Integer id){
+        try {
+            List<User> users = userService.getAdminNotPartOfHotel(id);
+            System.out.println(users.get(0).getEmail());
+            return ResponseEntity.ok(users);
+        }catch (Exception e){
+            System.out.println(e.toString());
+            return ResponseEntity.badRequest().body(new MessE(e.toString()));
+        }
     }
 
 }

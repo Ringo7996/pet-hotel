@@ -145,8 +145,8 @@
                         </div>
 
                         <div class="col-6 d-flex justify-content-end">
-                            <button type="button" class="btn btn-primary btn-add-ỉn-room-type" data-toggle="modal" data-target="#add-type-room">
-                                ADD
+                            <button type="button" class="btn btn-secondary px-4 btn-add-in-room-type">
+                                Add
                             </button>
                         </div>
 
@@ -191,7 +191,7 @@
                         </div>
 
                     <div class="col-6 d-flex justify-content-end">
-                        <button type="button" class="btn btn-info px-4">
+                        <button type="button" class="btn btn-secondary px-4 btn-in-add-staff">
                             Add
                         </button>
                     </div>
@@ -210,17 +210,17 @@
                                     <th>Action</th>
                                 </tr>
                                 </thead>
-                                <tbody >
+                                <tbody id="tbodyAdmin" >
                                 <tr  th:each="user: ${staffList}">
-                                    <td th:text="${user.id}">1</td>
-                                    <td th:text="${user.name}">Call of Duty</td>
-                                    <td th:text="${user.email}">Call of Duty</td>
-                                    <td th:text="${user.phone}">455-981-221</td>
+                                    <td class="id" th:text="${user.id}">1</td>
+                                    <td class="name" th:text="${user.name}">Call of Duty</td>
+                                    <td class="email" th:text="${user.email}">Call of Duty</td>
+                                    <td class="phone" th:text="${user.phone}">455-981-221</td>
                                     <td>
                                         <a th:href="@{/admin/users/{id}/detail (id=${user.id})}">
                                             <button type="button" class="btn btn-info px-4">Detail </button>
                                         </a>
-                                        <button type="button" class="btn btn-danger px-4">Delete </button>
+                                        <button onclick="deleteAdmin(this)" type="button" class="btn btn-danger px-4">Delete </button>
                                     </td>
                                 </tr>
 
@@ -229,6 +229,7 @@
                         </div>
                     </div>
                 </div>
+<!--                pop-up add type room-->
                 <div class="modal fade" id="add-type-room" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
@@ -265,6 +266,45 @@
                         </div>
                     </div>
                 </div>
+
+<!--                pop-up add admin-->
+                <div class="modal fade" id="add-admin" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="data" hidden th:attr="data-list=${hotelRoomTypeList}"></div>
+                                <div class="row">
+                                    <div class="col-12 table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Phone Number</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="tbody-add-admin" >
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="close-admin" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button id="addAdminList" type="button" class="btn btn-primary">ADD</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </section>
         </div>
     </div>

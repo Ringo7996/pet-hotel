@@ -4,6 +4,7 @@ package com.example.demo.model.entity;
 import com.example.demo.model.enums.Status;
 import com.example.demo.model.roombooking.RoomBooking;
 import com.example.demo.model.spabooking.SpaBooking;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -54,6 +55,7 @@ public class User implements UserDetails {
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonManagedReference
     private List<Role> roles;
 
     @OneToMany(mappedBy = "user")
