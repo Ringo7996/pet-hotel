@@ -48,6 +48,9 @@ public class Hotel {
     @ManyToMany(mappedBy = "myHotels", fetch = FetchType.EAGER)
     private List<User> staff = new ArrayList<>();
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "hotel")
+    private Image image;
+
     @PostPersist
     protected void onCreate() {
         this.status = true;
