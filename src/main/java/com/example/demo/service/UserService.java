@@ -4,10 +4,13 @@ import com.example.demo.model.entity.User;
 import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.request.UpdatePasswordRequest;
 import com.example.demo.model.request.UpdateUserRequest;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -29,5 +32,7 @@ public interface UserService {
 
     void createUserByAdmin(CreateUserRequest request) ;
     void updateUserByAdmin(UpdateUserRequest request,Integer id) ;
+
+    List<User> getAdminNotPartOfHotel(Integer id);
 
 }

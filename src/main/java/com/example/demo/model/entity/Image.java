@@ -32,15 +32,18 @@ public class Image {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_id")
+    @JsonBackReference
     private Hotel hotel;
 
     @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "pet_id")
+    @JsonBackReference
     private Pet pet;
 
     @PrePersist
