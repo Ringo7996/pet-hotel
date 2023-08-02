@@ -17,4 +17,8 @@ public interface RoomBookingService {
     Page<RoomBooking> getAllRoomBookingsWithPage(Pageable pageable);
 
     RoomBooking makeARoomBooking(CreateRoomBookingRequest request, User user);
+
+    Page<RoomBooking> getMyRoomBookingsWithPage(Pageable pageable, Integer id);
+
+    RoomBooking findById(Integer roomBookingId);
 }

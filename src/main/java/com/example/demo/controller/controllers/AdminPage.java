@@ -107,7 +107,6 @@ public class AdminPage {
                 "currentPage", pageable.getPageNumber()
         ));
 
-
         return "adm/hotels/hotel-list";
     }
 

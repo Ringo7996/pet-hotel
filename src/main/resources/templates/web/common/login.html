@@ -1,125 +1,104 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: main-fragment(~{:: #css}, ~{:: .wrapper}, ~{:: #javascript})}">
+      th:replace="~{web/fragments/layout :: main-fragment(~{::title}, ~{:: .wrapper}, ~{:: #javascript})}">
 
 <head>
-    <title>Update Password</title>
+    <title>Login</title>
 </head>
 
-    <body>
+<body>
     <div class="wrapper">
-        <!--================== PAGE-COVER ==================-->
-        <section class="page-cover" id="cover-forgot-password">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h1 class="page-title">Update Password Page</h1>
-                        <ul class="breadcrumb">
-                            <li><a href="/index">Home</a></li>
-                            <li class="active">Update Password Page</li>
-                        </ul>
-                    </div><!-- end columns -->
-                </div><!-- end row -->
-            </div><!-- end container -->
-        </section><!-- end page-cover -->
-
-
-
-
         <!--===== INNERPAGE-WRAPPER ====-->
         <section class="innerpage-wrapper">
-        	<div id="login" class="innerpage-section-padding">
+            <div id="login" class="innerpage-section-padding">
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12">
-                        
-                        	<div class="flex-content">
+
+                            <div class="flex-content">
                                 <div class="custom-form custom-form-fields">
-                                    <h3>Update password</h3>
+                                    <h3>Login</h3>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    <form id="form-update-password">
+                                    <form id="form-login">
                                         <span style="color: darkred; padding: 12px 0; display: inline-block" id="mess"></span>
                                         <div class="form-group">
-                                            <input id="old-password" type="password" class="form-control" placeholder="Old Password"/>
-                                            <span><i class="fa fa-lock"></i></span>
+                                             <input id="email"  type="email" class="form-control" placeholder="Email"/>
+                                             <span><i class="fa fa-user"></i></span>
                                         </div>
 
                                         <div class="form-group">
-                                             <input id="password" type="password" class="form-control" placeholder="New password"/>
+                                             <input id="password" type="password" class="form-control" placeholder="Password"/>
                                              <span><i class="fa fa-lock"></i></span>
                                         </div>
-                                        <div class="form-group">
-                                            <input id="confirm-password" type="password" class="form-control" placeholder="Confirm new password"/>
-                                            <span><i class="fa fa-lock"></i></span>
-                                        </div>
 
-                                        <button class="btn btn-orange btn-block">Update password</button>
+                                        <button class="btn btn-orange btn-block">Login</button>
                                     </form>
-                                    
+
                                     <div class="other-links">
+                                        <p class="link-line">New Here ? <a href="/sign-up">Signup</a></p>
                                         <a class="simple-link" href="/forgot-password">Forgot Password ?</a>
                                     </div><!-- end other-links -->
                                 </div><!-- end custom-form -->
-                                
+
                                 <div class="flex-content-img custom-form-img">
                                     <img src="/images/login.jpg" class="img-responsive" alt="registration-img" />
                                 </div><!-- end custom-form-img -->
                             </div><!-- end form-content -->
-                            
+
                         </div><!-- end columns -->
                     </div><!-- end row -->
-                </div><!-- end container -->         
+                </div><!-- end container -->
             </div><!-- end login -->
         </section><!-- end innerpage-wrapper -->
-        
-        
+
+
         <!--======================= BEST FEATURES =====================-->
         <section id="best-features" class="banner-padding black-features">
-        	<div class="container">
-        		<div class="row">
-        			<div class="col-sm-6 col-md-3">
-                    	<div class="b-feature-block">
-                    		<span><i class="fa fa-dollar"></i></span>
-                        	<h3>Best Price Guarantee</h3>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="b-feature-block">
+                            <span><i class="fa fa-dollar"></i></span>
+                            <h3>Best Price Guarantee</h3>
                             <p>Lorem ipsum dolor sit amet, ad duo fugit aeque fabulas, in lucilius prodesset pri. Veniam delectus ei vis.</p>
                         </div><!-- end b-feature-block -->
                    </div><!-- end columns -->
-                   
+
                    <div class="col-sm-6 col-md-3">
-                    	<div class="b-feature-block">
-                    		<span><i class="fa fa-lock"></i></span>
-                        	<h3>Safe and Secure</h3>
+                        <div class="b-feature-block">
+                            <span><i class="fa fa-lock"></i></span>
+                            <h3>Safe and Secure</h3>
                             <p>Lorem ipsum dolor sit amet, ad duo fugit aeque fabulas, in lucilius prodesset pri. Veniam delectus ei vis.</p>
                         </div><!-- end b-feature-block -->
                    </div><!-- end columns -->
-                   
+
                    <div class="col-sm-6 col-md-3">
-                    	<div class="b-feature-block">
-                    		<span><i class="fa fa-thumbs-up"></i></span>
-                        	<h3>Best Travel Agents</h3>
+                        <div class="b-feature-block">
+                            <span><i class="fa fa-thumbs-up"></i></span>
+                            <h3>Best Travel Agents</h3>
                             <p>Lorem ipsum dolor sit amet, ad duo fugit aeque fabulas, in lucilius prodesset pri. Veniam delectus ei vis.</p>
                         </div><!-- end b-feature-block -->
                    </div><!-- end columns -->
-                   
+
                    <div class="col-sm-6 col-md-3">
-                    	<div class="b-feature-block">
-                    		<span><i class="fa fa-bars"></i></span>
-                        	<h3>Travel Guidelines</h3>
+                        <div class="b-feature-block">
+                            <span><i class="fa fa-bars"></i></span>
+                            <h3>Travel Guidelines</h3>
                             <p>Lorem ipsum dolor sit amet, ad duo fugit aeque fabulas, in lucilius prodesset pri. Veniam delectus ei vis.</p>
                         </div><!-- end b-feature-block -->
                    </div><!-- end columns -->
                 </div><!-- end row -->
-        	</div><!-- end container -->
+            </div><!-- end container -->
         </section><!-- end best-features -->
-        
-        
+
+
         <!--========================= NEWSLETTER-1 ==========================-->
-        <section id="newsletter-1" class="section-padding back-size newsletter"> 
+        <section id="newsletter-1" class="section-padding back-size newsletter">
             <div class="container">
                 <div class="row">
-                	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
                         <h2>Subscribe Our Newsletter</h2>
-                        <p>Subscibe to receive our interesting updates</p>	
+                        <p>Subscibe to receive our interesting updates</p>
                         <form>
                             <div class="form-group">
                                 <div class="input-group">
@@ -133,11 +112,12 @@
             </div><!-- end container -->
         </section><!-- end newsletter-1 -->
         <!-- Page Scripts Starts -->
-      </div>
+    </div>
 
 
     <th:block id="javascript">
-    <script src="/js/updatePassword.js"></script>
+    <script src="/js/login.js"></script>
     </th:block>
-    </body>
+
+</body>
 </html>

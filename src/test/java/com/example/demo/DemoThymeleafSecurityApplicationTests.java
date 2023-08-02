@@ -25,9 +25,6 @@ class DemoThymeleafSecurityApplicationTests {
     @Autowired
     private HotelRepository hotelRepository;
     @Autowired
-    private PaymentTypeRepository paymentTypeRepository;
-
-    @Autowired
     private RoomTypeRepository roomTypeRepository;
     @Autowired
     private RoomBookingRepository roomBookingRepository;
@@ -201,13 +198,24 @@ class DemoThymeleafSecurityApplicationTests {
         HotelRoomType hotelRoomType1 = hotelRoomTypeRepository.findById(1).orElse(null);
         HotelRoomType hotelRoomType2 = hotelRoomTypeRepository.findById(2).orElse(null);
         HotelRoomType hotelRoomType3 = hotelRoomTypeRepository.findById(3).orElse(null);
+        HotelRoomType hotelRoomType4 = hotelRoomTypeRepository.findById(4).orElse(null);
+        HotelRoomType hotelRoomType5 = hotelRoomTypeRepository.findById(5).orElse(null);
+        HotelRoomType hotelRoomType6 = hotelRoomTypeRepository.findById(6).orElse(null);
+        HotelRoomType hotelRoomType7 = hotelRoomTypeRepository.findById(7).orElse(null);
+        HotelRoomType hotelRoomType8 = hotelRoomTypeRepository.findById(8).orElse(null);
+        HotelRoomType hotelRoomType9 = hotelRoomTypeRepository.findById(9).orElse(null);
 
 
         List<RoomBooking> roomBookings = List.of(
-                RoomBooking.builder().pet(pet1).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(3)).hotelRoomType(hotelRoomType3).paymentType(com.example.demo.model.enums.PaymentType.CASH).build(),
-                RoomBooking.builder().pet(pet2).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(4)).hotelRoomType(hotelRoomType1).paymentType(com.example.demo.model.enums.PaymentType.ZALO).build(),
-                RoomBooking.builder().pet(pet3).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)).hotelRoomType(hotelRoomType2).paymentType(com.example.demo.model.enums.PaymentType.CASH).build(),
-                RoomBooking.builder().pet(pet1).startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(2)).hotelRoomType(hotelRoomType2).paymentType(com.example.demo.model.enums.PaymentType.ZALO)                        .build()
+                RoomBooking.builder().pet(pet1).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(3)).hotelRoomType(hotelRoomType6).paymentType(com.example.demo.model.enums.PaymentType.CASH).build(),
+                RoomBooking.builder().pet(pet2).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(4)).hotelRoomType(hotelRoomType7).paymentType(com.example.demo.model.enums.PaymentType.ZALO).build(),
+                RoomBooking.builder().pet(pet3).startDate(LocalDate.now()).endDate(LocalDate.now().plusDays(1)).hotelRoomType(hotelRoomType6).paymentType(com.example.demo.model.enums.PaymentType.CASH).build(),
+                RoomBooking.builder().pet(pet1).startDate(LocalDate.now().plusDays(4)).endDate(LocalDate.now().plusDays(3)).hotelRoomType(hotelRoomType8).paymentType(com.example.demo.model.enums.PaymentType.ZALO).build(),
+                RoomBooking.builder().pet(pet1).startDate(LocalDate.now().plusDays(2)).endDate(LocalDate.now().plusDays(2)).hotelRoomType(hotelRoomType9).paymentType(com.example.demo.model.enums.PaymentType.ZALO).build(),
+                RoomBooking.builder().pet(pet1).startDate(LocalDate.now().plusDays(1)).endDate(LocalDate.now().plusDays(1)).hotelRoomType(hotelRoomType8).paymentType(com.example.demo.model.enums.PaymentType.ZALO).build(),
+                RoomBooking.builder().pet(pet1).startDate(LocalDate.now().plusDays(3)).endDate(LocalDate.now().plusDays(2)).hotelRoomType(hotelRoomType7).paymentType(com.example.demo.model.enums.PaymentType.ZALO).build(),
+                RoomBooking.builder().pet(pet1).startDate(LocalDate.now().plusDays(1)).endDate(LocalDate.now().plusDays(1)).hotelRoomType(hotelRoomType9).paymentType(com.example.demo.model.enums.PaymentType.CASH).build(),
+                RoomBooking.builder().pet(pet1).startDate(LocalDate.now().plusDays(2)).endDate(LocalDate.now().plusDays(2)).hotelRoomType(hotelRoomType7).paymentType(com.example.demo.model.enums.PaymentType.ZALO).build()
         );
 
         roomBookingRepository.saveAll(roomBookings);

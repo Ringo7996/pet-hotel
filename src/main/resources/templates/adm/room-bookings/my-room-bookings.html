@@ -25,7 +25,7 @@
                 <a href="/admin">Dashboard</a>
               </li>
               <li class="breadcrumb-item active">
-                My hotels
+                My bookings
               </li>
             </ol>
           </div>
@@ -37,16 +37,15 @@
     <section class="content">
       <div class="container-fluid">
 
-        <th:block th:if="${sharedModel.isRootAdminRole}">
         <div class="row py-2">
           <div class="col-12">
-            <button type="button" class="btn btn-primary" id="btnCreate">
-              <i class="fas fa-plus"></i> Create hotel
-            </button>
+            <a href="/admin/hotels/hotel-create">
+              <button type="button" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Create room booking
+              </button>
+            </a>
           </div>
         </div>
-        </th:block>
-
 
         <div class="row">
           <div class="col-12">
@@ -56,40 +55,45 @@
                   <thead>
                   <tr>
                     <th>ID</th>
+                    <th>Created at</th>
+                    <th>Start date</th>
+                    <th>End date</th>
                     <th>Hotel name</th>
-                    <th>City</th>
-                    <th>Address</th>
+                    <th>Room type</th>
                     <th>Action</th>
-                    <th></th>
                   </tr>
                   </thead>
                   <tbody>
 
 
 
-                  <th:block th:with="hotelList = ${page.getContent()}">
-                    <tr th:each="hotel: ${hotelList}">
-                      <td th:text="${hotel.id}">
+                  <th:block th:with="roombookingList = ${page.getContent()}">
+                    <tr th:each="roombooking: ${roombookingList}">
+                      <td th:text="${roombooking.id}">
                         <a>STT</a>
                       </td>
-                      <td th:text="${hotel.name}">
+                      <td th:text="${roombooking.createdAt}">
                         <a>Name</a>
                       </td>
-                      <td th:text="${hotel.city}">
+                      <td th:text="${roombooking.startDate}">
                         <a>City</a>
                       </td>
-                      <td th:text="${hotel.address}">
+                      <td th:text="${roombooking.endDate}">
+                        <a>District</a>
+                      </td>
+                      <td th:text="${roombooking.hotelRoomType.hotel.name}">
+                        <a>Address</a>
+                      </td>
+                      <td th:text="${roombooking.hotelRoomType.roomType.name}">
                         <a>Address</a>
                       </td>
 
                       <td>
                           <span>
-                              <a th:href="@{/admin/hotels/{id}/detail (id=${hotel.id})}">
+                          <a th:href="@{/admin/room-bookings/{id}/detail (id=${roombooking.id})}">
                               <button type="button"
                                       class="btn btn-info px-4"> Detail  </button>
-                              </a>
-                              <button type="button"
-                                      class="btn btn-danger"> Delete  </button>
+                          </a>
                           </span>
                       </td>
                     </tr>
@@ -104,7 +108,7 @@
                     <li class="paginate_button page-item previous"
                         th:classappend="${currentPage == 0 ? 'disabled' : ''}"
                         id="example2_previous">
-                      <a th:href="@{/admin/hotels/my-hotels?page={pageNumber} (pageNumber= ${currentPage - 1})}"
+                      <a th:href="@{/admin/room-bookings/my-room-bookings?page={pageNumber} (pageNumber= ${currentPage - 1})}"
                          aria-controls="example2" data-dt-idx="0" tabindex="0"
                          class="page-link">Previous</a>
                     </li>
@@ -114,7 +118,7 @@
                             th:with="numbers = ${T(com.example.demo.ultils.Utils).createList(page.getTotalPages())}">
                       <li th:each="number: ${numbers}" class="paginate_button page-item"
                           th:classappend="${number == currentPage + 1 ? 'active' : ''}">
-                        <a th:href="@{/admin/hotels/my-hotels?page={pageNumber} (pageNumber=${number}-1) }"
+                        <a th:href="@{/admin/room-bookings/my-room-bookings?page={pageNumber} (pageNumber=${number}-1) }"
                            aria-controls="example2" data-dt-idx="1" tabindex="0"
                            class="page-link" th:text="${number}"> </a>
                       </li>
@@ -123,7 +127,7 @@
 
                     <li class="paginate_button page-item next" id="example2_next"
                         th:classappend="${currentPage == page.getTotalPages() -1 ? 'disabled' : ''}">
-                      <a th:href="@{/admin/hotels/my-hotels?page={pageNumber} (pageNumber= ${currentPage + 1})}"
+                      <a th:href="@{/admin/room-bookings/my-room-bookings?page={pageNumber} (pageNumber= ${currentPage + 1})}"
                          aria-controls="example2" data-dt-idx="7" tabindex="0"
                          class="page-link">Next</a>
                     </li>

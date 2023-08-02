@@ -26,7 +26,7 @@ public class RoomBooking {
     private Integer id;
 
     @Column(name = "created_at")
-    private LocalDateTime creatdAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "status")
     private Status status;
@@ -59,7 +59,7 @@ public class RoomBooking {
 
     @PostPersist
     protected void onCreate() {
-        creatdAt = LocalDateTime.now();
+        createdAt = LocalDateTime.now();
         cancelable = !(paymentType == PaymentType.CASH);
         status = Status.PENDING;
         user = pet.getUser();

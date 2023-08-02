@@ -1,7 +1,6 @@
 package com.example.demo.model.spabooking;
 
 
-import com.example.demo.model.entity.PaymentType;
 import com.example.demo.model.entity.Pet;
 import com.example.demo.model.entity.User;
 import com.example.demo.model.enums.Status;
@@ -48,9 +47,4 @@ public class SpaBooking {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "payment_type_id")
-    private PaymentType paymentType;
-
 }

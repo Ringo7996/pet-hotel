@@ -25,7 +25,7 @@ public class Home {
         } catch (Exception e) {
             System.out.println(e.toString());
         }
-        return "index";
+        return "web/index";
     }
 
 

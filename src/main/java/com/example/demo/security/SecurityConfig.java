@@ -62,7 +62,7 @@ public class SecurityConfig {
         String[] PUBLIC_ROUTE = {
                 "/",
                 "/api/v1/auth/**",
-                "/login",
+                "/web/common/**",
                 "/sign-up",
                 "/forgot-password",
                 "/api/send-email",

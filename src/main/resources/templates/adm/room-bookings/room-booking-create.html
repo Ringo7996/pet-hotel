@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{adm/fragments/layout :: main-fragment(~{:: #css}, ~{:: .wrapper}, ~{:: #javascript})}">
+
+
+<head>
+    <!-- Ionicons -->
+    <th:block id="css">
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+
+        <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css"/>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.css"
+              integrity="sha512-K1k7jSn9RDKEcn/ugqVVvWYu0bcS3q1w6m/5pQSnrj0bCfIqF6Wk49lkmckSb4wglvTP9V17LtS0q0XxYccXbg=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        <style>
+            .modal-dialog {
+                max-width: 1000px;
+            }
+
+            .image-container {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-gap: 10px;
+            }
+
+            .image-item {
+                height: 150px;
+                border: 2px solid #eee;
+            }
+
+            .image-item img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .image-item.selected {
+                border-color: #28a145 !important;
+                border-width: 4px !important;
+            }
+
+        </style>
+
+    </th:block>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="/admin">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/admin/room-bookings/room-booking-list">Room Bookings</a>
+                            </li>
+                            <li class="breadcrumb-item active" >
+                                Create Room Booking
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row py-2">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-default back">
+                            <i class="fas fa-chevron-left"></i> Back
+                        </button>
+                        <button id="btn-submit" type="button" class="btn btn-info px-4">
+                            Save
+                        </button>
+                    </div>
+
+                    <div class="col-6 d-flex justify-content-end">
+                        <button type="button" class="btn btn-danger px-4 reset" id="btnDelete">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body row">
+                    <div class="col-6">
+                        <div style="padding: 16px 0;"><span id="mess" style="color: red;"></span></div>
+                        <div class="form-group">
+                            <label for="email">City (pulldown) </label>
+                            <input type="text" id="city"  class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Start date: (chọn thời gian bắt đầu)</label>
+                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate">
+                                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Available Hotel (pull down sau khi chọn khoảng thời gian)</label>
+                            <input type="text" id="email"  class="form-control">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="phone">User Id (Nhập vào (bắt validation id có trong DB)) )</label>
+                            <input type="text" id="phone"  class="form-control">
+                        </div>
+
+                    </div>
+
+                    <div class="col-6">
+                        <div style="padding: 16px 0;"><span id="mess" style="color: red;"></span></div>
+                        <div class="form-group">
+                            <label for="district">District (pull down sau khi genarete city)</label>
+                            <input type="text" id="district"  class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label>End date: (chọn thời gian kết thúc)</label>
+                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate">
+                                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Room type (pull down genarate room-type còn trống từ hotel)</label>
+                            <input type="text" id="email"  class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Pet ID (pull down, genarate ra từ user id)</label>
+                            <input type="text" id="phone"  class="form-control">
+                        </div>
+
+
+                        => Sau khi điền xong, bấm nút Confirm thì hiện ra màn hình xác nhận thông tin, sau đó mới save
+
+                    </div>
+                </div>
+            </div>
+    </section>
+
+</div>
+
+</div>
+</div>
+
+
+<th:block id="javascript">
+    <script src="/adm/js/createUser.js"></script>
+    <script src="/adm/js/handlerResetandBack.js"></script>
+
+</th:block>
+</body>
+
+</html>

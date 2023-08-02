@@ -1,7 +1,6 @@
 package com.example.demo.model.request;
 
 
-import com.example.demo.model.entity.PaymentType;
 import com.example.demo.model.entity.Pet;
 import com.example.demo.model.roombooking.HotelRoomType;
 import jakarta.validation.constraints.NotNull;

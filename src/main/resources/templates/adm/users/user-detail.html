@@ -125,11 +125,12 @@
 
                             <div class="form-group">
                                 <div class="d-inline">
-                                    <input class="role" type="checkbox" id="rootadmin" value="2" th:checked="${isRootAdmin}" >
+                                    <input class="role" type="checkbox" id="rootadmin" value="2" th:checked="${isRootAdmin}" th:disabled="not ${sharedModel.isRootAdminRole}" >
                                     <label for="rootadmin">Root Admin  </label>
+
                                 </div>
                                 <div class="d-inline">
-                                    <input class="role" type="checkbox" id="admin" value="3" th:checked="${isAdmin}">
+                                    <input class="role" type="checkbox" id="admin" value="3" th:checked="${isAdmin}" th:disabled="not ${sharedModel.isRootAdminRole}" >
                                     <label for="admin">Admin  </label>
                                 </div>
                                 <div class="d-inline">
@@ -257,6 +258,7 @@
 <th:block id="javascript">
     <script src="/adm/js/handlerResetandBack.js"></script>
     <script src="/adm/js/updateInfoByAdmin.js"></script>
+
 </th:block>
 </body>
 

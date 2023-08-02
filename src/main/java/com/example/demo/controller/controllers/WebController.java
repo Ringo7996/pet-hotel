@@ -25,7 +25,7 @@ public class WebController {
         if (authentication != null && authentication.isAuthenticated()) {
             return "redirect:/";
         }
-        return "login";
+        return "web/common/login";
     }
 
     @GetMapping("/forgot-password")
@@ -38,7 +38,7 @@ public class WebController {
             System.out.println(e.toString());
         }
 
-        return "forgot-password";
+        return "web/common/forgot-password";
     }
 
     // -> Gửi email xác nhận quên mật khẩu
@@ -49,7 +49,7 @@ public class WebController {
         model = tokenConfirmService.checkToken(token, model);
         boolean isValid = (boolean) model.getAttribute("isValid") ;
         if(!isValid) return "/error/error-page";
-        return "reset-password";
+        return "web/common/reset-password";
     }
 
     @GetMapping("/sign-up")
@@ -59,7 +59,7 @@ public class WebController {
             return "redirect:/";
         }
 
-        return "sign-up";
+        return "web/common/sign-up";
     }
 
 }

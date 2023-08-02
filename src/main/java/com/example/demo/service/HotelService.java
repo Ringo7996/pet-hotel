@@ -7,6 +7,7 @@ import com.example.demo.model.roombooking.RoomType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface HotelService {
@@ -20,4 +21,10 @@ public interface HotelService {
     User createHotel(CreateHotelRequest request);
 
     Page<Hotel> getMyHotelsWithPage(Pageable pageable, Integer userId);
+
+    List<String> getAllCity();
+
+    List<String> getAllDistrictByCity(String city);
+
+    List<Hotel> getAvailableHotelByDateRange(String district, LocalDate startDay, LocalDate endDay);
 }

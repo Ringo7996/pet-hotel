@@ -24,7 +24,7 @@ public class UserProfile {
        } catch (Exception e){
            System.out.println(e.toString());
        }
-        return "user";
+        return "web/user/profile";
     }
 
     @GetMapping("/update-password")
@@ -37,7 +37,7 @@ public class UserProfile {
             System.out.println(e.toString());
         }
 
-        return "update-password";
+        return "web/user/update-password";
     }
 
 }

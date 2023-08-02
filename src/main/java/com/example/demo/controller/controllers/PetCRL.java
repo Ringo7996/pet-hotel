@@ -31,7 +31,7 @@ public class PetCRL {
         }catch (Exception e){
             System.out.println(e.toString());
         }
-        return "listPet";
+        return "web/user/pets";
     }
 //    @GetMapping("/create-pet")
 //    public String createPet(){

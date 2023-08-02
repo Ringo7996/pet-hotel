@@ -2,9 +2,10 @@ package com.example.demo.model.enums;
 
 public enum Status {
     PENDING("pending"),
-    CONFIRM("confirmed"),
-    CANCEL("cancel"),
-    COMPLETED("completed");
+    CONFIRMED("confirmed"),
+    CANCELED("canceled"),
+    COMPLETED("completed"),
+    DELETED("deleted");
 
     private String value;
 

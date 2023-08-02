@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{adm/fragments/layout :: main-fragment(~{:: #css}, ~{:: .wrapper}, ~{:: #javascript})}">
+
+
+<head>
+    <!-- Ionicons -->
+    <th:block id="css">
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+
+        <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css"/>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.css"
+              integrity="sha512-K1k7jSn9RDKEcn/ugqVVvWYu0bcS3q1w6m/5pQSnrj0bCfIqF6Wk49lkmckSb4wglvTP9V17LtS0q0XxYccXbg=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        <style>
+            .modal-dialog {
+                max-width: 1000px;
+            }
+
+            .image-container {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-gap: 10px;
+            }
+
+            .image-item {
+                height: 150px;
+                border: 2px solid #eee;
+            }
+
+            .image-item img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .image-item.selected {
+                border-color: #28a145 !important;
+                border-width: 4px !important;
+            }
+
+        </style>
+
+    </th:block>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="/admin">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/admin/room-bookings/room-booking-list">Room Bookings</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                <span>Booking No. </span> <span th:text="${roomBooking.id}"></span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row py-2">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-default back">
+                            <i class="fas fa-chevron-left"></i> Back
+                        </button>
+                        <button id="btn-submit" type="button" class="btn btn-info px-4">
+                            Save
+                        </button>
+                    </div>
+
+<!--                    <div class="col-6 d-flex justify-content-end">-->
+<!--                        <button type="button" class="btn btn-danger px-4" id="btnDelete">-->
+<!--                            Delete-->
+<!--                        </button>-->
+<!--                    </div>-->
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body row">
+                    <div class="col-6">
+                        <div style="padding: 16px 0;"><span id="mess" style="color: red;"></span></div>
+                        <div class="form-group">
+                            <label for="email">Hotel</label>
+                            <input type="text" id="email" disabled class="form-control" th:value="${hotel.name}">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="room-type">Room Type</label>
+                            <input type="text" id="room-type" disabled class="form-control" th:value="${roomType.name}">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="payment-type">Payment Type</label>
+                            <input type="text" id="payment-type" disabled class="form-control" th:value="${roomBooking.paymentType}">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="user">User </label>
+                            <input type="text" disabled id="user" class="form-control"  th:value="${roomBooking.user.id + ', ' + roomBooking.user.name}" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status">Status (pull down) </label>
+                            <input type="text"  id="status"  class="form-control"  th:value="${roomBooking.status}" >
+                        </div>
+
+                    </div>
+
+                    <div class="col-6">
+                        <div style="padding: 16px 0;"><span id="mess" style="color: red;"></span></div>
+                        <div class="form-group">
+                            <label for="district">Address</label>
+                            <input type="text" id="district" disabled class="form-control" th:value="${hotel.address+ ' ' + hotel.district + ' '+  hotel.city}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Price per day</label>
+                            <input type="text" id="email" disabled class="form-control" th:value="${roomType.price}">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Booking</label>
+                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                <input type="text" disabled class="form-control datetimepicker-input" data-target="#reservationdate"
+                                       th:value="${#temporals.format(roomBooking.startDate, 'yyyy-MM-dd')  + ' ~ ' + #temporals.format(roomBooking.endDate, 'yyyy-MM-dd')}" >
+
+                                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Pet (edit được, generate ra pulldown từ user) </label>
+                            <input type="text" id="phone"  class="form-control" th:value="${roomBooking.pet.id + ', ' + roomBooking.pet.name}">
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</div>
+</div>
+
+
+<th:block id="javascript">
+    <script src="/adm/js/createUser.js"></script>
+    <script src="/adm/js/handlerResetandBack.js"></script>
+
+</th:block>
+</body>
+
+</html>
