@@ -85,6 +85,7 @@ btnUpload.onclick =()=>{
     inputfile.click();
 }
 
+
 var reset =()=>{
 
     //input

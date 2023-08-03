@@ -40,12 +40,12 @@ public class Hotel {
     @Column(name = "status")
     private Boolean status;
 
-    @OneToMany(mappedBy = "hotel", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<HotelRoomType> hotelRoomTypes = new ArrayList<>();
 
     @JsonBackReference
-    @ManyToMany(mappedBy = "myHotels", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "myHotels", fetch = FetchType.EAGER,cascade = CascadeType.ALL )
     private List<User> staff = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "hotel")

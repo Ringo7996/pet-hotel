@@ -15,6 +15,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByEmail(String email);
     Optional<User> findById(Integer id);
 
-    @Query("SELECT u FROM User u WHERE u.id NOT IN (SELECT u2.id FROM User u2 JOIN u2.myHotels h WHERE h.id = :hotelId)")
+    @Query("SELECT u FROM User u WHERE EXISTS (SELECT r FROM u.roles r WHERE r.name = 'ADMIN' or r.name = 'ROOT_ADMIN' ) AND NOT EXISTS (SELECT h FROM u.myHotels h WHERE h.id = :hotelId)")
     List<User> getAdminNotPartOfHotel(@Param("hotelId") Integer id);
 }

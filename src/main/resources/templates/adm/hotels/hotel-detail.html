@@ -99,7 +99,7 @@
                                         object-fit: contain;
                                     }
                                 </style>
-                                <img style="width: 300px;" width="300" height="300" th:if="${hotel.image}" id="img-review" th:src="@{'/api/v1/files/' + ${user.id}}" class="img-responsive" alt="user-img" />
+                                <img style="width: 300px;" width="300" height="300" th:if="${hotel.image}" id="img-review" th:src="@{'/api/v1/files/' + ${hotel.image.id}}" class="img-responsive" alt="user-img" />
                                 <img th:unless="${hotel.image}" id="img-review" src="/images/user-profile.jpg" class="img-responsive" alt="user-img" />
                                 <br>
                                 <button class="btn btn-info" id="btn-upload">Change avatar</button>
@@ -108,6 +108,7 @@
                             </div>
                         </div>
                         <div class="col-7 form-info-hotel">
+                            <span id ="mess" style="color: red; display: block; padding: 12px 0;"></span>
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <input type="text" id="name" th:value="${hotel.name}" class="form-control">
@@ -211,7 +212,7 @@
                                 </tr>
                                 </thead>
                                 <tbody id="tbodyAdmin" >
-                                <tr  th:each="user: ${staffList}">
+                                <tr class="info-staff"  th:each="user: ${staffList}">
                                     <td class="id" th:text="${user.id}">1</td>
                                     <td class="name" th:text="${user.name}">Call of Duty</td>
                                     <td class="email" th:text="${user.email}">Call of Duty</td>
@@ -310,7 +311,7 @@
     </div>
 <th:block id="javascript">
     <script src="/adm/js/handlerResetandBack.js"></script>
-    <script src="/adm/js/addRoomTypeForHotel.js"></script>
+    <script src="/adm/js/updateInfoHotel.js"></script>
 </th:block>
 </body>
 </html>

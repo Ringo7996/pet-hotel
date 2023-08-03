@@ -1,8 +1,10 @@
 package com.example.demo.service;
 
+import com.example.demo.model.entity.Hotel;
 import com.example.demo.model.entity.Image;
 import com.example.demo.model.entity.Pet;
 import com.example.demo.model.entity.User;
+import com.example.demo.repository.HotelRepository;
 import com.example.demo.repository.ImageRepository;
 import com.example.demo.repository.PetRepository;
 import com.example.demo.repository.UserRepository;
@@ -24,6 +26,9 @@ public class ImageServiceImp implements ImageService {
 
     @Autowired
     PetRepository petRepository;
+
+    @Autowired
+    HotelRepository hotelRepository;
 
     @Override
     public Image readImageById(Integer id) {
@@ -112,6 +117,7 @@ public class ImageServiceImp implements ImageService {
     }
 
 
+
     @Override
     public void validateFile(MultipartFile file) {
         String[] IMAGE_TYPES = {"image/jpeg", "image/png", "image/gif"};
@@ -146,5 +152,36 @@ public class ImageServiceImp implements ImageService {
                 });
 
         return imageRepository.findByPet_Id(id);
+    }
+
+    @Override
+    public void uploadByHotel(Integer id,MultipartFile file) {
+        validateFile(file);
+
+        Hotel hotel2find = hotelRepository.findById(id)
+                .orElseThrow(() -> {
+                    throw new RuntimeException("Pet id not found");
+                });
+        try {
+            Image image = hotel2find.getImage();
+            if(image != null ){
+                image.setType(file.getContentType());
+                image.setData(file.getBytes());
+                imageRepository.save(image);
+                return ;
+            }
+
+            Image image2upload = Image.builder()
+                    .type(file.getContentType())
+                    .data(file.getBytes())
+                    .hotel(hotel2find)
+                    .build();
+            imageRepository.save(image2upload);
+            hotel2find.setImage(image2upload);
+            hotelRepository.save(hotel2find);
+        }catch (IOException e) {
+            System.out.println(e.toString());
+            throw new RuntimeException("Upload error");
+        }
     }
 }

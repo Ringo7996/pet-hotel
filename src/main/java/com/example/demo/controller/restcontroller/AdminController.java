@@ -69,7 +69,6 @@ public class AdminController {
     public  ResponseEntity<?> getAdminNotPartOfHotel(@PathVariable("id") Integer id){
         try {
             List<User> users = userService.getAdminNotPartOfHotel(id);
-            System.out.println(users.get(0).getEmail());
             return ResponseEntity.ok(users);
         }catch (Exception e){
             System.out.println(e.toString());
