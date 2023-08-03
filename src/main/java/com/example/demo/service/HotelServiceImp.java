@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.model.entity.Hotel;
+import com.example.demo.model.entity.Image;
 import com.example.demo.model.entity.User;
 import com.example.demo.model.request.CreateHotelRequest;
 import com.example.demo.model.request.HotelRequest;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -47,6 +50,9 @@ public class HotelServiceImp implements HotelService {
 
     @Autowired
     private RoomTypeRepository roomTypeRepository;
+
+    @Autowired
+    private ImageRepository imageRepository;
     @Override
     public void updateInfoHotel(HotelRequest hotelRequest, Integer id) {
         Optional<Hotel> opHotel = hotelRepository.findById(id);
@@ -170,6 +176,38 @@ public class HotelServiceImp implements HotelService {
         List<Hotel> availableHotels = hotelRepository.findByHotelRoomTypeIdList(availHotelRoomTypeIds);
 
         return availableHotels;
+    }
+
+    @Override
+    public void createHotel(HotelRequest hotelRequest) {
+
+        List<Hotel> hotelsSystem = hotelRepository.findAllByName(hotelRequest.getName());
+        if(!hotelsSystem.isEmpty()) throw new RuntimeException("Hotel already exists");
+
+        Hotel newHotel = new Hotel();
+
+        newHotel.setName(hotelRequest.getName());
+        newHotel.setCity(hotelRequest.getCity());
+        newHotel.setDescription(hotelRequest.getDescription());
+        newHotel.setDistrict(hotelRequest.getDistrict());
+        newHotel.setAddress(hotelRequest.getAddress());
+
+        if(hotelRequest.getFileImage() != null){
+            try {
+                MultipartFile file = hotelRequest.getFileImage();
+                imageService.validateFile(file);
+                Image image2upload = Image.builder()
+                        .type(file.getContentType())
+                        .data(file.getBytes())
+                        .hotel(newHotel)
+                        .build();
+                newHotel.setImage(image2upload);
+                imageRepository.save(image2upload);
+            } catch (Exception e){
+                throw new RuntimeException(e.toString());
+            }
+        }
+        hotelRepository.save(newHotel);
     }
 
 

@@ -30,4 +30,5 @@ public interface HotelService {
     List<String> getAllDistrictByCity(String city);
 
     List<Hotel> getAvailableHotelByDateRange(String district, LocalDate startDay, LocalDate endDay);
+    void createHotel(HotelRequest hotelRequest);
 }

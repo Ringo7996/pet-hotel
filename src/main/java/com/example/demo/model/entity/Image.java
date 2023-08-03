@@ -36,7 +36,7 @@ public class Image {
     private User user;
 
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "hotel_id")
     @JsonBackReference
     private Hotel hotel;
