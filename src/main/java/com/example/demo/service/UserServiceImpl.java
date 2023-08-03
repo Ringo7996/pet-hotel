@@ -148,13 +148,7 @@ public class UserServiceImpl implements UserService {
             try {
                 MultipartFile file = request.getFile();
                 imageService.validateFile(file);
-                Image image2upload = Image.builder()
-                        .type(file.getContentType())
-                        .data(file.getBytes())
-                        .user(user)
-                        .build();
-                user.setImage(image2upload);
-                imageRepository.save(image2upload);
+                imageService.uploadImageByUserId(id,file);
             } catch (Exception e){
                 throw new RuntimeException(e.toString());
             }

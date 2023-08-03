@@ -32,7 +32,7 @@ public class RoomType {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "roomType")
+    @OneToMany(mappedBy = "roomType", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<HotelRoomType> hotelRoomTypes = new ArrayList<>();
 

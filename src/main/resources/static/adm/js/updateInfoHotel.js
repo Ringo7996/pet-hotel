@@ -121,7 +121,7 @@ function letGo(listRoomType,listAdmin){
         if(listRoomTypes.length>0){
              listRoomTypes.forEach(e=>{
                 let newElement = `
-                  <tr>
+                  <tr class="info-type-room" >
                        <td class="id" >${e.id}</td>
                        <td class="name" >${e.name}</td>
                        <td class="price">${e.price}</td>
@@ -201,7 +201,7 @@ function letGo(listRoomType,listAdmin){
         if(listAdminSystem.length>0){
             listAdminSystem.forEach(e=>{
                 let newElement = `
-                  <tr>
+                  <tr class="info-staff" >
                        <td class="id" >${e.id}</td>
                        <td class="name" >${e.name}</td>
                        <td class="email">${e.email}</td>
@@ -218,9 +218,6 @@ function letGo(listRoomType,listAdmin){
             })
         }
     }
-
-
-
 
 // function
        deleteTypeRoom = (e)=>{
@@ -272,6 +269,126 @@ function letGo(listRoomType,listAdmin){
         return false;
     }
 
+}
+let btnUpdate =document.getElementById("btnUpdate");
+btnUpdate.onclick =()=>{
+    if(!getHotel()) return false
+
+    let submitData = new FormData();
+
+    submitData.append("name",getHotel().name);
+    submitData.append("city",getHotel().city);
+    submitData.append("district",getHotel().district);
+    submitData.append("address",getHotel().address);
+    submitData.append("description",getHotel().description);
+
+    if(getHotel().imgFile){
+        submitData.append("fileImage",getHotel().fileImage);
+    }
+    submitData.append("adminId",getAdmin())
+    submitData.append("roomTypeId",getRoomTypeId());
+    submitData.append("totalRoom",getTotalRoom());
+    console.log(getTotalRoom());
+    console.log(getRoomTypeId());
+
+    let id = getHotel().id;
+
+    $.ajax({
+        url: `http://localhost:8080/api/v1/hotels/updateHotel/${id}`,
+        type: 'POST',
+        data: submitData,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        success: function (response) {
+            let mess = document.getElementById("mess");
+            mess.innerText="";
+            alert("Update thành công!")
+        },
+        error: function (jqXHR, textStatus, errorThrown, response) {
+            if(jqXHR.status === 400) {
+                mess.innerText="Thất bại"
+            }
+            console.log("fail");
+        }
+    })
+
+}
+
+function getHotel (){
+    let inputfile = document.getElementById("file-img");
+    let id = document.querySelector("#id").innerText;
+    let imgFile = inputfile.files[0];
+    let name = document.getElementById("name").value;
+    let city = document.getElementById("city").value;
+    let district =document.getElementById("district").value;
+    let address =document.getElementById("address").value;
+    let description =document.getElementById("description").innerText;
+
+    let mess = document.getElementById("mess");
+    if (
+        name.trim() === ""
+        && city.trim() === ""
+        && district.trim() ===""
+        && address.trim() ===""
+        && district.trim() === ""
+        && description.trim() === ""
+    ){
+        mess.innerText =" Vui lòng nhập đủ thông tin Hotel";
+        return false;
+    }
+
+    let returnObj =  {
+        id,
+        imgFile,
+        name,
+        city,
+        district,
+        address,
+        description
+    }
+    if(imgFile){
+        returnObj.fileImage = imgFile;
+    }
+
+    return returnObj;
+}
+
+function getRoomTypeId (){
+    let roomTypeList =[];
+    let infoRoomTypeList = document.querySelectorAll(".info-type-room");
+    if(infoRoomTypeList.length === 0) return [];
+    infoRoomTypeList.forEach(e=>{
+        let id = e.querySelector(".id").innerText;
+        id = Number(id);
+        let totalRoom = e.querySelector(".roomNumber").innerText;
+        totalRoom = Number(totalRoom);
+        roomTypeList.push(id);
+    })
+    return roomTypeList;
+}
+function getTotalRoom (){
+    let roomTypeList =[];
+    let infoRoomTypeList = document.querySelectorAll(".info-type-room");
+    if(infoRoomTypeList.length === 0) return [];
+
+    infoRoomTypeList.forEach(e=>{
+        let totalRoom = e.querySelector(".roomNumber").innerText;
+        totalRoom = Number(totalRoom);
+        roomTypeList.push(totalRoom);
+    })
+    return roomTypeList;
+}
+function getAdmin (){
+    let idAminList =[];
+    let infoAdmin = document.querySelectorAll(".info-staff");
+    if(infoAdmin.length === 0) return [];
+    infoAdmin.forEach(e=>{
+        let id = e.querySelector(".id").innerText;
+        id =Number(id);
+        idAminList.push(id);
+    })
+    return idAminList;
 }
 
 

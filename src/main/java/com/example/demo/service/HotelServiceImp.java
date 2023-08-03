@@ -4,11 +4,11 @@ import com.example.demo.exception.NotFoundException;
 import com.example.demo.model.entity.Hotel;
 import com.example.demo.model.entity.User;
 import com.example.demo.model.request.CreateHotelRequest;
+import com.example.demo.model.request.HotelRequest;
+import com.example.demo.model.request.HotelRoomTypeRequest;
 import com.example.demo.model.roombooking.HotelRoomType;
 import com.example.demo.model.roombooking.RoomType;
-import com.example.demo.repository.HotelRepository;
-import com.example.demo.repository.HotelRoomTypeRepository;
-import com.example.demo.repository.RoomBookingRepository;
+import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +29,82 @@ public class HotelServiceImp implements HotelService {
     private HotelRoomTypeRepository hotelRoomTypeRepository;
 
     @Autowired
+    private HotelRoomTypeService hotelRoomTypeService;
+
+    @Autowired
     private RoomBookingRepository roomBookingRepository;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ImageService imageService;
+    @Autowired
+    private RoomTypeService roomTypeService;
+
+    @Autowired
+    private RoomTypeRepository roomTypeRepository;
+    @Override
+    public void updateInfoHotel(HotelRequest hotelRequest, Integer id) {
+        Optional<Hotel> opHotel = hotelRepository.findById(id);
+        if(opHotel.isEmpty()) throw  new NotFoundException("Not found");
+
+        Hotel  hotel = opHotel.get();
+
+        hotel.setName(hotelRequest.getName());
+        hotel.setCity(hotelRequest.getCity());
+        hotel.setDistrict(hotelRequest.getDistrict());
+        hotel.setAddress(hotelRequest.getAddress());
+        hotel.setStatus(hotelRequest.getStatus());
+
+        if(hotelRequest.getFileImage() != null){
+            imageService.uploadByHotel(id,hotelRequest.getFileImage());
+        }
+
+        List<Integer> adminIds = hotelRequest.getAdminId();
+
+        List<User> staffs = new ArrayList<>();
+
+        if(!adminIds.isEmpty()) {
+            for (Integer e : adminIds) {
+                User admin = userService.findById(e);
+                if (!admin.getMyHotels().contains(hotel)) {
+                    admin.getMyHotels().add(hotel);
+                    userRepository.save(admin);
+                }
+                staffs.add(admin);
+            }
+        }
+        hotel.setStaff(staffs);
+        hotelRepository.save(hotel);
+        List<HotelRoomTypeRequest> hotelRoomTypeRequestList = hotelRequest.getHotelRoomTypeRequests();
+        if(!hotelRoomTypeRequestList.isEmpty()){
+            for (HotelRoomTypeRequest e: hotelRoomTypeRequestList) {
+                System.out.println(e.getRoomTypeId());
+                Integer isCheck = hotelRoomTypeRepository.isExits(id,e.getRoomTypeId());
+                if(isCheck > 0)
+                    hotelRoomTypeRepository.updateTotalRoomNumber(
+                            id,
+                            e.getRoomTypeId(),
+                            e.getTotalRoom()
+                    );
+                else{
+                    RoomType roomType = roomTypeService.findById(e.getRoomTypeId());
+                    HotelRoomType hotelRoomType = new HotelRoomType();
+                    hotelRoomType.setHotel(hotel);
+                    hotelRoomType.setRoomType(roomType);
+                    hotelRoomType.setTotalRoomNumber(e.getTotalRoom());
+                    hotelRoomTypeRepository.save(hotelRoomType);
+                }
+            }
+        }else{
+            hotelRoomTypeRepository.deleteByHotelId(id);
+        }
+
+    }
 
     @Override
     public Page<Hotel> getAllHotelsWithPage(Pageable pageable) {

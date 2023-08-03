@@ -5,7 +5,9 @@ import com.example.demo.model.entity.Hotel;
 import com.example.demo.model.entity.User;
 import com.example.demo.model.request.CreateHotelRequest;
 import com.example.demo.model.request.CreateUserRequest;
+import com.example.demo.model.request.HotelRequest;
 import com.example.demo.service.HotelService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,7 +26,7 @@ public class HotelController {
     private HotelService hotelService;
 
     @PostMapping("/create")
-    public User createUser(@RequestBody CreateHotelRequest request) {
+    public User createHotel(@RequestBody CreateHotelRequest request) {
         return hotelService.createHotel(request);
     }
 
@@ -53,4 +56,19 @@ public class HotelController {
             throw new BadRequestException(e.toString());
         }
     }
+
+    @PreAuthorize("hasAnyRole('ROOT_ADMIN')")
+    @PostMapping("/updateHotel/{id}")
+    public ResponseEntity<?> updateHotel(@PathVariable("id") Integer id,@Valid @ModelAttribute HotelRequest hotelRequest){
+        try {
+            hotelRequest.convert();
+            hotelService.updateInfoHotel(hotelRequest,id);
+            return ResponseEntity.ok("Update success");
+        } catch (Exception e){
+            System.out.println(e.toString());
+            return ResponseEntity.badRequest().body(e.toString());
+        }
+    }
+
+
 }

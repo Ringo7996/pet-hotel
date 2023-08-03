@@ -20,5 +20,6 @@ public interface ImageService {
 
     Optional getImageByPetId(Integer id);
 
+    void uploadByHotel(Integer id, MultipartFile file);
     void validateFile(MultipartFile file);
 }

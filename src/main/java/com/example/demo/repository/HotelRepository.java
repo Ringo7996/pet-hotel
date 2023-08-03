@@ -28,5 +28,6 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
     List<Hotel> findByHotelRoomTypeIdList(List<Integer> hotelRoomTypeIds);
 
 
+
     List<Hotel> findByStaffIdOrderById(Integer userId);
 }

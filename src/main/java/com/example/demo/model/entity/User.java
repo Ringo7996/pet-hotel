@@ -44,7 +44,7 @@ public class User implements UserDetails {
     @Column(name = "status")
     private Boolean status;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JsonManagedReference
     @JoinTable(name = "staff_hotel",
             joinColumns = @JoinColumn(name = "user_id"),
