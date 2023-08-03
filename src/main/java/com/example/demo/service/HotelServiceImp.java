@@ -68,42 +68,37 @@ public class HotelServiceImp implements HotelService {
 
         List<User> staffs = new ArrayList<>();
 
+        List<User> users = hotel.getStaff();
+        for (User user : users) {
+            user.getMyHotels().remove(hotel);
+            userRepository.save(user);
+        }
+
         if(!adminIds.isEmpty()) {
             for (Integer e : adminIds) {
                 User admin = userService.findById(e);
-                if (!admin.getMyHotels().contains(hotel)) {
-                    admin.getMyHotels().add(hotel);
-                    userRepository.save(admin);
-                }
+                admin.getMyHotels().add(hotel);
+                userRepository.save(admin);
                 staffs.add(admin);
             }
         }
+
         hotel.setStaff(staffs);
-        hotelRepository.save(hotel);
+
         List<HotelRoomTypeRequest> hotelRoomTypeRequestList = hotelRequest.getHotelRoomTypeRequests();
+        hotelRoomTypeRepository.deleteByHotelId(id);
         if(!hotelRoomTypeRequestList.isEmpty()){
             for (HotelRoomTypeRequest e: hotelRoomTypeRequestList) {
-                System.out.println(e.getRoomTypeId());
-                Integer isCheck = hotelRoomTypeRepository.isExits(id,e.getRoomTypeId());
-                if(isCheck > 0)
-                    hotelRoomTypeRepository.updateTotalRoomNumber(
-                            id,
-                            e.getRoomTypeId(),
-                            e.getTotalRoom()
-                    );
-                else{
-                    RoomType roomType = roomTypeService.findById(e.getRoomTypeId());
-                    HotelRoomType hotelRoomType = new HotelRoomType();
-                    hotelRoomType.setHotel(hotel);
-                    hotelRoomType.setRoomType(roomType);
-                    hotelRoomType.setTotalRoomNumber(e.getTotalRoom());
-                    hotelRoomTypeRepository.save(hotelRoomType);
-                }
-            }
-        }else{
-            hotelRoomTypeRepository.deleteByHotelId(id);
-        }
 
+                RoomType roomType = roomTypeService.findById(e.getRoomTypeId());
+                HotelRoomType hotelRoomType = new HotelRoomType();
+                hotelRoomType.setHotel(hotel);
+                hotelRoomType.setRoomType(roomType);
+                hotelRoomType.setTotalRoomNumber(e.getTotalRoom());
+                hotelRoomTypeRepository.save(hotelRoomType);
+            }
+        }
+        hotelRepository.save(hotel);
     }
 
     @Override

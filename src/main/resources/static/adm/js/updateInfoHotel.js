@@ -288,9 +288,7 @@ btnUpdate.onclick =()=>{
     submitData.append("adminId",getAdmin())
     submitData.append("roomTypeId",getRoomTypeId());
     submitData.append("totalRoom",getTotalRoom());
-    console.log(getTotalRoom());
-    console.log(getRoomTypeId());
-
+    console.log(getAdmin());
     let id = getHotel().id;
 
     $.ajax({

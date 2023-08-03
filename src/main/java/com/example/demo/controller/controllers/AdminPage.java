@@ -134,7 +134,7 @@ public class AdminPage {
         Hotel hotel = hotelService.findById(hotelId);
         List<HotelRoomType> hotelRoomTypes = hotelRoomTypeService.findByHotel_Id(hotelId);
         List<User> staffs = hotel.getStaff();
-
+        staffs.forEach(e -> System.out.println(e.getId()));
         model.addAllAttributes(Map.of(
                 "hotel", hotel,
                 "hotelRoomTypeList", hotelRoomTypes,

@@ -56,4 +56,6 @@ public class Hotel {
         this.status = true;
     }
 
+
+
 }

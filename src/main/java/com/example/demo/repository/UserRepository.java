@@ -5,6 +5,7 @@ import com.example.demo.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,4 +18,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u FROM User u WHERE EXISTS (SELECT r FROM u.roles r WHERE r.name = 'ADMIN' or r.name = 'ROOT_ADMIN' ) AND NOT EXISTS (SELECT h FROM u.myHotels h WHERE h.id = :hotelId)")
     List<User> getAdminNotPartOfHotel(@Param("hotelId") Integer id);
+
 }
