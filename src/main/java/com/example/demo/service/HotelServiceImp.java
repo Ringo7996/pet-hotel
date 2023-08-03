@@ -113,6 +113,11 @@ public class HotelServiceImp implements HotelService {
     }
 
     @Override
+    public Page<Hotel> getHotelsActivityWithPage(Boolean status,Pageable pageable) {
+        return hotelRepository.findByStatusOrderById(status,pageable);
+    }
+
+    @Override
     public Hotel findById(Integer hotelId) {
         return hotelRepository.findById(hotelId).orElseThrow(() -> new NotFoundException("Hotel with id " + hotelId + " is not found"));
     }
@@ -208,6 +213,20 @@ public class HotelServiceImp implements HotelService {
             }
         }
         hotelRepository.save(newHotel);
+    }
+
+    @Override
+    public void softDelete(Integer id) {
+        Hotel hotel = findById(id);
+        hotel.setStatus(false);
+        hotelRepository.save(hotel);
+    }
+
+    @Override
+    public void activityHotel(Integer id) {
+        Hotel hotel = findById(id);
+        hotel.setStatus(true);
+        hotelRepository.save(hotel);
     }
 
 

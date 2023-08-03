@@ -60,8 +60,8 @@ public class AdminPage {
     }
 
     @GetMapping("/users/user-list")
-    public String getUserPage(Model model, Pageable pageable) {
-        Page<User> userPage = userService.getAllUsersWithPage(pageable);
+    public String getUserActivityPage(Model model, Pageable pageable) {
+        Page<User> userPage = userService.getUsersByStatusWithPage(true,pageable);
 
         model.addAllAttributes(Map.of(
                 "page", userPage,
@@ -69,6 +69,17 @@ public class AdminPage {
         ));
 
         return "adm/users/user-list";
+    }
+    @GetMapping("/users/user-not-activity")
+    public String getUserNotActivityPage(Model model, Pageable pageable) {
+        Page<User> userPage = userService.getUsersByStatusWithPage(false,pageable);
+
+        model.addAllAttributes(Map.of(
+                "page", userPage,
+                "currentPage", pageable.getPageNumber()
+        ));
+
+        return "adm/users/user-list-not-activity";
     }
 
     @GetMapping("/users/user-create")
@@ -100,7 +111,7 @@ public class AdminPage {
 
     @GetMapping("/hotels/hotel-list")
     public String getHotelPage(Model model, Pageable pageable) {
-        Page<Hotel> hotelPage = hotelService.getAllHotelsWithPage(pageable);
+        Page<Hotel> hotelPage = hotelService.getHotelsActivityWithPage(true,pageable);
 
         model.addAllAttributes(Map.of(
                 "page", hotelPage,
@@ -108,6 +119,17 @@ public class AdminPage {
         ));
 
         return "adm/hotels/hotel-list";
+    }
+    @GetMapping("/hotels/hotel-list-not-activity")
+    public String getHotelPageNotActivity(Model model, Pageable pageable) {
+        Page<Hotel> hotelPage = hotelService.getHotelsActivityWithPage(false,pageable);
+
+        model.addAllAttributes(Map.of(
+                "page", hotelPage,
+                "currentPage", pageable.getPageNumber()
+        ));
+
+        return "adm/hotels/hotel-list-not-activity";
     }
 
     @GetMapping("/hotels/my-hotels")

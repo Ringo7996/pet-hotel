@@ -70,5 +70,31 @@ public class HotelController {
         }
     }
 
+    @PostMapping("/delete-hotel/{id}")
+    @PreAuthorize("hasAnyRole('ROOT_ADMIN')")
+    public ResponseEntity<?> deleteHotel(@PathVariable("id") Integer id){
+
+        try {
+            hotelService.softDelete(id);
+            return ResponseEntity.ok("Success");
+        }catch (Exception e){
+            System.out.println(e.toString());
+            return ResponseEntity.badRequest().body("Hotel not Found");
+        }
+
+    }
+    @PostMapping("/activity-hotel/{id}")
+    @PreAuthorize("hasAnyRole('ROOT_ADMIN')")
+    public ResponseEntity<?> activityHotel(@PathVariable("id") Integer id){
+
+        try {
+            hotelService.activityHotel(id);
+            return ResponseEntity.ok("Success");
+        }catch (Exception e){
+            System.out.println(e.toString());
+            return ResponseEntity.badRequest().body("Hotel not Found");
+        }
+
+    }
 
 }

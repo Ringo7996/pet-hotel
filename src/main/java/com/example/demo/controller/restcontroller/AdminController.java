@@ -86,6 +86,7 @@ public class AdminController {
         return  ResponseEntity.ok("Create success");
     }
 
+
     @GetMapping("/get-admin-not-part-of-hotel/{id}")
     @PreAuthorize("hasRole('ROLE_ROOT_ADMIN')")
     public  ResponseEntity<?> getAdminNotPartOfHotel(@PathVariable("id") Integer id){

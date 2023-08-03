@@ -17,6 +17,8 @@ public interface HotelService {
 
     Page<Hotel> getAllHotelsWithPage(Pageable pageable);
 
+    Page<Hotel> getHotelsActivityWithPage(Boolean status,Pageable pageable);
+
     Hotel findById(Integer hotelId);
 
     List<RoomType> getRoomType(Integer hotelId);
@@ -31,4 +33,7 @@ public interface HotelService {
 
     List<Hotel> getAvailableHotelByDateRange(String district, LocalDate startDay, LocalDate endDay);
     void createHotel(HotelRequest hotelRequest);
+
+    void softDelete(Integer id);
+    void activityHotel(Integer id);
 }

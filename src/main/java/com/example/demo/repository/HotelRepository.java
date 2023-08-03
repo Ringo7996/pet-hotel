@@ -14,6 +14,7 @@ import java.util.List;
 public interface HotelRepository extends JpaRepository<Hotel, Integer> {
     Page<Hotel> findByStaffIdOrderById(Integer userId, Pageable pageable);
 
+    Page<Hotel> findByStatusOrderById(Boolean status,Pageable pageable);
     @Query(nativeQuery = true, value = "SELECT DISTINCT city FROM hotel ")
     List<String> getAllCity();
 

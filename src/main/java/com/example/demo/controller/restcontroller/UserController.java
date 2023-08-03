@@ -9,11 +9,17 @@ import com.example.demo.security.AuthenticationFacade;
 import com.example.demo.service.PetService;
 import com.example.demo.service.RoomBookingService;
 import com.example.demo.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -93,6 +99,46 @@ public class UserController {
         return userService.createUser(request);
     }
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
+    @PostMapping("/delete-user/{id}")
+    @PreAuthorize("hasAnyRole('ROOT_ADMIN')")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") Integer id,
+                                        HttpSession session,
+                                        HttpServletRequest request,
+                                        HttpServletResponse response){
+        try {
+            userService.softDelete(id);
+            String email =(String) session.getAttribute("MY_SESSION");
+            User user = userService.findByEmail(email);
+            if(user.getId().equals(id)){
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                if (auth != null) {
+                    new SecurityContextLogoutHandler().logout(request, response, auth);
+
+                }
+                return ResponseEntity.ok("/logout");
+            }
+            return ResponseEntity.ok("1223");
+        }catch (Exception e){
+            System.out.println(e.toString());
+            return ResponseEntity.badRequest().body(e);
+        }
+
+    }
+
+    @PostMapping("/activity-user/{id}")
+    @PreAuthorize("hasAnyRole('ROOT_ADMIN')")
+    public ResponseEntity<?> activityUser(@PathVariable("id") Integer id){
+        try {
+            userService.activityUser(id);
+            return ResponseEntity.ok("Success");
+        }catch (Exception e){
+            System.out.println(e.toString());
+            return ResponseEntity.badRequest().body(e);
+        }
+
+    }
 
 }
