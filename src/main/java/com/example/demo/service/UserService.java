@@ -26,6 +26,10 @@ public interface UserService {
 
     Page<User> getAllUsersWithPage(Pageable pageable);
 
+    Page<User> getUsersByStatusWithPage(Boolean status,Pageable pageable);
+
+
+
     User findById(Integer userId);
 
     Model getUserLogin (HttpSession session, Model model);
@@ -33,6 +37,11 @@ public interface UserService {
     void createUserByAdmin(CreateUserRequest request) ;
     void updateUserByAdmin(UpdateUserRequest request,Integer id) ;
 
+    void softDelete(Integer id);
+    void activityUser(Integer id);
+
     List<User> getAdminNotPartOfHotel(Integer id);
+
+    Boolean isActivity(Integer id);
 
 }

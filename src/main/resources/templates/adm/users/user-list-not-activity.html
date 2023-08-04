@@ -65,7 +65,7 @@
 										</thead>
 										<tbody>
 										<th:block th:with="userList = ${page.getContent()}">
-											<tr th:each="user: ${userList}" >
+											<tr th:each="user: ${userList}">
 												<td>
 													<a th:text="${user.id}" > Name</a>
 												</td>
@@ -90,8 +90,8 @@
 															class="btn btn-info px-4"> Detail  </button>
 													</a>
                                                     <button type="button"
-															class="btn btn-danger user-delete-btn"
-															th:data-id="${user.id}"> Delete  </button>
+															class="btn btn-primary btn-active-user"
+															th:data-id="${user.id}"> Active  </button>
                                                 </span>
 												</td>
 											</tr>
@@ -125,7 +125,7 @@
 		</div>
 	</div>
 	<th:block id="javascript">
-		<script src="/adm/js/deleteUser.js"></script>
+		<script src="/adm/js/activityUser.js"></script>
 	</th:block>
 </body>
 

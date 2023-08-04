@@ -44,7 +44,8 @@ form.addEventListener("submit", async (e) => {
            window.history.back();
         }
         if (data.status === 400) {
-            mess.innerText="Tài khoản hoặc mật khấu không đúng";
+            console.log(data);
+            mess.innerText=res;
         }
     } catch (e) {
         console.log(e);

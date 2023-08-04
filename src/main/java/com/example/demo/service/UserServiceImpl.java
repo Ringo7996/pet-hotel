@@ -157,10 +157,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void softDelete(Integer id) {
+        User user = findById(id);
+        Role admin = roleRepository.findByName("HOTEL_ADMIN").orElse(null);
+        if(user.getRoles().contains(admin))
+            throw  new RuntimeException("User is having admin role");
+        user.setStatus(false);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void activityUser(Integer id) {
+        User user = findById(id);
+        user.setStatus(true);
+        userRepository.save(user);
+    }
+
+    @Override
     public List<User> getAdminNotPartOfHotel(Integer id) {
         Optional<Hotel>hotel = hotelRepository.findById(id);
         if(hotel.isEmpty()) throw new NotFoundException("Hotel Not Found");
         return userRepository.getAdminNotPartOfHotel(id);
+    }
+
+    @Override
+    public Boolean isActivity(Integer id) {
+        User user = findById(id);
+        return user.getStatus();
     }
 
     @Override
@@ -206,6 +229,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<User> getUsersByStatusWithPage(Boolean status,Pageable pageable) {
+        return userRepository.findByStatusOrderById(status,pageable);
+    }
+
+    @Override
     public User findById(Integer userId) {
         return userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User is not found"));
     }
@@ -227,7 +255,7 @@ public class UserServiceImpl implements UserService {
                 userRole = roleRepository.findByName("USER").orElse(null);
             }else if(i == 2){
                 userRole = roleRepository.findByName("ROOT_ADMIN").orElse(null);
-            }else userRole = roleRepository.findByName("ADMIN").orElse(null);
+            }else userRole = roleRepository.findByName("HOTEL_ADMIN").orElse(null);
             roles.add(userRole);
         }
         return  roles;

@@ -50,8 +50,15 @@ public class AuthController {
         );
 
         try {
+
             // Tiến hành xác thực
             Authentication authentication = authenticationManager.authenticate(token);
+
+            User user = userService.findByEmail(request.getEmail());
+            Boolean isActivity  = userService.isActivity(user.getId());
+            if(!isActivity){
+                return ResponseEntity.badRequest().body("Account has been locked");
+            }
 
             // Lưu vào Context Holder
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -60,10 +67,9 @@ public class AuthController {
             session.setAttribute("MY_SESSION", authentication.getName()); // Lưu email -> session
 
             SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(req, response);
-
             return ResponseEntity.ok("Login success");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Login fail");
+            return ResponseEntity.badRequest().body("Tài khoản hoặc mật khẩu không đúng");
         }
     }
 

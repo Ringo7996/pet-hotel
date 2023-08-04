@@ -94,6 +94,12 @@
                 <div class="card-body row">
                     <div class="col-5 text-center d-flex align-items-center justify-content-center">
                         <div class="col-5 col-12 user-img">
+                            <style>
+                                #img-review{
+                                    max-width: 300px;
+                                    object-fit: contain;
+                                }
+                            </style>
                             <img th:if="${user.image}" id="img-review" th:src="@{'/api/v1/users/'+${user.id}+'/files'}" class="img-responsive" alt="user-img" />
                             <img th:unless="${user.image}" id="img-review" src="/images/user-profile.jpg" class="img-responsive" alt="user-img" />
                             <br>

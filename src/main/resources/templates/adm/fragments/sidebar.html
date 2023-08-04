@@ -37,6 +37,15 @@
                             </li>
 
                             <th:block th:if="${sharedModel.isRootAdminRole}">
+                                <li class="nav-item">
+                                    <a th:href="@{/admin/users/user-not-activity}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>User Not Activity</p>
+                                    </a>
+                                </li>
+                            </th:block>
+
+                            <th:block th:if="${sharedModel.isRootAdminRole}">
                             <li class="nav-item">
                                 <a th:href="@{/admin/users/user-create}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -63,6 +72,14 @@
                                     <p>Hotel List</p>
                                 </a>
                             </li>
+                            </th:block>
+                            <th:block th:if="${sharedModel.isRootAdminRole}">
+                                <li class="nav-item">
+                                    <a th:href="@{/admin/hotels/hotel-list-not-activity}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Hotel List Not Activity</p>
+                                    </a>
+                                </li>
                             </th:block>
 
                             <th:block th:if="${sharedModel.isAdminRole}">

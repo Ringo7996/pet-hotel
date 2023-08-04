@@ -3,11 +3,14 @@ package com.example.demo.controller.restcontroller;
 
 import com.example.demo.model.entity.User;
 import com.example.demo.model.request.CreateUserRequest;
+import com.example.demo.model.request.HotelRequest;
 import com.example.demo.model.request.UpdateUserRequest;
 import com.example.demo.model.roombooking.RoomBooking;
+import com.example.demo.service.HotelService;
 import com.example.demo.service.PetService;
 import com.example.demo.service.RoomBookingService;
 import com.example.demo.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
@@ -32,6 +35,9 @@ public class AdminController {
     @Autowired
     private PetService petService;
 
+    @Autowired
+    HotelService hotelService;
+
     @GetMapping("/room-bookings")
     @PreAuthorize("hasRole('ROLE_ROOT_ADMIN')")
     public Page<RoomBooking> getAllRoomBooking(Pageable pageable) {
@@ -51,6 +57,23 @@ public class AdminController {
         return  ResponseEntity.ok("Create success");
 
     }
+
+    @PostMapping("/create-hotel")
+    @PreAuthorize("hasRole('ROLE_ROOT_ADMIN')")
+    public ResponseEntity<?> createHotel( @Valid  @ModelAttribute HotelRequest hotelRequest){
+
+        try {
+            hotelService.createHotel(hotelRequest);
+        }catch (Exception e){
+            System.out.println(e.toString());
+            return ResponseEntity.badRequest().body(e.toString());
+        }
+        return  ResponseEntity.ok("Create success");
+
+    }
+
+
+
     @PostMapping("/update-user/{id}")
     @PreAuthorize("hasRole('ROLE_ROOT_ADMIN')")
     public  ResponseEntity<?> updateUser(@ModelAttribute UpdateUserRequest userRequest,@PathVariable("id") Integer id){
@@ -62,6 +85,7 @@ public class AdminController {
         }
         return  ResponseEntity.ok("Create success");
     }
+
 
     @GetMapping("/get-admin-not-part-of-hotel/{id}")
     @PreAuthorize("hasRole('ROLE_ROOT_ADMIN')")
