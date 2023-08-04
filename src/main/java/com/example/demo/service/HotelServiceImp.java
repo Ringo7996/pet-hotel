@@ -53,57 +53,55 @@ public class HotelServiceImp implements HotelService {
 
     @Autowired
     private ImageRepository imageRepository;
+
+
     @Override
     public void updateInfoHotel(HotelRequest hotelRequest, Integer id) {
-        Optional<Hotel> opHotel = hotelRepository.findById(id);
-        if(opHotel.isEmpty()) throw  new NotFoundException("Not found");
-
-        Hotel  hotel = opHotel.get();
-
+        Hotel hotel = hotelRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found"));
         hotel.setName(hotelRequest.getName());
         hotel.setCity(hotelRequest.getCity());
         hotel.setDistrict(hotelRequest.getDistrict());
         hotel.setAddress(hotelRequest.getAddress());
         hotel.setStatus(hotelRequest.getStatus());
 
-        if(hotelRequest.getFileImage() != null){
-            imageService.uploadByHotel(id,hotelRequest.getFileImage());
+        if (hotelRequest.getFileImage() != null) {
+            imageService.uploadByHotel(id, hotelRequest.getFileImage());
         }
 
-        List<Integer> adminIds = hotelRequest.getAdminId();
-
-        List<User> staffs = new ArrayList<>();
-
-        List<User> users = hotel.getStaff();
-        for (User user : users) {
-            user.getMyHotels().remove(hotel);
-            userRepository.save(user);
+        //save admin
+        // xoa lien ket cu ben user
+        for (User oldStaff : hotel.getStaff()) {
+            oldStaff.getMyHotels().remove(hotel);
+            userRepository.save(oldStaff);
         }
 
-        if(!adminIds.isEmpty()) {
-            for (Integer e : adminIds) {
-                User admin = userService.findById(e);
-                admin.getMyHotels().add(hotel);
-                userRepository.save(admin);
-                staffs.add(admin);
-            }
+        // them lien ket moi ben user
+        List<User> newStaffs = hotelRequest.getAdminId().stream().map(adminId -> userRepository.findById(adminId)
+                .orElseThrow(() -> new NotFoundException("User not found with id " + adminId))).collect(Collectors.toList());
+        for (User newStaff : newStaffs) {
+            newStaff.getMyHotels().add(hotel);
         }
+        userRepository.saveAll(newStaffs);
+        hotel.setStaff(newStaffs);
+        hotelRepository.save(hotel);
 
-        hotel.setStaff(staffs);
 
-        List<HotelRoomTypeRequest> hotelRoomTypeRequestList = hotelRequest.getHotelRoomTypeRequests();
-        hotelRoomTypeRepository.deleteByHotelId(id);
-        if(!hotelRoomTypeRequestList.isEmpty()){
-            for (HotelRoomTypeRequest e: hotelRoomTypeRequestList) {
-
-                RoomType roomType = roomTypeService.findById(e.getRoomTypeId());
-                HotelRoomType hotelRoomType = new HotelRoomType();
-                hotelRoomType.setHotel(hotel);
-                hotelRoomType.setRoomType(roomType);
-                hotelRoomType.setTotalRoomNumber(e.getTotalRoom());
-                hotelRoomTypeRepository.save(hotelRoomType);
-            }
-        }
+        //save room-type
+        //TODO: đang ko xoá được hotelroomtype do vướng khoá ngoại
+//        List<HotelRoomTypeRequest> hotelRoomTypeRequestList = hotelRequest.getHotelRoomTypeRequests();
+//        hotelRoomTypeRepository.deleteByHotelId(id); /// -> ko xoá được.
+//
+//        if (!hotelRoomTypeRequestList.isEmpty()) {
+//            for (HotelRoomTypeRequest e : hotelRoomTypeRequestList) {
+//
+//                RoomType roomType = roomTypeService.findById(e.getRoomTypeId());
+//                HotelRoomType hotelRoomType = new HotelRoomType();
+//                hotelRoomType.setHotel(hotel);
+//                hotelRoomType.setRoomType(roomType);
+//                hotelRoomType.setTotalRoomNumber(e.getTotalRoom());
+//                hotelRoomTypeRepository.save(hotelRoomType);
+//            }
+//        }
         hotelRepository.save(hotel);
     }
 
@@ -113,8 +111,8 @@ public class HotelServiceImp implements HotelService {
     }
 
     @Override
-    public Page<Hotel> getHotelsActivityWithPage(Boolean status,Pageable pageable) {
-        return hotelRepository.findByStatusOrderById(status,pageable);
+    public Page<Hotel> getHotelsActivityWithPage(Boolean status, Pageable pageable) {
+        return hotelRepository.findByStatusOrderById(status, pageable);
     }
 
     @Override
@@ -169,11 +167,11 @@ public class HotelServiceImp implements HotelService {
 
         // duyệt từng hotel room type, xem trong khoảng thời gian đó đã bị đặt mấy phòng -> nếu còn phòng thì add vào available list
         for (HotelRoomType hotelRoomType : hotelRoomTypesByHotels) {
-           int bookedRoomNum = roomBookingRepository.countByDateRange(hotelRoomType.getId(),startDay,endDay);
+            int bookedRoomNum = roomBookingRepository.countByDateRange(hotelRoomType.getId(), startDay, endDay);
             System.out.println("hotelRoomTypeid= " + hotelRoomType.getId() + " bookedRoomNum" + bookedRoomNum);
-           if (hotelRoomType.getTotalRoomNumber() > bookedRoomNum){
-               availableHotelRoomTypes.add(hotelRoomType);
-           }
+            if (hotelRoomType.getTotalRoomNumber() > bookedRoomNum) {
+                availableHotelRoomTypes.add(hotelRoomType);
+            }
         }
 
         System.out.println(availableHotelRoomTypes);
@@ -187,7 +185,7 @@ public class HotelServiceImp implements HotelService {
     public void createHotel(HotelRequest hotelRequest) {
 
         List<Hotel> hotelsSystem = hotelRepository.findAllByName(hotelRequest.getName());
-        if(!hotelsSystem.isEmpty()) throw new RuntimeException("Hotel already exists");
+        if (!hotelsSystem.isEmpty()) throw new RuntimeException("Hotel already exists");
 
         Hotel newHotel = new Hotel();
 
@@ -197,7 +195,7 @@ public class HotelServiceImp implements HotelService {
         newHotel.setDistrict(hotelRequest.getDistrict());
         newHotel.setAddress(hotelRequest.getAddress());
 
-        if(hotelRequest.getFileImage() != null){
+        if (hotelRequest.getFileImage() != null) {
             try {
                 MultipartFile file = hotelRequest.getFileImage();
                 imageService.validateFile(file);
@@ -208,7 +206,7 @@ public class HotelServiceImp implements HotelService {
                         .build();
                 newHotel.setImage(image2upload);
                 imageRepository.save(image2upload);
-            } catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException(e.toString());
             }
         }
@@ -217,6 +215,8 @@ public class HotelServiceImp implements HotelService {
 
     @Override
     public void softDelete(Integer id) {
+
+        //TODO: check xem hotel có đang có booking nào ko.
         Hotel hotel = findById(id);
         hotel.setStatus(false);
         hotelRepository.save(hotel);

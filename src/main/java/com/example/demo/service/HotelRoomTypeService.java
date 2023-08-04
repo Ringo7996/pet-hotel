@@ -8,4 +8,6 @@ public interface HotelRoomTypeService {
     List<HotelRoomType> findByRoomType_Id(Integer roomTypeId);
 
     List<HotelRoomType> findByHotel_Id(Integer hotelId);
+
+    List<HotelRoomType> findAllById(List<Integer> roomTypeId);
 }

@@ -1,6 +1,7 @@
 package com.example.demo.controller.restcontroller;
 
-import com.example.demo.model.roombooking.RoomType;
+
+import com.example.demo.model.projection.RoomTypeInfo;
 import com.example.demo.service.RoomTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class RoomTypeController {
     @GetMapping("/get-room-type-not-part-of-hotel/{id}")
     public ResponseEntity<?> getRoomTypeNotPartOfHotel(@PathVariable("id") Integer id){
        try {
-           List<RoomType> roomTypeList = roomTypeService.findAllRoomsNotPartOfHotel(id);
+           List<RoomTypeInfo> roomTypeList = roomTypeService.findAllRoomsNotPartOfHotel(id);
            return ResponseEntity.ok(roomTypeList);
        } catch (Exception e){
            System.out.println(e.toString());

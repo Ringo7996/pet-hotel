@@ -21,4 +21,9 @@ public class HotelRoomTypeServiceImp implements HotelRoomTypeService{
     public List<HotelRoomType> findByHotel_Id(Integer hotelId) {
         return hotelRoomTypeRepository.findByHotel_Id(hotelId);
     }
+
+    @Override
+    public List<HotelRoomType> findAllById(List<Integer> roomTypeId) {
+        return hotelRoomTypeRepository.findAllById(roomTypeId);
+    }
 }

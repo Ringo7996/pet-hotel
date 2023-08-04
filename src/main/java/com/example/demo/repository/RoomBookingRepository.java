@@ -34,5 +34,7 @@ public interface RoomBookingRepository extends JpaRepository<RoomBooking, Intege
             "WHERE hotel_room_type_id IN :hotelRoomTypeIds " +
             "AND end_date >= :now")
     int countByHotelRoomTypeIdInAndEndDateGreaterThanEqual(List<Integer> hotelRoomTypeIds, LocalDate now);
+
+    int countByUserIdAndEndDateGreaterThanEqual(Integer userId, LocalDate now);
 }
 

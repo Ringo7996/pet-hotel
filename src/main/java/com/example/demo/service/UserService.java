@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.entity.User;
+import com.example.demo.model.projection.StaffInfo;
 import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.request.UpdatePasswordRequest;
 import com.example.demo.model.request.UpdateUserRequest;
@@ -40,7 +41,7 @@ public interface UserService {
     void softDelete(Integer id);
     void activityUser(Integer id);
 
-    List<User> getAdminNotPartOfHotel(Integer id);
+    List<StaffInfo> getAdminNotPartOfHotel(Integer id);
 
     Boolean isActivity(Integer id);
 

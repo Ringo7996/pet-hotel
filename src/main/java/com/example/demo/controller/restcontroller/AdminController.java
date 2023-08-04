@@ -2,6 +2,7 @@ package com.example.demo.controller.restcontroller;
 
 
 import com.example.demo.model.entity.User;
+import com.example.demo.model.projection.StaffInfo;
 import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.request.HotelRequest;
 import com.example.demo.model.request.UpdateUserRequest;
@@ -91,7 +92,7 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ROOT_ADMIN')")
     public  ResponseEntity<?> getAdminNotPartOfHotel(@PathVariable("id") Integer id){
         try {
-            List<User> users = userService.getAdminNotPartOfHotel(id);
+            List<StaffInfo> users = userService.getAdminNotPartOfHotel(id);
             return ResponseEntity.ok(users);
         }catch (Exception e){
             System.out.println(e.toString());

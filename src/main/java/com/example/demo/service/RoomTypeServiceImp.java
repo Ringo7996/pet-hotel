@@ -2,8 +2,11 @@ package com.example.demo.service;
 
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.NotFoundException;
+import com.example.demo.model.projection.RoomTypeInfo;
 import com.example.demo.model.roombooking.HotelRoomType;
 import com.example.demo.model.roombooking.RoomType;
+
+
 import com.example.demo.repository.HotelRepository;
 import com.example.demo.repository.HotelRoomTypeRepository;
 import com.example.demo.repository.RoomBookingRepository;
@@ -41,7 +44,7 @@ public class RoomTypeServiceImp implements RoomTypeService {
     }
 
     @Override
-    public List<RoomType> findAllRoomsNotPartOfHotel(Integer id) {
+    public List<RoomTypeInfo> findAllRoomsNotPartOfHotel(Integer id) {
         return roomTypeRepository.findAllRoomsNotPartOfHotel(id);
     }
 

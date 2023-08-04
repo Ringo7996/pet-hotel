@@ -4,6 +4,7 @@ package com.example.demo.service;
 import com.example.demo.exception.ExitsUserException;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.model.entity.*;
+import com.example.demo.model.projection.StaffInfo;
 import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.request.UpdatePasswordRequest;
 import com.example.demo.model.request.UpdateUserRequest;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +51,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     HotelRepository hotelRepository;
+
+    @Autowired
+    private RoomBookingRepository roomBookingRepository;
+
 
     @Override
     public void sendResetPwEmail(String email) {
@@ -97,7 +103,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUserByAdmin(CreateUserRequest request){
+    public void createUserByAdmin(CreateUserRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new ExitsUserException("User already exists");
         }
@@ -112,28 +118,28 @@ public class UserServiceImpl implements UserService {
                 .status(true)
                 .build();
 
-        if(request.getFile() != null ){
-           try {
-               MultipartFile file = request.getFile();
-               imageService.validateFile(file);
-               Image image2upload = Image.builder()
-                       .type(file.getContentType())
-                       .data(file.getBytes())
-                       .user(newUser)
-                       .build();
-               newUser.setImage(image2upload);
-               imageRepository.save(image2upload);
-           } catch (Exception e){
-               throw new RuntimeException(e.toString());
-           }
+        if (request.getFile() != null) {
+            try {
+                MultipartFile file = request.getFile();
+                imageService.validateFile(file);
+                Image image2upload = Image.builder()
+                        .type(file.getContentType())
+                        .data(file.getBytes())
+                        .user(newUser)
+                        .build();
+                newUser.setImage(image2upload);
+                imageRepository.save(image2upload);
+            } catch (Exception e) {
+                throw new RuntimeException(e.toString());
+            }
         }
         userRepository.save(newUser);
     }
 
     @Override
-    public void updateUserByAdmin(UpdateUserRequest request,Integer id) {
-        User user =findById(id);
-        if(!user.getEmail().equalsIgnoreCase(request.getEmail()))
+    public void updateUserByAdmin(UpdateUserRequest request, Integer id) {
+        User user = findById(id);
+        if (!user.getEmail().equalsIgnoreCase(request.getEmail()))
             if (userRepository.findByEmail(request.getEmail()).isPresent()) {
                 throw new ExitsUserException("User already exists");
             }
@@ -144,12 +150,12 @@ public class UserServiceImpl implements UserService {
         user.setName(request.getName());
         user.setRoles(roles);
 
-        if(request.getFile() != null ){
+        if (request.getFile() != null) {
             try {
                 MultipartFile file = request.getFile();
                 imageService.validateFile(file);
-                imageService.uploadImageByUserId(id,file);
-            } catch (Exception e){
+                imageService.uploadImageByUserId(id, file);
+            } catch (Exception e) {
                 throw new RuntimeException(e.toString());
             }
         }
@@ -159,9 +165,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void softDelete(Integer id) {
         User user = findById(id);
-        Role admin = roleRepository.findByName("HOTEL_ADMIN").orElse(null);
-        if(user.getRoles().contains(admin))
-            throw  new RuntimeException("User is having admin role");
+        Role admin = roleRepository.findByName("ADMIN").orElse(null);
+
+        if (isUserHavingBooking(id)) {
+            throw new RuntimeException("User is having room booking");
+        }
+        if (user.getRoles().contains(admin)) {
+            throw new RuntimeException("User is having admin role");
+        }
         user.setStatus(false);
         userRepository.save(user);
     }
@@ -174,9 +185,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAdminNotPartOfHotel(Integer id) {
-        Optional<Hotel>hotel = hotelRepository.findById(id);
-        if(hotel.isEmpty()) throw new NotFoundException("Hotel Not Found");
+    public List<StaffInfo> getAdminNotPartOfHotel(Integer id) {
+        Optional<Hotel> hotel = hotelRepository.findById(id);
+        if (hotel.isEmpty()) throw new NotFoundException("Hotel Not Found");
         return userRepository.getAdminNotPartOfHotel(id);
     }
 
@@ -229,8 +240,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> getUsersByStatusWithPage(Boolean status,Pageable pageable) {
-        return userRepository.findByStatusOrderById(status,pageable);
+    public Page<User> getUsersByStatusWithPage(Boolean status, Pageable pageable) {
+        return userRepository.findByStatusOrderById(status, pageable);
     }
 
     @Override
@@ -239,26 +250,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Model getUserLogin(HttpSession session , Model model) {
-        String email =(String) session.getAttribute("MY_SESSION");
+    public Model getUserLogin(HttpSession session, Model model) {
+        String email = (String) session.getAttribute("MY_SESSION");
 
-        User user =findByEmail(email);
-        model.addAttribute("USER",user);
+        User user = findByEmail(email);
+        model.addAttribute("USER", user);
 
         return model;
     }
-    private List<Role> convertInToRole(List<Integer> list){
+
+    private List<Role> convertInToRole(List<Integer> list) {
         List<Role> roles = new ArrayList<>();
         Role userRole;
-        for (Integer i: list){
+        for (Integer i : list) {
             if (i == 1) {
                 userRole = roleRepository.findByName("USER").orElse(null);
-            }else if(i == 2){
+            } else if (i == 2) {
                 userRole = roleRepository.findByName("ROOT_ADMIN").orElse(null);
-            }else userRole = roleRepository.findByName("HOTEL_ADMIN").orElse(null);
+            } else userRole = roleRepository.findByName("ADMIN").orElse(null);
             roles.add(userRole);
         }
-        return  roles;
+        return roles;
+    }
+
+    private boolean isUserHavingBooking(Integer userId) {
+        int bookingCount = roomBookingRepository.countByUserIdAndEndDateGreaterThanEqual(userId, LocalDate.now());
+        System.out.println(bookingCount);
+
+        // Check xem có tồn tại booking chứa pet id với end date trong tương lai ko.
+        return bookingCount > 0;
     }
 
 

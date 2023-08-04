@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 
 import com.example.demo.model.roombooking.RoomType;
+import com.example.demo.model.projection.RoomTypeInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,5 +18,5 @@ public interface RoomTypeRepository extends JpaRepository<RoomType, Integer> {
             "  SELECT hrt FROM HotelRoomType hrt " +
             "  WHERE hrt.roomType = rt AND hrt.hotel.id = :hotelId" +
             ")")
-    List<RoomType> findAllRoomsNotPartOfHotel(@Param("hotelId") Integer id);
+    List<RoomTypeInfo> findAllRoomsNotPartOfHotel(@Param("hotelId") Integer id);
 }
