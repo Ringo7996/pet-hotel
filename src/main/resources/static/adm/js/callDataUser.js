@@ -10,9 +10,7 @@ window.addEventListener('resize', function() {
     slide.style.left = activeBtn.offsetLeft + "px";
     slide.style.width = activeBtn.offsetWidth + "px";
 });
-
-let isSearch = false;
-let value = null;
+let value = "";
 console.log(slide)
 typeUsers.forEach(e=>{
    e.onclick =()=>{
@@ -34,9 +32,7 @@ typeUsers.forEach(e=>{
 })
 
 function getData(link){
-    console.log(isSearch)
-    console.log(value)
-    $.get(`http://localhost:8080/api/v1/users/get-user?type=${link}&search=${isSearch}&value=${value}`,)
+    $.get(`http://localhost:8080/api/v1/users/get-user?type=${link}&value=${value}`,)
         .done(function(data) {
            let content =data.content;
            let page = data.pageable.pageNumber;
@@ -56,7 +52,7 @@ function  render(content,page){
     if(!content || content.length <1 ) return false;
     var domain ="http://" + window.location.host;
     content.forEach(user=>{
-
+        console.log(user)
         let newHtml = `
             <tr>
                 <td>
@@ -81,12 +77,7 @@ function  render(content,page){
                         <button type="button"
                                 class="btn btn-info px-4"> Detail  </button>
                         </a>
-                        <span data-btn ="${user.status}" class="btn-check">
-                                 <button type="button"
-                                        class="btn btn-danger user-delete-btn"
-                                        onclick="deleteUsers(this)"
-                                        data-id="${user.id}"> Delete 
-                                </button>
+                        <span data-id="${user.id}" data-btn ="${user.status}" class="btn-check">
                         </span>
                        
                         </span>
@@ -96,32 +87,33 @@ function  render(content,page){
         let userTable = document.getElementById("user-table");
         userTable.innerHTML += newHtml;
         let role = userTable.querySelector(`.role_${user.id}`);
-        user.roles.forEach(e=>{
+        user.roles && user.roles.forEach(e=>{
             let span = `<span style="display: inline-block; padding: 0 4px" >${e.name}</span>`
             role.innerHTML +=span;
         })
-        renderBtn(user.id);
     })
+    renderBtn();
 }
 
-function  renderBtn (id){
+function  renderBtn (){
     let spans = document.querySelectorAll(".btn-check");
 
-    let btnActive =`<button type="button"
+    spans.forEach(e=>{
+        let id = e.getAttribute("data-id");
+
+        let btnActive =`<button type="button"
                                     class="btn btn-primary btn-active-user"
                                     data-id="${id}"
                                     onclick="activityUsers(this)"
                                     > Active
                             </button>`
 
-    let btnDelete = `<button type="button"
+        let btnDelete = `<button type="button"
                                     class="btn btn-danger user-delete-btn"
                                     onclick="deleteUsers(this)"
                                     data-id="${id}"
                                     > Delete
                             </button>`
-
-    spans.forEach(e=>{
         if(e.getAttribute("data-btn") === "true"){
             e.innerHTML = btnDelete;
         }else e.innerHTML = btnActive;
@@ -130,7 +122,6 @@ function  renderBtn (id){
 
 let btnSearch = document.querySelector(".btn-search");
 btnSearch.onclick =()=>{
-    isSearch=true;
     value = document.querySelector(".input-search").value;
     let all = document.querySelector(".all");
     all.click();

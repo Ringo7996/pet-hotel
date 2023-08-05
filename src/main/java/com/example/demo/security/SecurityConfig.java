@@ -79,10 +79,10 @@ public class SecurityConfig {
 
         };
        String[] PRIVATE_ROUTE = {
-                "/admin",
-                "/admin/**",
-                "/user",
-                "/user/**"
+//                "/admin",
+//                "/admin/**",
+//                "/user",
+//                "/user/**"
        };
         http
                 .csrf(c -> c.disable())

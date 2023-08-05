@@ -245,11 +245,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserListInfo> getUsersByStatusWithPage(Boolean status, Pageable pageable, Boolean isSearch, String value) {
-        if(isSearch){
-            return userRepository.findByKeywordAndStatusIgnoreCase(value,status,pageable);
-        }
-        return  userRepository.findByStatusOrderById(status, pageable);
+    public Page<UserListInfo> getUsersByStatusWithPage(Boolean status, Pageable pageable, String value) {
+        return userRepository.findByKeywordAndStatusIgnoreCase(value,status,pageable);
     }
 
     @Override

@@ -27,7 +27,7 @@ public interface UserService {
 
     Page<UserListInfo> getAllUsersWithPage(Pageable pageable);
 
-    Page<UserListInfo> getUsersByStatusWithPage(Boolean status, Pageable pageable, Boolean isSearch, String value);
+    Page<UserListInfo> getUsersByStatusWithPage(Boolean status, Pageable pageable, String value);
 
 
 
