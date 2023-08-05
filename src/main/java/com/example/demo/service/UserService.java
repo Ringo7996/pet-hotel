@@ -2,10 +2,10 @@ package com.example.demo.service;
 
 import com.example.demo.model.entity.User;
 import com.example.demo.model.projection.StaffInfo;
+import com.example.demo.model.projection.UserListInfo;
 import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.request.UpdatePasswordRequest;
 import com.example.demo.model.request.UpdateUserRequest;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,9 +25,9 @@ public interface UserService {
 
     User findByEmail(String name);
 
-    Page<User> getAllUsersWithPage(Pageable pageable);
+    Page<UserListInfo> getAllUsersWithPage(Pageable pageable);
 
-    Page<User> getUsersByStatusWithPage(Boolean status,Pageable pageable,Boolean isSearch,String value);
+    Page<UserListInfo> getUsersByStatusWithPage(Boolean status, Pageable pageable, Boolean isSearch, String value);
 
 
 
@@ -45,6 +45,6 @@ public interface UserService {
 
     Boolean isActivity(Integer id);
 
-    Page<User> searchUser (String value, Pageable pageable);
+    Page<UserListInfo> searchUser (String value, Pageable pageable);
 
 }

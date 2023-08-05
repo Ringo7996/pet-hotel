@@ -3,6 +3,7 @@ package com.example.demo.controller.restcontroller;
 
 import com.example.demo.model.entity.Pet;
 import com.example.demo.model.entity.User;
+import com.example.demo.model.projection.UserListInfo;
 import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.roombooking.RoomBooking;
 import com.example.demo.repository.UserRepository;
@@ -154,7 +155,7 @@ public class UserController {
                                              @Param("value") String value,
                                              Pageable pageable){
         try {
-            Page<User> users = null;
+            Page<UserListInfo> users = null;
             if(type.equalsIgnoreCase("not-activity")){
                 users = userService.getUsersByStatusWithPage(false,pageable,search,value);
             }else if(type.equalsIgnoreCase("activity")){
