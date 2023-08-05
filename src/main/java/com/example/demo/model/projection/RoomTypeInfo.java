@@ -11,6 +11,8 @@ public interface RoomTypeInfo {
 
     Double getPrice();
 
+    Boolean getStatus();
+
     List<HotelRoomTypeInfo> getHotelRoomTypes();
 
     interface HotelRoomTypeInfo {

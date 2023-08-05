@@ -6,8 +6,9 @@
 	<!-- Ionicons -->
 	<th:block id="css">
 	<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
-	</th:block>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 
+	</th:block>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -35,7 +36,38 @@
 			<!-- Main content -->
 			<section class="content">
 				<div class="container-fluid">
-
+					<style>
+						.search{
+							display: flex;
+							justify-content: center;
+							align-items: center;
+						}
+						.search input{
+							width: 400px;
+							outline: none;
+							border: none;
+							background-color: transparent;
+						}
+						.search button{
+							border: none;
+						}
+						.wrapper-input{
+							display: flex;
+							justify-content: center;
+							border: 2px #3333 solid;
+							padding: 4px 8px;
+							background-color: white;
+							border-radius: 10px;
+						}
+					</style>
+					<div class="search">
+						<div class="wrapper-input">
+							<input class="input-search" type="search" placeholder="Tìm kiếm tên hoặc email">
+							<button  type="button" class="btn btn-primary btn-search">
+								<i class="fa-solid fa-magnifying-glass"></i>
+							</button>
+						</div>
+					</div>
 					<th:block th:if="${sharedModel.isRootAdminRole}">
 					<div class="row py-2">
 						<div class="col-12">
@@ -47,7 +79,38 @@
 						</div>
 					</div>
 					</th:block>
-
+					<style>
+						.menu{
+							display: flex;
+							position: relative;
+							justify-content: center;
+							align-items: center;
+							margin: 8px 0;
+						}
+						.type-user{
+							padding: 12px 8px;
+							font-size: 18px;
+							width: 150px;
+							text-align: center;
+							cursor: pointer;
+						}
+						.type-user:hover{
+							background-color: #cbc8c8;
+						}
+						.slide {
+							position: absolute;
+							bottom: 0;
+							height: 2px;
+							background-color: red;
+							transition: left 0.3s ease;
+						}
+					</style>
+					<div class="menu">
+						<div data-link="all" class="type-user all active-type">All User</div>
+						<div data-link="activity" class="type-user active-user">User Active</div>
+						<div data-link="not-activity" class="type-user not-active-user">User Not Active</div>
+						<span class="slide"></span>
+					</div>
 					<div class="row">
 						<div class="col-12">
 							<div class="card">
@@ -63,8 +126,8 @@
 												<th>Action</th>
 											</tr>
 										</thead>
-										<tbody>
-										<th:block th:with="userList = ${page.getContent()}">
+										<tbody id="user-table">
+										<th:block  th:with="userList = ${page.getContent()}">
 											<tr th:each="user: ${userList}" >
 												<td>
 													<a th:text="${user.id}" > Name</a>
@@ -84,15 +147,30 @@
 												</th:block>
 												</td>
 												<td>
-                                                <span>
-													<a th:href="@{/admin/users/{id}/detail (id=${user.id})}">
-                                                    <button type="button"
-															class="btn btn-info px-4"> Detail  </button>
-													</a>
-                                                    <button type="button"
-															class="btn btn-danger user-delete-btn"
-															th:data-id="${user.id}"> Delete  </button>
-                                                </span>
+													<span >
+														<a th:href="@{/admin/users/{id}/detail (id=${user.id})}">
+															<button type="button"
+																	class="btn btn-info px-4"> Detail
+															</button>
+														</a>
+														<span>
+															<button th:if="${user.status}"
+																	type="button"
+																	class="btn btn-danger user-delete-btn"
+																	onclick="deleteUsers(this)"
+																	th:data-id="${user.id}">
+																Delete
+															</button>
+
+															<button th:unless="${user.status}"
+																	type="button"
+																	class="btn btn-primary btn-active-user"
+																	th:data-id="${user.id}"
+																	onclick="activityUsers(this)">
+																Active
+															</button>
+														</span>
+													</span>
 												</td>
 											</tr>
 										</th:block>
@@ -126,6 +204,8 @@
 	</div>
 	<th:block id="javascript">
 		<script src="/adm/js/deleteUser.js"></script>
+		<script src="/adm/js/activityUser.js"></script>
+		<script src="/adm/js/callDataUser.js"></script>
 	</th:block>
 </body>
 

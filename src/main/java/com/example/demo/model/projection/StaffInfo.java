@@ -8,4 +8,6 @@ public interface StaffInfo {
     String getName();
 
     String getPhone();
+
+    Boolean getStatus();
 }

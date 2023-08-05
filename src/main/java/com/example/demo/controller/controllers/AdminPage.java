@@ -3,6 +3,7 @@ package com.example.demo.controller.controllers;
 import com.example.demo.model.entity.Hotel;
 import com.example.demo.model.entity.Pet;
 import com.example.demo.model.entity.User;
+import com.example.demo.model.projection.UserListInfo;
 import com.example.demo.model.roombooking.HotelRoomType;
 import com.example.demo.model.roombooking.RoomBooking;
 import com.example.demo.model.roombooking.RoomType;
@@ -60,8 +61,8 @@ public class AdminPage {
     }
 
     @GetMapping("/users/user-list")
-    public String getUserActivityPage(Model model, Pageable pageable) {
-        Page<User> userPage = userService.getUsersByStatusWithPage(true,pageable);
+    public String getUserPage(Model model, Pageable pageable) {
+        Page<UserListInfo> userPage = userService.getAllUsersWithPage(pageable);
 
         model.addAllAttributes(Map.of(
                 "page", userPage,
@@ -69,17 +70,6 @@ public class AdminPage {
         ));
 
         return "adm/users/user-list";
-    }
-    @GetMapping("/users/user-not-activity")
-    public String getUserNotActivityPage(Model model, Pageable pageable) {
-        Page<User> userPage = userService.getUsersByStatusWithPage(false,pageable);
-
-        model.addAllAttributes(Map.of(
-                "page", userPage,
-                "currentPage", pageable.getPageNumber()
-        ));
-
-        return "adm/users/user-list-not-activity";
     }
 
     @GetMapping("/users/user-create")

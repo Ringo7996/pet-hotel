@@ -5,6 +5,7 @@ import com.example.demo.exception.ExitsUserException;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.model.entity.*;
 import com.example.demo.model.projection.StaffInfo;
+import com.example.demo.model.projection.UserListInfo;
 import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.request.UpdatePasswordRequest;
 import com.example.demo.model.request.UpdateUserRequest;
@@ -18,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -198,6 +198,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<UserListInfo> searchUser(String value, Pageable pageable) {
+        return userRepository.findByKeywordIgnoreCase(value,pageable);
+    }
+
+    @Override
     public void updateInfo(UpdateUserRequest request, HttpSession session) {
         String email = (String) session.getAttribute("MY_SESSION");
         User userSystem = findByEmail(email);
@@ -235,13 +240,16 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Page<User> getAllUsersWithPage(Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public Page<UserListInfo> getAllUsersWithPage(Pageable pageable) {
+        return userRepository.findAllUser(pageable);
     }
 
     @Override
-    public Page<User> getUsersByStatusWithPage(Boolean status, Pageable pageable) {
-        return userRepository.findByStatusOrderById(status, pageable);
+    public Page<UserListInfo> getUsersByStatusWithPage(Boolean status, Pageable pageable, Boolean isSearch, String value) {
+        if(isSearch){
+            return userRepository.findByKeywordAndStatusIgnoreCase(value,status,pageable);
+        }
+        return  userRepository.findByStatusOrderById(status, pageable);
     }
 
     @Override
