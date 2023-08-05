@@ -24,4 +24,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE EXISTS (SELECT r FROM u.roles r WHERE r.name = 'ADMIN' or r.name = 'ROOT_ADMIN' ) AND NOT EXISTS (SELECT h FROM u.myHotels h WHERE h.id = :hotelId)")
     List<StaffInfo> getAdminNotPartOfHotel(@Param("hotelId") Integer id);
 
+    @Query("SELECT u FROM User u WHERE (LOWER(u.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(u.email) LIKE LOWER(CONCAT('%', :keyword, '%'))) AND u.status = :status")
+    Page<User> findByKeywordAndStatusIgnoreCase(String keyword, Boolean status, Pageable pageable);
+
+    @Query("SELECT u FROM User u WHERE LOWER(u.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(u.email) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    Page<User> findByKeywordIgnoreCase(String keyword, Pageable pageable);
+
 }

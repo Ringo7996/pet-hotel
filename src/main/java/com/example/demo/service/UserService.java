@@ -27,7 +27,7 @@ public interface UserService {
 
     Page<User> getAllUsersWithPage(Pageable pageable);
 
-    Page<User> getUsersByStatusWithPage(Boolean status,Pageable pageable);
+    Page<User> getUsersByStatusWithPage(Boolean status,Pageable pageable,Boolean isSearch,String value);
 
 
 
@@ -44,5 +44,7 @@ public interface UserService {
     List<StaffInfo> getAdminNotPartOfHotel(Integer id);
 
     Boolean isActivity(Integer id);
+
+    Page<User> searchUser (String value, Pageable pageable);
 
 }

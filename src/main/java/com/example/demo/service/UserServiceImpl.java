@@ -198,6 +198,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<User> searchUser(String value, Pageable pageable) {
+        return userRepository.findByKeywordIgnoreCase(value,pageable);
+    }
+
+    @Override
     public void updateInfo(UpdateUserRequest request, HttpSession session) {
         String email = (String) session.getAttribute("MY_SESSION");
         User userSystem = findByEmail(email);
@@ -240,8 +245,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> getUsersByStatusWithPage(Boolean status, Pageable pageable) {
-        return userRepository.findByStatusOrderById(status, pageable);
+    public Page<User> getUsersByStatusWithPage(Boolean status, Pageable pageable,Boolean isSearch,String value) {
+        if(isSearch){
+            return userRepository.findByKeywordAndStatusIgnoreCase(value,status,pageable);
+        }
+        return  userRepository.findByStatusOrderById(status, pageable);
     }
 
     @Override

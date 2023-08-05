@@ -11,6 +11,8 @@ window.addEventListener('resize', function() {
     slide.style.width = activeBtn.offsetWidth + "px";
 });
 
+let isSearch = false;
+let value = null;
 console.log(slide)
 typeUsers.forEach(e=>{
    e.onclick =()=>{
@@ -18,10 +20,6 @@ typeUsers.forEach(e=>{
         userTable.innerHTML ="";
         let activeBtn = document.querySelector(".active-type");
         activeBtn.classList.toggle("active-type");
-
-       var domain = window.location.host;
-       console.log(domain);
-
 
         slide.style.left = e.offsetLeft + "px";
         slide.style.width = e.offsetWidth + "px";
@@ -36,7 +34,9 @@ typeUsers.forEach(e=>{
 })
 
 function getData(link){
-    $.get(`http://localhost:8080/api/v1/users/get-user?type=${link}`,)
+    console.log(isSearch)
+    console.log(value)
+    $.get(`http://localhost:8080/api/v1/users/get-user?type=${link}&search=${isSearch}&value=${value}`,)
         .done(function(data) {
            let content =data.content;
            let page = data.pageable.pageNumber;
@@ -126,4 +126,12 @@ function  renderBtn (id){
             e.innerHTML = btnDelete;
         }else e.innerHTML = btnActive;
     })
+}
+
+let btnSearch = document.querySelector(".btn-search");
+btnSearch.onclick =()=>{
+    isSearch=true;
+    value = document.querySelector(".input-search").value;
+    let all = document.querySelector(".all");
+    all.click();
 }

@@ -5,6 +5,7 @@ import com.example.demo.model.entity.Pet;
 import com.example.demo.model.entity.User;
 import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.roombooking.RoomBooking;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.security.AuthenticationFacade;
 import com.example.demo.service.PetService;
 import com.example.demo.service.RoomBookingService;
@@ -41,6 +42,9 @@ public class UserController {
 
     @Autowired
     private PetService petService;
+
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping()
     public User getUser() {
@@ -145,15 +149,21 @@ public class UserController {
 
     @GetMapping("/get-user")
     @PreAuthorize("hasAnyRole('ROOT_ADMIN')")
-    public ResponseEntity<?> getActivityUser(@Param("type") String type, Pageable pageable){
+    public ResponseEntity<?> getActivityUser(@Param("type") String type,
+                                             @Param("search") Boolean search,
+                                             @Param("value") String value,
+                                             Pageable pageable){
         try {
             Page<User> users = null;
             if(type.equalsIgnoreCase("not-activity")){
-                users = userService.getUsersByStatusWithPage(false,pageable);
+                users = userService.getUsersByStatusWithPage(false,pageable,search,value);
             }else if(type.equalsIgnoreCase("activity")){
-                users = userService.getUsersByStatusWithPage(true,pageable);
+                users = userService.getUsersByStatusWithPage(true,pageable,search,value);
             }else{
-                users = userService.getAllUsersWithPage(pageable);
+                if(search){
+                    users = userRepository.findByKeywordIgnoreCase(value,pageable);
+                }else
+                    users = userService.getAllUsersWithPage(pageable);
             }
             return ResponseEntity.ok(users);
         }catch (Exception e){

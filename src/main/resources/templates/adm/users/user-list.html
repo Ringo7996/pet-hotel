@@ -6,6 +6,8 @@
 	<!-- Ionicons -->
 	<th:block id="css">
 	<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
 	</th:block>
 </head>
 
@@ -34,7 +36,38 @@
 			<!-- Main content -->
 			<section class="content">
 				<div class="container-fluid">
-
+					<style>
+						.search{
+							display: flex;
+							justify-content: center;
+							align-items: center;
+						}
+						.search input{
+							width: 400px;
+							outline: none;
+							border: none;
+							background-color: transparent;
+						}
+						.search button{
+							border: none;
+						}
+						.wrapper-input{
+							display: flex;
+							justify-content: center;
+							border: 2px #3333 solid;
+							padding: 4px 8px;
+							background-color: white;
+							border-radius: 10px;
+						}
+					</style>
+					<div class="search">
+						<div class="wrapper-input">
+							<input class="input-search" type="search" placeholder="Tìm kiếm tên hoặc email">
+							<button  type="button" class="btn btn-primary btn-search">
+								<i class="fa-solid fa-magnifying-glass"></i>
+							</button>
+						</div>
+					</div>
 					<th:block th:if="${sharedModel.isRootAdminRole}">
 					<div class="row py-2">
 						<div class="col-12">
