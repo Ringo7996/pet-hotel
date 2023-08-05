@@ -149,23 +149,18 @@ public class UserController {
     }
 
     @GetMapping("/get-user")
-    @PreAuthorize("hasAnyRole('ROOT_ADMIN')")
+//    @PreAuthorize("hasAnyRole('ROOT_ADMIN')")
     public ResponseEntity<?> getActivityUser(@Param("type") String type,
-                                             @Param("search") Boolean search,
                                              @Param("value") String value,
                                              Pageable pageable){
         try {
             Page<UserListInfo> users = null;
-            if(type.equalsIgnoreCase("not-activity")){
-                users = userService.getUsersByStatusWithPage(false,pageable,search,value);
-            }else if(type.equalsIgnoreCase("activity")){
-                users = userService.getUsersByStatusWithPage(true,pageable,search,value);
-            }else{
-                if(search){
-                    users = userRepository.findByKeywordIgnoreCase(value,pageable);
-                }else
-                    users = userService.getAllUsersWithPage(pageable);
-            }
+            if(type.equalsIgnoreCase("not-activity"))
+                users = userService.getUsersByStatusWithPage(false,pageable,value);
+            else if(type.equalsIgnoreCase("activity")){
+                users = userService.getUsersByStatusWithPage(true,pageable,value);
+            }else
+                users = userRepository.findByKeywordIgnoreCase(value,pageable);
             return ResponseEntity.ok(users);
         }catch (Exception e){
             System.out.println(e.toString());
