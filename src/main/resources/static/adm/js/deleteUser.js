@@ -1,15 +1,25 @@
 
-let btnDeleteUsers = document.querySelectorAll(".user-delete-btn");
-
-btnDeleteUsers.forEach(e=>{
-    e.onclick =()=>{
+var deleteUsers =(e=>{
         let id = e.getAttribute("data-id");
-        let father =e.parentElement.parentElement.parentElement;
+        let father =e.parentElement.parentElement.parentElement.parentElement;
         let root = father.parentElement;
+        let activeType = document.querySelector(".active-type");
+        let type = activeType.getAttribute("data-link");
+
+        let btnActive =`<button type="button"
+                                        class="btn btn-primary btn-active-user"
+                                        data-id="${id}"
+                                        onclick="activityUsers(this)"
+                                        > Active
+                                </button>`
 
         $.post(`http://localhost:8080/api/v1/users/delete-user/${id}`,)
             .done(function(data) {
-                root.removeChild(father);
+                if(type ==="all"){
+                    e.parentElement.innerHTML = btnActive
+                }else{
+                    root.removeChild(father);
+                }
                 console.log(data);
                 if(data === "/logout"){
 
@@ -25,6 +35,5 @@ btnDeleteUsers.forEach(e=>{
                 alert(errorMessage)
                 console.error(textStatus, errorThrown);
             });
-    }
 })
 

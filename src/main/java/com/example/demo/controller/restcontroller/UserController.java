@@ -13,7 +13,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -139,6 +141,25 @@ public class UserController {
             return ResponseEntity.badRequest().body(e);
         }
 
+    }
+
+    @GetMapping("/get-user")
+    @PreAuthorize("hasAnyRole('ROOT_ADMIN')")
+    public ResponseEntity<?> getActivityUser(@Param("type") String type, Pageable pageable){
+        try {
+            Page<User> users = null;
+            if(type.equalsIgnoreCase("not-activity")){
+                users = userService.getUsersByStatusWithPage(false,pageable);
+            }else if(type.equalsIgnoreCase("activity")){
+                users = userService.getUsersByStatusWithPage(true,pageable);
+            }else{
+                users = userService.getAllUsersWithPage(pageable);
+            }
+            return ResponseEntity.ok(users);
+        }catch (Exception e){
+            System.out.println(e.toString());
+            return ResponseEntity.badRequest().body(e);
+        }
     }
 
 }

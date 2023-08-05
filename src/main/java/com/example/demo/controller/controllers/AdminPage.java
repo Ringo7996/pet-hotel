@@ -60,8 +60,8 @@ public class AdminPage {
     }
 
     @GetMapping("/users/user-list")
-    public String getUserActivityPage(Model model, Pageable pageable) {
-        Page<User> userPage = userService.getUsersByStatusWithPage(true,pageable);
+    public String getUserPage(Model model, Pageable pageable) {
+        Page<User> userPage = userService.getAllUsersWithPage(pageable);
 
         model.addAllAttributes(Map.of(
                 "page", userPage,
@@ -69,17 +69,6 @@ public class AdminPage {
         ));
 
         return "adm/users/user-list";
-    }
-    @GetMapping("/users/user-not-activity")
-    public String getUserNotActivityPage(Model model, Pageable pageable) {
-        Page<User> userPage = userService.getUsersByStatusWithPage(false,pageable);
-
-        model.addAllAttributes(Map.of(
-                "page", userPage,
-                "currentPage", pageable.getPageNumber()
-        ));
-
-        return "adm/users/user-list-not-activity";
     }
 
     @GetMapping("/users/user-create")
