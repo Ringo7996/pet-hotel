@@ -241,7 +241,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<UserListInfo> getAllUsersWithPage(Pageable pageable) {
-        return userRepository.findAllUser(pageable);
+        return userRepository.findAllProjectedBy(pageable);
     }
 
     @Override
