@@ -23,4 +23,7 @@ public interface RoomTypeRepository extends JpaRepository<RoomType, Integer> {
 
     @Query(nativeQuery = true, value = "SELECT * from room_type WHERE room_type.id in :roomTypeIds AND room_type.status = true ")
     List<RoomTypeInfo> findAllRoomTypeByIds(List<Integer> roomTypeIds);
+
+    @Query(nativeQuery = true, value = "SELECT * from room_type WHERE room_type.id = :id")
+    RoomTypeInfo findByIdProjectedBy(Integer id);
 }

@@ -5,6 +5,8 @@ import com.example.demo.exception.NotFoundException;
 import com.example.demo.model.entity.Hotel;
 import com.example.demo.model.entity.Image;
 import com.example.demo.model.entity.User;
+import com.example.demo.model.projection.AvailableRoomTypeInfo;
+import com.example.demo.model.projection.RoomTypeInfo;
 import com.example.demo.model.request.CreateHotelRequest;
 import com.example.demo.model.request.HotelRequest;
 import com.example.demo.model.request.HotelRoomTypeRequest;
@@ -18,9 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -161,11 +161,38 @@ public class HotelServiceImp implements HotelService {
 
 
     @Override
-    public List<Hotel> getAvailableHotelByDateRange(String district, LocalDate startDay, LocalDate endDay) {
+    public List<AvailableRoomTypeInfo> getAvailableHotelByDateRange(String district, LocalDate startDay, LocalDate endDay) {
         List<HotelRoomType> availableHotelRoomTypes = getAvailableHotelRoomTypeByDateRange(district, startDay, endDay);
         List<Integer> availHotelRoomTypeIds = availableHotelRoomTypes.stream().map(hrt -> hrt.getId()).collect(Collectors.toList());
         List<Hotel> availableHotels = hotelRepository.findByHotelRoomTypeIdList(availHotelRoomTypeIds);
-        return availableHotels;
+
+        HashMap<Hotel, List<RoomTypeInfo>> hashMap = new HashMap<>();
+        for (HotelRoomType hrt : availableHotelRoomTypes) {
+            Hotel hotel = hrt.getHotel();
+            RoomTypeInfo roomTypeInfo = roomTypeRepository.findByIdProjectedBy(hrt.getRoomType().getId());
+            if (!hashMap.containsKey(hotel)) {
+                List<RoomTypeInfo> list = new ArrayList<>();
+                list.add(roomTypeInfo);
+                hashMap.put(hotel, list);
+            } else {
+                hashMap.get(hotel).add(roomTypeInfo);
+            }
+        }
+
+        List<AvailableRoomTypeInfo> availableRoomTypes = new ArrayList<>();
+        for (Map.Entry<Hotel, List<RoomTypeInfo>> entry : hashMap.entrySet()) {
+            AvailableRoomTypeInfo availableRoomType = AvailableRoomTypeInfo.builder()
+                    .hotelId(entry.getKey().getId())
+                    .hotelName(entry.getKey().getName())
+                    .hotelCity(entry.getKey().getCity())
+                    .hotelDistrict(entry.getKey().getDistrict())
+                    .hotelAddress(entry.getKey().getAddress())
+                    .hotelDescription(entry.getKey().getDescription())
+                    .roomTypeInfoList(entry.getValue()).build();
+
+            availableRoomTypes.add(availableRoomType);
+        }
+        return availableRoomTypes;
     }
 
 

@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.entity.Hotel;
 import com.example.demo.model.entity.User;
+import com.example.demo.model.projection.AvailableRoomTypeInfo;
 import com.example.demo.model.request.CreateHotelRequest;
 import com.example.demo.model.request.HotelRequest;
 import com.example.demo.model.roombooking.HotelRoomType;
@@ -32,7 +33,7 @@ public interface HotelService {
 
     List<String> getAllDistrictByCity(String city);
 
-    List<Hotel> getAvailableHotelByDateRange(String district, LocalDate startDay, LocalDate endDay);
+    List<AvailableRoomTypeInfo> getAvailableHotelByDateRange(String district, LocalDate startDay, LocalDate endDay);
     void createHotel(HotelRequest hotelRequest);
 
     void softDelete(Integer id);

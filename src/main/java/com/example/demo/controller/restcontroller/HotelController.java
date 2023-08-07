@@ -3,6 +3,7 @@ package com.example.demo.controller.restcontroller;
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.model.entity.Hotel;
 import com.example.demo.model.entity.User;
+import com.example.demo.model.projection.AvailableRoomTypeInfo;
 import com.example.demo.model.request.CreateHotelRequest;
 import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.request.HotelRequest;
@@ -46,9 +47,9 @@ public class HotelController {
 
 
     @GetMapping("available-hotel-by-date-range")
-    public List<Hotel> getAvailableHotelByDateRange(@RequestParam String district,
-                                                    @RequestParam(name = "start") String start,
-                                                    @RequestParam(name = "end") String end) {
+    public List<AvailableRoomTypeInfo> getAvailableHotelByDateRange(@RequestParam String district,
+                                                                    @RequestParam(name = "start") String start,
+                                                                    @RequestParam(name = "end") String end) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate startDay = LocalDate.parse(start, formatter);
