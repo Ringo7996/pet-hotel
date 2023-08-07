@@ -110,17 +110,6 @@ public class AdminPage {
 
         return "adm/hotels/hotel-list";
     }
-    @GetMapping("/hotels/hotel-list-not-activity")
-    public String getHotelPageNotActivity(Model model, Pageable pageable) {
-        Page<Hotel> hotelPage = hotelService.getHotelsActivityWithPage(false,pageable);
-
-        model.addAllAttributes(Map.of(
-                "page", hotelPage,
-                "currentPage", pageable.getPageNumber()
-        ));
-
-        return "adm/hotels/hotel-list-not-activity";
-    }
 
     @GetMapping("/hotels/my-hotels")
     public String getMyHotels(Model model, Pageable pageable) {
