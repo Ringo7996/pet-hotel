@@ -16,7 +16,7 @@ public interface RoomTypeRepository extends JpaRepository<RoomType, Integer> {
     @Query("SELECT rt FROM RoomType rt " +
             "WHERE NOT EXISTS (" +
             "  SELECT hrt FROM HotelRoomType hrt " +
-            "  WHERE hrt.roomType = rt AND hrt.hotel.id = :hotelId" +
+            "  WHERE hrt.roomType = rt AND hrt.hotel.id = :hotelId AND hrt.status = true" +
             ")")
     List<RoomTypeInfo> findAllRoomsNotPartOfHotel(@Param("hotelId") Integer id);
 }

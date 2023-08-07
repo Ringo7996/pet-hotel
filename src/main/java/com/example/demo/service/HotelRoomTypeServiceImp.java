@@ -19,7 +19,7 @@ public class HotelRoomTypeServiceImp implements HotelRoomTypeService{
 
     @Override
     public List<HotelRoomType> findByHotel_Id(Integer hotelId) {
-        return hotelRoomTypeRepository.findByHotel_Id(hotelId);
+        return hotelRoomTypeRepository.findByStatusAndHotel_Id(true,hotelId);
     }
 
     @Override

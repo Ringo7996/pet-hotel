@@ -18,6 +18,8 @@ import java.util.List;
 public interface HotelRoomTypeRepository extends JpaRepository<HotelRoomType, Integer> {
     List<HotelRoomType> findByHotel_Id(Integer hotelId);
 
+    List<HotelRoomType> findByStatusAndHotel_Id(Boolean status, Integer hotelId);
+
     List<HotelRoomType> findByRoomTypeId(Integer roomTypeId);
 
     @Query(nativeQuery = true, value = "SELECT * FROM hotel_room_type WHERE hotel_room_type.hotel_id IN :hotelIds")
@@ -29,13 +31,13 @@ public interface HotelRoomTypeRepository extends JpaRepository<HotelRoomType, In
 
     @Transactional
     @Modifying
-    @Query("UPDATE HotelRoomType hrt SET hrt.totalRoomNumber =:num WHERE hrt.hotel.id =:hotelId AND hrt.roomType.id =:roomTypeId")
+    @Query("UPDATE HotelRoomType hrt SET hrt.totalRoomNumber =:num, hrt.status = true WHERE hrt.hotel.id =:hotelId AND hrt.roomType.id =:roomTypeId")
     void updateTotalRoomNumber (@Param("hotelId") Integer hotelId,
                                 @Param("roomTypeId") Integer roomTypeId,
                                 @Param("num") Integer num);
     @Transactional
     @Modifying
-    @Query("DELETE FROM HotelRoomType hrt WHERE hrt.hotel.id = :hotelId")
+    @Query("UPDATE HotelRoomType hrt SET hrt.status = false WHERE hrt.hotel.id =:hotelId")
     void deleteByHotelId (@Param("hotelId") Integer hotelId);
 
 }

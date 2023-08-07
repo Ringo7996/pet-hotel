@@ -16,7 +16,9 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "hotel_room_type")
+@Table( name = "hotel_room_type",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"hotel_id", "room_type_id"})}
+      )
 public class HotelRoomType {
     // Cần đặt emmbed id cho hotel-roomtype để ko bị trùng
 
@@ -24,6 +26,9 @@ public class HotelRoomType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
+
+    @Column
+    private Boolean status = true;
 
     @ManyToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
