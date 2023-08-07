@@ -2,14 +2,22 @@
 
 let typeUsers = document.querySelectorAll(".type-user");
 let activeBtn = document.querySelector(".active-type");
+let menu = document.querySelector(".menu");
+
 
 let slide =document.querySelector(".slide");
 slide.style.left = activeBtn.offsetLeft + "px";
 slide.style.width = activeBtn.offsetWidth + "px";
-window.addEventListener('resize', function() {
-    slide.style.left = activeBtn.offsetLeft + "px";
-    slide.style.width = activeBtn.offsetWidth + "px";
+
+var resizeObserver = new ResizeObserver(function(entries) {
+    // Xử lý khi kích thước thay đổi
+    entries.forEach(function(entry) {
+        let activeBtn = document.querySelector(".active-type");
+        slide.style.left = activeBtn.offsetLeft + "px";
+        slide.style.width = activeBtn.offsetWidth + "px";
+    });
 });
+resizeObserver.observe(menu);
 let value = "";
 console.log(slide)
 typeUsers.forEach(e=>{
