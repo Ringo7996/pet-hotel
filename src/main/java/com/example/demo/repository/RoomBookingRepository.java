@@ -18,8 +18,7 @@ public interface RoomBookingRepository extends JpaRepository<RoomBooking, Intege
     // -> là những record chứa hotel room type đang bị booking trong khoảng ngày đó
     @Query(nativeQuery = true, value =
             "SELECT COUNT(*) FROM room_booking WHERE " +
-                    "(:startDay >= start_date AND :startDay <= end_date) OR " +
-                    "(:endDay >= start_date AND :endDay <= end_date) " +
+                    "((:startDay >= start_date AND :startDay <= end_date) OR (:endDay >= start_date AND :endDay <= end_date)) " +
                     "AND hotel_room_type_id = :hotelRoomTypeId")
     int countByDateRange(Integer hotelRoomTypeId, LocalDate startDay, LocalDate endDay);
 

@@ -19,4 +19,8 @@ public interface RoomTypeRepository extends JpaRepository<RoomType, Integer> {
             "  WHERE hrt.roomType = rt AND hrt.hotel.id = :hotelId AND hrt.status = true" +
             ")")
     List<RoomTypeInfo> findAllRoomsNotPartOfHotel(@Param("hotelId") Integer id);
+
+
+    @Query(nativeQuery = true, value = "SELECT * from room_type WHERE room_type.id in :roomTypeIds AND room_type.status = true ")
+    List<RoomTypeInfo> findAllRoomTypeByIds(List<Integer> roomTypeIds);
 }

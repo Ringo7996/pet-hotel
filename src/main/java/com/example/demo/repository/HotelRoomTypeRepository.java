@@ -40,4 +40,6 @@ public interface HotelRoomTypeRepository extends JpaRepository<HotelRoomType, In
     @Query("UPDATE HotelRoomType hrt SET hrt.status = false WHERE hrt.hotel.id =:hotelId")
     void deleteByHotelId (@Param("hotelId") Integer hotelId);
 
+
+    List<HotelRoomType> findAllByStatusAndHotelId(boolean status, Integer hotelId);
 }

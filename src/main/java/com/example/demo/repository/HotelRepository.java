@@ -15,21 +15,23 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
     Page<Hotel> findByStaffIdOrderById(Integer userId, Pageable pageable);
 
     Page<Hotel> findByStatusOrderById(Boolean status,Pageable pageable);
+
     @Query(nativeQuery = true, value = "SELECT DISTINCT city FROM hotel ")
     List<String> getAllCity();
 
     @Query(nativeQuery = true, value = "SELECT DISTINCT district FROM hotel WHERE hotel.city = :city")
     List<String> getAllDistrictByCity(String city);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM hotel WHERE hotel.district = :district")
+
+    @Query(nativeQuery = true, value = "SELECT * FROM hotel WHERE hotel.district = :district AND hotel.status = true")
     List<Hotel> getAllHotelByDistrict(String district);
 
+
     @Query(nativeQuery = true, value = "SELECT DISTINCT hotel.* FROM hotel JOIN hotel_room_type " +
-            "WHERE hotel.id = hotel_room_type.hotel_id AND hotel_room_type.id IN :hotelRoomTypeIds")
+            "WHERE hotel.status = true AND hotel.id = hotel_room_type.hotel_id AND hotel_room_type.id IN :hotelRoomTypeIds")
     List<Hotel> findByHotelRoomTypeIdList(List<Integer> hotelRoomTypeIds);
 
     List<Hotel> findAllByName(String name);
-
 
     List<Hotel> findByStaffIdOrderById(Integer userId);
 }

@@ -4,6 +4,7 @@ import com.example.demo.model.entity.Hotel;
 import com.example.demo.model.entity.User;
 import com.example.demo.model.request.CreateHotelRequest;
 import com.example.demo.model.request.HotelRequest;
+import com.example.demo.model.roombooking.HotelRoomType;
 import com.example.demo.model.roombooking.RoomType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,4 +37,6 @@ public interface HotelService {
 
     void softDelete(Integer id);
     void activityHotel(Integer id);
+
+
 }

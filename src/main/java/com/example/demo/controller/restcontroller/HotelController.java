@@ -6,6 +6,7 @@ import com.example.demo.model.entity.User;
 import com.example.demo.model.request.CreateHotelRequest;
 import com.example.demo.model.request.CreateUserRequest;
 import com.example.demo.model.request.HotelRequest;
+import com.example.demo.service.HotelRoomTypeService;
 import com.example.demo.service.HotelService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ import java.util.List;
 public class HotelController {
     @Autowired
     private HotelService hotelService;
+
+    @Autowired
+    private HotelRoomTypeService hotelRoomTypeService;
 
     @PostMapping("/create")
     public User createHotel(@RequestBody CreateHotelRequest request) {
@@ -52,19 +56,29 @@ public class HotelController {
             return hotelService.getAvailableHotelByDateRange(district, startDay, endDay);
         } catch (DateTimeParseException e) {
             throw new BadRequestException("Date is not valid");
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new BadRequestException(e.toString());
         }
     }
 
+    @GetMapping("/{id}/get-available-room-type")
+    public ResponseEntity<?> getAvailableHotelRoomType(@PathVariable("id") Integer hotelId) {
+        try {
+            return ResponseEntity.ok(hotelRoomTypeService.getAvailableRoomTypeByHotelId(hotelId));
+        } catch (Exception e) {
+            throw new BadRequestException(e.toString());
+        }
+    }
+
+
     @PreAuthorize("hasAnyRole('ROOT_ADMIN')")
     @PostMapping("/updateHotel/{id}")
-    public ResponseEntity<?> updateHotel(@PathVariable("id") Integer id,@Valid @ModelAttribute HotelRequest hotelRequest){
+    public ResponseEntity<?> updateHotel(@PathVariable("id") Integer id, @Valid @RequestBody HotelRequest hotelRequest) {
         try {
             hotelRequest.convert();
-            hotelService.updateInfoHotel(hotelRequest,id);
+            hotelService.updateInfoHotel(hotelRequest, id);
             return ResponseEntity.ok("Update success");
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.toString());
             return ResponseEntity.badRequest().body(e.toString());
         }
@@ -72,25 +86,26 @@ public class HotelController {
 
     @PostMapping("/delete-hotel/{id}")
     @PreAuthorize("hasAnyRole('ROOT_ADMIN')")
-    public ResponseEntity<?> deleteHotel(@PathVariable("id") Integer id){
+    public ResponseEntity<?> deleteHotel(@PathVariable("id") Integer id) {
 
         try {
             hotelService.softDelete(id);
             return ResponseEntity.ok("Success");
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.toString());
             return ResponseEntity.badRequest().body("Hotel not Found");
         }
 
     }
+
     @PostMapping("/activity-hotel/{id}")
     @PreAuthorize("hasAnyRole('ROOT_ADMIN')")
-    public ResponseEntity<?> activityHotel(@PathVariable("id") Integer id){
+    public ResponseEntity<?> activityHotel(@PathVariable("id") Integer id) {
 
         try {
             hotelService.activityHotel(id);
             return ResponseEntity.ok("Success");
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.toString());
             return ResponseEntity.badRequest().body("Hotel not Found");
         }

@@ -94,10 +94,10 @@ public class HotelServiceImp implements HotelService {
         if (!hotelRoomTypeRequestList.isEmpty()) {
             for (HotelRoomTypeRequest e : hotelRoomTypeRequestList) {
 
-                Integer isExit = hotelRoomTypeRepository.isExits(id,e.getRoomTypeId());
-                if(isExit>0){
-                    hotelRoomTypeRepository.updateTotalRoomNumber(id,e.getRoomTypeId(),e.getTotalRoom());
-                }else{
+                Integer isExit = hotelRoomTypeRepository.isExits(id, e.getRoomTypeId());
+                if (isExit > 0) {
+                    hotelRoomTypeRepository.updateTotalRoomNumber(id, e.getRoomTypeId(), e.getTotalRoom());
+                } else {
                     RoomType roomType = roomTypeService.findById(e.getRoomTypeId());
                     HotelRoomType hotelRoomType = new HotelRoomType();
                     hotelRoomType.setHotel(hotel);
@@ -113,6 +113,7 @@ public class HotelServiceImp implements HotelService {
         }
         hotelRepository.save(hotel);
     }
+
     @Override
     public Page<Hotel> getAllHotelsWithPage(Pageable pageable) {
         return hotelRepository.findAll(pageable);
@@ -161,7 +162,14 @@ public class HotelServiceImp implements HotelService {
 
     @Override
     public List<Hotel> getAvailableHotelByDateRange(String district, LocalDate startDay, LocalDate endDay) {
+        List<HotelRoomType> availableHotelRoomTypes = getAvailableHotelRoomTypeByDateRange(district, startDay, endDay);
+        List<Integer> availHotelRoomTypeIds = availableHotelRoomTypes.stream().map(hrt -> hrt.getId()).collect(Collectors.toList());
+        List<Hotel> availableHotels = hotelRepository.findByHotelRoomTypeIdList(availHotelRoomTypeIds);
+        return availableHotels;
+    }
 
+
+    public List<HotelRoomType> getAvailableHotelRoomTypeByDateRange(String district, LocalDate startDay, LocalDate endDay) {
         List<Hotel> hotels = hotelRepository.getAllHotelByDistrict(district);
 
         List<Integer> hotelIds = hotels.stream().map(hotel -> hotel.getId()).collect(Collectors.toList());
@@ -182,12 +190,9 @@ public class HotelServiceImp implements HotelService {
             }
         }
 
-        System.out.println(availableHotelRoomTypes);
-        List<Integer> availHotelRoomTypeIds = availableHotelRoomTypes.stream().map(hrt -> hrt.getId()).collect(Collectors.toList());
-        List<Hotel> availableHotels = hotelRepository.findByHotelRoomTypeIdList(availHotelRoomTypeIds);
-
-        return availableHotels;
+        return availableHotelRoomTypes;
     }
+
 
     @Override
     public void createHotel(HotelRequest hotelRequest) {
