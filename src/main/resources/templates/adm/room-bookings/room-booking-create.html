@@ -96,8 +96,14 @@
                     <div class="col-6">
                         <div style="padding: 16px 0;"><span id="mess" style="color: red;"></span></div>
                         <div class="form-group">
-                            <label for="email">City (pulldown) </label>
-                            <input type="text" id="city"  class="form-control">
+                            <label for="email">City (pulldown) </label> <br>
+                            <select id="city" style="border: 1px solid #ced4da;
+                                           width: 100%; height: 40px;
+                                           padding: 0 8px;
+                                           outline: none;"
+                                           class="form-select"
+                                           aria-label="Disabled select example" >
+                            </select>
                         </div>
 
                         <div class="form-group">
@@ -127,7 +133,13 @@
                         <div style="padding: 16px 0;"><span id="mess" style="color: red;"></span></div>
                         <div class="form-group">
                             <label for="district">District (pull down sau khi genarete city)</label>
-                            <input type="text" id="district"  class="form-control">
+                            <select id="district" style="border: 1px solid #ced4da;
+                                           width: 100%; height: 40px;
+                                           padding: 0 8px;
+                                           outline: none;"
+                                           class="form-select"
+                                           aria-label="Disabled select example" >
+                            </select>
                         </div>
 
                         <div class="form-group">
@@ -165,7 +177,7 @@
 
 
 <th:block id="javascript">
-    <script src="/adm/js/createUser.js"></script>
+    <script src="/adm/js/callDataBookingCreater.js"></script>
     <script src="/adm/js/handlerResetandBack.js"></script>
 
 </th:block>
