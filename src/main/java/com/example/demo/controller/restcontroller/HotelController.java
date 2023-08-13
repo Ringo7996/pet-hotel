@@ -74,7 +74,7 @@ public class HotelController {
 
     @PreAuthorize("hasAnyRole('ROOT_ADMIN')")
     @PostMapping("/updateHotel/{id}")
-    public ResponseEntity<?> updateHotel(@PathVariable("id") Integer id, @Valid @RequestBody HotelRequest hotelRequest) {
+    public ResponseEntity<?> updateHotel(@PathVariable("id") Integer id, @Valid @ModelAttribute HotelRequest hotelRequest) {
         try {
             hotelRequest.convert();
             hotelService.updateInfoHotel(hotelRequest, id);

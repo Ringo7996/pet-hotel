@@ -52,6 +52,8 @@ public class RoomBooking {
 
     private PaymentType paymentType;
 
+    private String txnRef;
+
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "user_id")

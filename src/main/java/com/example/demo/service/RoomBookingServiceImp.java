@@ -6,6 +6,7 @@ import com.example.demo.model.entity.Hotel;
 import com.example.demo.model.entity.Pet;
 import com.example.demo.model.entity.User;
 import com.example.demo.model.enums.PaymentType;
+import com.example.demo.model.enums.Status;
 import com.example.demo.model.request.CreateRoomBookingRequest;
 import com.example.demo.model.roombooking.HotelRoomType;
 import com.example.demo.model.roombooking.RoomBooking;
@@ -35,6 +36,25 @@ public class RoomBookingServiceImp implements RoomBookingService {
     @Override
     public RoomBooking findById(Integer roomBookingId) {
         return roomBookingRepository.findById(roomBookingId).orElseThrow(() -> new NotFoundException("Không tìm thấy roomBooking với id " + roomBookingId));
+    }
+
+    @Override
+    public void addTxnRefToRoomBooking(Integer roomBookingId, String vnp_txnRef) {
+        RoomBooking roomBooking = findById(roomBookingId);
+        roomBooking.setTxnRef(vnp_txnRef);
+        roomBookingRepository.save(roomBooking);
+    }
+
+    @Override
+    public RoomBooking findByTxnRef(String txnRef) {
+        return roomBookingRepository.findByTxnRef(txnRef);
+    }
+
+    @Override
+    public void changeStatusToConfirmed(String txnRef) {
+        RoomBooking roomBooking = findByTxnRef(txnRef);
+        roomBooking.setStatus(Status.CONFIRMED);
+        roomBookingRepository.save(roomBooking);
     }
 
     @Override

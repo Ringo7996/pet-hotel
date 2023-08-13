@@ -35,5 +35,7 @@ public interface RoomBookingRepository extends JpaRepository<RoomBooking, Intege
     int countByHotelRoomTypeIdInAndEndDateGreaterThanEqual(List<Integer> hotelRoomTypeIds, LocalDate now);
 
     int countByUserIdAndEndDateGreaterThanEqual(Integer userId, LocalDate now);
+
+    RoomBooking findByTxnRef(String txnRef);
 }
 

@@ -23,4 +23,9 @@ public interface RoomBookingService {
 
     RoomBooking findById(Integer roomBookingId);
 
+    void addTxnRefToRoomBooking(Integer roomBookingId, String vnp_txnRef);
+
+    RoomBooking findByTxnRef(String txnRef);
+
+    void changeStatusToConfirmed(String txnRef);
 }
